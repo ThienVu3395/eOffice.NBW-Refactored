@@ -1,0 +1,150 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" ng-app="oamsapp">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>eOffice.NBW - Đăng nhập</title>
+    <!-- Favicon icon -->
+    <link rel="icon" href="~/MyThemplate/dist/img/eOffice-logo2.png" type="image/x-icon">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.googleapis.com/css?family=Archivo:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900" rel="stylesheet" type="text/css" />
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">-->
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/MyThemplate/plugins/fontawesome-free/css/all.min.css" />
+    @*<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />*@
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/MyThemplate/dist/css/adminlte.css" />
+
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/MyThemplate/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+
+    <!-- Phần dành cho angulajs-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+
+    <script src="~/Scripts/V-jquery/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/V-angular/angular.min.js"></script>
+    <script src="~/Scripts/fullCalendar/angular-fullcalendar.js"></script>
+    <script src="~/Scripts/V-angular-animate/angular-animate.min.js"></script>
+    <script src="~/Scripts/V-angular-sanitize/angular-sanitize.min.js"></script>
+    @*<script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>*@
+    <script src="~/Scripts/V-angular-ui/ui-bootstrap-tpls-3.0.6.js"></script>
+    <!-- ui-sortable -->
+    <script src="~/Scripts/ui-sortable/ui-sortable.min.js"></script>
+    <!-- angular-file-upload-->
+    <script src="~/Scripts/angular-file-upload/angular-file-upload.min.js"></script>
+    <!-- ui-sortable -->
+    <script src="~/Scripts/ui-sortable/ui-sortable.min.js"></script>
+    <!-- abn-tree-->
+    <script src="~/Scripts/abn_tree/abn_tree_directive.js"></script>
+    <link rel="stylesheet" href="~/Scripts/abn_tree/abn_tree.css">
+    <!-- angular-block-->
+    <script src="~/Scripts/V-angular-block-ui/angular-block-ui.min.js"></script>
+    <link rel="stylesheet" href="~/Scripts/V-angular-block-ui/angular-block-ui.min.css" />
+    <!-- ui-select-->
+    <link rel="stylesheet" href="~/Scripts/V-ui-select/select2.css">
+    <link rel="stylesheet" href="~/Scripts/V-ui-select/selectize.default.css">
+    <link href="~/Scripts/V-ui-select/select.min.css" rel="stylesheet" />
+    <script src="~/Scripts/V-ui-select/select.min.js"></script>
+
+    <script src="~/Scripts/V-angular-signalr/angular-route.js"></script>
+    <script src="~/Scripts/V-jquery/jquery.signalR-2.2.3.js"></script>
+    <script src="~/Scripts/V-angular-signalr/angular-signalr-hub.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script src="~/Scripts/V-test/angular-drag-and-drop-lists.js"></script>
+    <!--pdf viewed-->
+    <script src="~/Scripts/pdf.js-viewer/angular-pdfjs-viewer.js"></script>
+    <script src="~/Scripts/pdf.js-viewer/pdf.js"></script>
+
+    <!-- app angular* -->
+    <script src="~/Scripts/V-angular-chart/Chart.min.js"></script>
+    <script src="~/Scripts/V-angular-chart/angular-chart.min.js"></script>
+    <script src="~/Scripts/knob/ng-knob.min.js"></script>
+    <!-- ui-summernote-->
+    <script src="~/Scripts/V-summernote/angular-summernote.min.js"></script>
+    <script src="~/MyScript/configapp.js"></script>
+    <script src="~/MyScript/app.js"></script>
+    <script src="~/MyScript/common.js"></script>
+    <script src="~/MyScript/commonContansts.js"></script>
+    <script src="~/MyScript/ModalService.js"></script>
+
+    <script src="~/MyScript/login/UserProfile.js"></script>
+    <script src="~/MyScript/login/logincontroller.js"></script>
+    <style>
+        .test-background {
+            background-image: url("../../Content/image/background/9e8800640a9bc1c5988a.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body class="hold-transition login-page" ng-controller="logincontroller">
+    <div class="login-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <h4>Đăng nhập <b>eOffice.NBW</b></h4>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Thông tin tài khoản đăng nhập</p>
+
+                <form ng-submit="login()">
+                    <div class="input-group mb-3">
+                        <input ng-model="userLoginEmail" type="text" class="form-control" placeholder="Tên tài khoản">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user-alt"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input ng-model="userLoginPassword" type="password" class="form-control" placeholder="Mật khẩu">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4 mb-3">
+                        @*<div class="col-7">
+                                <div class="icheck-primary">
+                                    <input type="checkbox" id="remember">
+                                    <label for="remember">
+                                        Ghi nhớ mật khẩu
+                                    </label>
+                                </div>
+                            </div>*@
+                        <div class="col-12">
+                            <button type="submit" ng-disabled="formlogin.$invalid" class="btn btn-primary btn-block">Đăng nhập</button>
+                        </div>
+                    </div>
+                    <p style="color:red"><i ng-bind="errormess"></i></p>
+                </form>
+
+                @*<p class="mb-2">
+                        <a href="forgot-password.html"><i class="fas fa-user-ninja pr-2"></i>Quên mật khẩu.</a>
+                    </p>
+                    <p class="mb-0">
+                        <a href="register.html" class="text-center"><i class="fas fa-key pr-2"></i>Đăng ký tài khoản.</a>
+                    </p>*@
+            </div>
+        </div>
+    </div>
+    <!-- jQuery -->
+    @*<script src="~/MyThemplate/plugins/jquery/jquery.min.js"></script>*@
+    <!-- Bootstrap 4 -->
+    <script src="~/MyThemplate/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/MyThemplate/dist/js/adminlte.min.js"></script>
+</body>
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+<script src="~/Scripts/tinymce/ui-tinymce.min.js"></script>
+</html>

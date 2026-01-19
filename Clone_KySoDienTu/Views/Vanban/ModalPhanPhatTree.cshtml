@@ -1,0 +1,95 @@
+﻿@{
+    Layout = null;
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header">
+                        <span class="card-title pt-1">
+                            <b>Chọn thành phần</b>
+                        </span>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-pills" id="custom-tabs-four-tab" role="tablist">
+                            @*<li ng-repeat="item in $ctrl.VuLe.listtrangthai track by $index" ng-if="item.seeli" class="nav-item" ng-click="$ctrl.ChangeGroup(item.IsView)">
+                                    <a data-toggle="pill"
+                                       id="custom-tabs-four-home-tab"
+                                       role="tab"
+                                       aria-controls="custom-tabs-four-home"
+                                       aria-selected="true"
+                                       class="{{item.li ? 'nav-link active' : 'nav-link' }}"
+                                       href="#groups{{$index}}">
+                                        <i class="fas fa-home"></i> {{item.Ten}}
+                                    </a>
+                                </li>*@
+                            <li class="nav-item" ng-click="$ctrl.ChangeGroup(item.IsView)">
+                                <a data-toggle="pill"
+                                   id="custom-tabs-four-home-tab"
+                                   role="tab"
+                                   aria-controls="custom-tabs-four-home"
+                                   aria-selected="true"
+                                   class="nav-link active"
+                                   href="#groups">
+                                    <i class="fas fa-users"></i> Nhóm người dùng
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="custom-tabs-four-tabContent">
+                            @*<div ng-repeat="item in $ctrl.VuLe.listtrangthai track by $index" id="groups{{$index}}" class="{{item.div ? 'tab-pane fade active show' : 'tab-pane fade' }}">
+                                    <table class="table table-bordered">
+                                        <tbody class="text-left">
+                                            <tr ng-repeat-start="ii in $ctrl.VuLe.listusers" bgcolor="whitesmoke">
+                                                <td>
+                                                    <span id="{{ii.group.GroupId}}" ng-click="$ctrl.myClick(ii.group.GroupId)" style="cursor:pointer;" class="ui-icon ace-icon fa fa-plus center bigger-110 blue"></span>
+                                                    <input class="tree-checkbox" type="checkbox" ng-click="$ctrl.Check(ii)">
+                                                    <b>{{ii.group.GroupName + ' ( người nhận : ' + ii.listusers.length + ' )'}}</b>
+                                                </td>
+                                            </tr>
+
+                                            <tr ng-repeat-end name="{{ii.group.GroupId}}" ng-repeat="iii in ii.listusers">
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user"></i>
+                                                    <span ng-bind="'' + iii.FullName"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>*@
+                            <div id="groups" class="tab-pane fade active show">
+                                <table class="table table-bordered">
+                                    <tbody class="text-left">
+                                        <tr ng-repeat-start="ii in $ctrl.phongban" bgcolor="whitesmoke">
+                                            <td>
+                                                <span id="{{ii.GroupId}}" ng-click="$ctrl.myClick(ii.GroupId)" style="cursor:pointer;" class="ui-icon ace-icon fa fa-plus center bigger-110 blue"></span>
+                                                <input class="tree-checkbox" type="checkbox" ng-click="$ctrl.CheckAll(ii)">
+                                                <b>{{ii.TENPHONG + ' (' + ii.Users.length + ')'}}</b>
+                                            </td>
+                                        </tr>
+
+                                        <tr ng-repeat-end name="{{ii.GroupId}}" ng-repeat="iii in ii.Users">
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input class="tree-checkbox" type="checkbox" name="userselect{{ii.GroupId}}" ng-click="$ctrl.Check(iii)">
+                                                <i class="fa fa-user"></i>
+                                                <span ng-bind="'' + iii.FullName"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn btn-warning float-left" ng-click="$ctrl.cancel()">Thoát</button>
+                                <button type="button" class="btn btn btn-primary float-right" ng-click="$ctrl.LuuNhom()">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

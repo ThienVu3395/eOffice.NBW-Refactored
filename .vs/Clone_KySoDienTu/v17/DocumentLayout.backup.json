@@ -1,0 +1,222 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B4EBB2FA-5DF6-4C6D-ADBF-88851338406B}|Clone_KySoDienTu\\Clone_KySoDienTu.csproj|d:\\0.projects\\nbw\\eoffice.nbw-refactored\\clone_kysodientu\\clone_kysodientu\\views\\donnghiphep\\indexnghiphep.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B4EBB2FA-5DF6-4C6D-ADBF-88851338406B}|Clone_KySoDienTu\\Clone_KySoDienTu.csproj|solutionrelative:clone_kysodientu\\views\\donnghiphep\\indexnghiphep.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4EBB2FA-5DF6-4C6D-ADBF-88851338406B}|Clone_KySoDienTu\\Clone_KySoDienTu.csproj|D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\clone_kysodientu\\controllers\\api\\quanlybaocao\\quanlybaocaoapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4EBB2FA-5DF6-4C6D-ADBF-88851338406B}|Clone_KySoDienTu\\Clone_KySoDienTu.csproj|solutionrelative:clone_kysodientu\\controllers\\api\\quanlybaocao\\quanlybaocaoapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4EBB2FA-5DF6-4C6D-ADBF-88851338406B}|Clone_KySoDienTu\\Clone_KySoDienTu.csproj|D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\clone_kysodientu\\myscript\\modalservice.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{B4EBB2FA-5DF6-4C6D-ADBF-88851338406B}|Clone_KySoDienTu\\Clone_KySoDienTu.csproj|solutionrelative:clone_kysodientu\\myscript\\modalservice.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4EBB2FA-5DF6-4C6D-ADBF-88851338406B}|Clone_KySoDienTu\\Clone_KySoDienTu.csproj|D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\clone_kysodientu\\report\\reportvanbankisoviewer.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4EBB2FA-5DF6-4C6D-ADBF-88851338406B}|Clone_KySoDienTu\\Clone_KySoDienTu.csproj|solutionrelative:clone_kysodientu\\report\\reportvanbankisoviewer.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 31,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:138:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:139:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:140:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:141:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:142:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:143:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:144:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:145:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:146:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IndexNghiPhep.cshtml",
+              "DocumentMoniker": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\Clone_KySoDienTu\\Views\\DonNghiPhep\\IndexNghiPhep.cshtml",
+              "RelativeDocumentMoniker": "Clone_KySoDienTu\\Views\\DonNghiPhep\\IndexNghiPhep.cshtml",
+              "ToolTip": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\Clone_KySoDienTu\\Views\\DonNghiPhep\\IndexNghiPhep.cshtml",
+              "RelativeToolTip": "Clone_KySoDienTu\\Views\\DonNghiPhep\\IndexNghiPhep.cshtml",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAFAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-12T01:49:07.439Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "QuanLyBaoCaoAPIController.cs",
+              "DocumentMoniker": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\Clone_KySoDienTu\\Controllers\\API\\quanlybaocao\\QuanLyBaoCaoAPIController.cs",
+              "RelativeDocumentMoniker": "Clone_KySoDienTu\\Controllers\\API\\quanlybaocao\\QuanLyBaoCaoAPIController.cs",
+              "ToolTip": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\Clone_KySoDienTu\\Controllers\\API\\quanlybaocao\\QuanLyBaoCaoAPIController.cs",
+              "RelativeToolTip": "Clone_KySoDienTu\\Controllers\\API\\quanlybaocao\\QuanLyBaoCaoAPIController.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAqwOcDAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T01:55:02.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ModalService.js",
+              "DocumentMoniker": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\Clone_KySoDienTu\\MyScript\\ModalService.js",
+              "RelativeDocumentMoniker": "Clone_KySoDienTu\\MyScript\\ModalService.js",
+              "ToolTip": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\Clone_KySoDienTu\\MyScript\\ModalService.js",
+              "RelativeToolTip": "Clone_KySoDienTu\\MyScript\\ModalService.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-01-12T01:52:32.974Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReportVanBanKiSoViewer.aspx.cs",
+              "DocumentMoniker": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\Clone_KySoDienTu\\report\\ReportVanBanKiSoViewer.aspx.cs",
+              "RelativeDocumentMoniker": "Clone_KySoDienTu\\report\\ReportVanBanKiSoViewer.aspx.cs",
+              "ToolTip": "D:\\0.Projects\\NBW\\EOFFICE.NBW-REFACTORED\\Clone_KySoDienTu\\Clone_KySoDienTu\\report\\ReportVanBanKiSoViewer.aspx.cs",
+              "RelativeToolTip": "Clone_KySoDienTu\\report\\ReportVanBanKiSoViewer.aspx.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAUwBMAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T01:48:43.71Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

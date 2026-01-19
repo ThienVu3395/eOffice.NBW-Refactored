@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = null;
+}
+
+<style>
+    .tdBaoCao {
+        padding: 8px;
+        text-align: center
+    }
+
+    .tdBold {
+        font-weight: bold
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="card card-primary card-outline" name="formYKXLNC" novalidate>
+                    <div class="card-header pl-3">
+                        <h4 class="card-title pt-1"><b>Thống kê báo cáo nhắc nhở làm đơn giải trình</b></h4>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-6">
+                                <div class="form-group mb-2">
+                                    <label ng-class="formYKXLNC.ngaybatdau.$invalid ? 'mb-1 text-danger' : 'mb-1'">Từ ngày</label>
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.BeginDate" is-open="$ctrl.NgayBatDau.opened" datepicker-options="$ctrl.dateOptionsStartDate" close-text="Close" ng-click="$ctrl.openNgayBatDau()" ng-change="$ctrl.changedStartDate()" ng-required="true" name="ngaybatdau" readonly />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openNgayBatDau()">
+                                                <i class="fa-svg-icon">
+                                                    <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                    </svg>
+                                                </i>
+                                            </button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-6">
+                                <div class="form-group mb-2">
+                                    <label ng-class="formYKXLNC.ngayketthuc.$invalid ? 'mb-1 text-danger' : 'mb-1'">Đến ngày</label>
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.EndDate" is-open="$ctrl.NgayKetThuc.opened" datepicker-options="$ctrl.dateOptionsEndDate" close-text="Close" ng-click="$ctrl.openNgayKetThuc()" ng-change="$ctrl.changedEndDate()" ng-required="true" name="ngayketthuc" readonly />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openNgayKetThuc()">
+                                                <i class="fa-svg-icon">
+                                                    <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                    </svg>
+                                                </i>
+                                            </button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-12" ng-if="!$ctrl.khoaChon">
+                                <div class="form-group mb-2">
+                                    <label class="mb-1">Danh sách phòng/ban</label>
+                                    <select class="custom-select rounded-0"
+                                            ng-model="$ctrl.para.idPhongBan"
+                                            ng-options="item.id as item.name for item in $ctrl.dsPhongBan"
+                                            ng-change="$ctrl.DoiPhongBan()"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-12">
+                                <div class="form-group mb-2">
+                                    <label ng-class="formYKXLNC.hoten.$invalid ? 'mb-1 text-danger' : 'mb-1'">Danh sách CB/CNV</label>
+                                    <ui-select ng-model="$ctrl.vm.Loai" search-enabled="true" theme="selectize" class="inputtable" on-select="$ctrl.DoiNhanVien()" name="hoten" ng-required="true" ng-disabled="$ctrl.khoaChon" readonly>
+                                        <ui-select-match placeholder="Chọn người dùng..." style="font-size:16px">{{$select.selected.maNhanVien + '. ' + $select.selected.tenNhanVien}}</ui-select-match>
+                                        <ui-select-choices group-by="'tenPhongBan'" repeat="person in $ctrl.DanhSachNhanVien| filter: $select.search">
+                                            <div style="font-size:16px" ng-bind-html="person.maNhanVien + '. ' + person.tenNhanVien | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button ng-click="$ctrl.XuatReport()"
+                                ng-disabled="formYKXLNC.$invalid"
+                                type="button"
+                                class="btn btn-primary float-right">
+                            Xuất báo cáo
+                        </button>
+                        <button class="btn btn-warning float-left" type="button" ng-click="$ctrl.cancel()">Thoát</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

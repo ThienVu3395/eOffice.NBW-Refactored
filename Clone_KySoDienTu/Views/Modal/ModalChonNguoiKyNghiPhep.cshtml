@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = null;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <b>Chọn người thực hiện ký số</b>
+                        </span>
+                    </div>
+                    <div class="card-body pt-2 pb-0">
+                        <div class="row">
+                            <div class="col-lg-12 col-12">
+                                <div class="form-group mb-2">
+                                    <label class="mb-1">Người thực hiện ký số</label>
+                                    <ui-select ng-model="$ctrl.NguoiKy" search-enabled="true" theme="selectize" class="inputtable">
+                                        <ui-select-match placeholder="Chọn người ký..." style="font-size:16px">{{$select.selected.FullName}}</ui-select-match>
+                                        <ui-select-choices group-by="'BOPHAN'" repeat="person in $ctrl.dsNguoiKy| filter: $select.search">
+                                            <div style="font-size:16px" ng-bind-html="person.FullName | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            @*<div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" ng-model="$ctrl.KyNhay" class="custom-control-input" id="customSwitch1">
+                                        <label class="custom-control-label" for="customSwitch1">
+                                            Người này có ký nháy không ?
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="pb-2 pt-2">
+                            <button type="button"
+                                    class="btn btn-sm btn-primary float-right"
+                                    ng-click="$ctrl.ChonNguoiKy()">
+                                Thêm
+                            </button>
+                            <button type="button"
+                                    class="btn btn-sm btn-warning"
+                                    ng-click="$ctrl.cancel()">
+                                Thoát
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

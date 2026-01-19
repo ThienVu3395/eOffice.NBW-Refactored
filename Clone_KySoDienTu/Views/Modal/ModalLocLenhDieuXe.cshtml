@@ -1,0 +1,176 @@
+﻿
+@{
+    Layout = null;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-primary card-outline card-outline-tabs">
+            <div class="card-header">
+                <span class="card-title" style="padding-top: 12px;">
+                    <b><i class="fas fa-plus"></i> Tạo mới phiếu xác nhận chuyến đi từ lệnh điều xe</b>
+                </span>
+                <div class="card-tools ml-auto">
+                    <button ng-click="$ctrl.cancel()"
+                            class="btn btn-sm btn-warning">
+                        Thoát
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-9"> 
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fas fa-list"></i> Danh sách lệnh điều xe ({{$ctrl.bigTotalItems}})</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">Biển số xe</th>
+                                            <th class="text-left">Tài xế</th>
+                                            <th class="text-left">Ngày đi</th>
+                                            <th class="text-left">Loại công tác</th>
+                                            <th class="text-left">File đính kèm</th>
+                                            <th><i class="fas fa-cogs"></i></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="item in $ctrl.DsVanBan track by $index">
+                                            <td class="text-left">
+                                                <span ng-switch="item.trangThai">
+                                                    <i class="far fa-clock text-danger" ng-switch-when="0" tooltip-placement="right" uib-tooltip="VB chờ duyệt"></i>
+                                                    <i class="far fa-check-circle text-success" ng-switch-when="1" tooltip-placement="right" uib-tooltip="VB đã duyệt"></i>
+                                                    <i class="far fa-save text-dark" ng-switch-when="2" tooltip-placement="right" uib-tooltip="VB lưu nháp"></i>
+                                                    <i class="far fa-save text-primary" ng-switch-when="null"></i>
+                                                </span>
+                                                <span ng-bind="item.tenHangXe + ' ' + item.bienSoXe"></span>
+                                            </td>
+                                            <td ng-bind="item.tenTaiXe" class="text-left"></td>
+                                            <td ng-bind="item.ngayDi | date:'dd/MM/yyyy'" class="text-left"></td>
+                                            <td ng-bind="item.tenLoaiCongTac" class="text-left"></td>
+                                            <td class="text-left">
+                                                <span ng-if="item.FileDinhKem.length == 0" style="white-space: nowrap;"><i>Chưa cập nhật File</i></span>
+                                                <a class="pr-1" href="#"
+                                                   ng-repeat="i in item.FileDinhKem | limitTo:1 track by $index"
+                                                   ng-if="item.FileDinhKem.length > 0"
+                                                   ng-click="$ctrl.Viewfilepdf(i)">
+                                                    <span>
+                                                        <i class="fas fa-file-archive"></i>
+                                                        <span ng-bind="i.MOTA.length > 15 ? (i.MOTA | limitTo:15) + '...' : i.MOTA"></span>
+                                                    </span>
+                                                </a>
+                                            </td>
+                                            <td>            
+                                                <button type="button"
+                                                        class="btn btn-sm btn-info"
+                                                        ng-disabled="item.daTaoQuanLyXe"
+                                                        tooltip-placement="top" uib-tooltip="{{item.daTaoQuanLyXe ? 'Đã được tạo' : ''}}"
+                                                        ng-click="$ctrl.MoFormTaoQuanLyXe(null,item)">
+                                                    <i class="fas fa-pen-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer clearfix">
+                                <ul uib-pagination
+                                    total-items="$ctrl.bigTotalItems"
+                                    ng-model="$ctrl.para.FilterLenhDieuXe.Page"
+                                    items-per-page="$ctrl.para.FilterLenhDieuXe.PageSize"
+                                    ng-change="$ctrl.PhanTrang()"
+                                    max-size="maxSize"
+                                    first-text="&laquo;"
+                                    last-text="&raquo;"
+                                    direction-links="false"
+                                    class="pagination-sm float-left"
+                                    boundary-links="true"
+                                    rotate="false">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fas fa-search"></i> Công cụ - Tiện ích</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group mb-2">
+                                    <label class="mb-1">Biển số xe</label>
+                                    <ui-select ng-model="$ctrl.vm.Loai" search-enabled="true" theme="selectize" class="inputtable">
+                                        <ui-select-match placeholder="Chọn xe..." style="font-size:16px">{{$select.selected.tenHangXe + ' ' + $select.selected.bienSoXe}}</ui-select-match>
+                                        <ui-select-choices group-by="'tenPhongBan'" repeat="person in $ctrl.DanhSachXe| filter: $select.search">
+                                            <div style="font-size:16px" ng-bind-html="person.tenHangXe + ' ' + person.bienSoXe | highlight: $select.search"></div>
+                                            @*<div style="font-size:16px" ng-bind-html="person.tenHangXe + ' ' + person.bienSoXe  + ' (Định mức: ' + (person.dinhMuc == null ? '' : person.dinhMuc + ' lít/100km') + (person.dinhMucTheoGio == null ? '' : person.dinhMucTheoGio + ' lít/giờ') + ')' | highlight: $select.search"></div>*@
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label class="mb-1">Tên tài xế</label>
+                                    <select class="custom-select rounded-0"
+                                            ng-model="$ctrl.tenTaiXe"
+                                            ng-options="item as item.name for item in $ctrl.dsTaiXe"></select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label class="mb-1">Loại công tác</label>
+                                    <select class="custom-select rounded-0"
+                                            ng-model="$ctrl.loaiCongTac"
+                                            ng-options="item as item.name for item in $ctrl.dsLoaiCongTac"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Đi từ ngày</label>
+                                    <div>
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.BeginDate" is-open="$ctrl.bd.opened" ng-required="true" close-text="Close" ng-click="$ctrl.openBeginDate()" readonly />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openBeginDate()">
+                                                    <i class="fa-svg-icon">
+                                                        <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                        </svg>
+                                                    </i>
+                                                </button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Đến hết ngày</label>
+                                    <div>
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.EndDate" is-open="$ctrl.ed.opened" ng-required="true" close-text="Close" ng-click="$ctrl.openEndDate()" readonly />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openEndDate()">
+                                                    <i class="fa-svg-icon">
+                                                        <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                        </svg>
+                                                    </i>
+                                                </button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="pb-2 pt-1">
+                                    <button type="button" class="btn btn-sm btn-primary" ng-click="$ctrl.TimKiem()"><i class="fas fa-search pr-1"></i>Tìm kiếm</button>
+                                    <button type="button" class="btn btn-sm btn-primary float-right" ng-click="$ctrl.Reset()"><i class="fas fa-ban pr-1"></i>Hủy tìm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+            </div>
+            <div class="card-footer clearfix text-center">
+                <button ng-click="$ctrl.cancel()"
+                        class="btn btn-sm btn-warning">
+                    Thoát
+                </button>
+            </div>
+        </div>
+    </div>
+</section>

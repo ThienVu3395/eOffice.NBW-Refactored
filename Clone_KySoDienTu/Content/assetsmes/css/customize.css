@@ -1,0 +1,21 @@
+﻿.some-pdf-container {
+    width: 100%;
+    height: 1000px;
+}
+
+.tinyClass > p {
+    margin: 0
+}
+
+.ste > span + span:before {
+    display: inline;
+    content: ",";
+    margin-left: 1px;
+    margin-right: 3px;
+    color: black;
+    border-bottom: 1px solid #FFF;
+}
+
+.point {
+    cursor: pointer
+}

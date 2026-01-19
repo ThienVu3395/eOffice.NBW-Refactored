@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = null;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="card card-primary card-outline" name="formYKXLNC" novalidate>
+                    <div class="card-header pl-3">
+                        <h4 class="card-title pt-1"><b>Gửi yêu cầu hủy đơn</b></h4>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-12">
+                                <div class="form-group">
+                                    <p class="text-danger"><i>* Đã quá thời hạn để hủy đơn, vui lòng nhập lý do yêu cầu hủy đơn và chờ bộ phận quản lý đơn xác nhận</i></p>
+                                    <label ng-class="formYKXLNC.ykienxulync.$invalid ? 'text-danger' : ''">Nhập lý do hủy đơn:</label>
+                                    <textarea style="resize: vertical;"
+                                              ng-class="formYKXLNC.ykienxulync.$invalid ? 'form-control is-invalid' : 'form-control'"
+                                              ng-model="$ctrl.ykienxulync"
+                                              ui-tinymce="tinymceOptions"
+                                              plain-text-max-length="2000"
+                                              name="ykienxulync" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button ng-click="$ctrl.GuiLyDoHuyDon()"
+                                ng-disabled="formYKXLNC.$invalid"
+                                type="button"
+                                class="btn btn-primary float-right">
+                            Gửi lý do
+                        </button>
+                        <button class="btn btn-warning float-left" type="button" ng-click="$ctrl.cancel()">Thoát</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

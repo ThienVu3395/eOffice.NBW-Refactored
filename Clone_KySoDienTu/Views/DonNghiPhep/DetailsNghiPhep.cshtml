@@ -1,0 +1,420 @@
+﻿
+@{
+    Layout = null;
+}
+
+<style>
+    .some-pdf-container {
+        width: 100%;
+        height: 1000px;
+    }
+
+    .tinyClass > p {
+        margin: 0
+    }
+
+    .ste > span + span:before {
+        display: inline;
+        content: ",";
+        margin-left: 1px;
+        margin-right: 3px;
+        color: black;
+        border-bottom: 1px solid #FFF;
+    }
+
+    .point {
+        cursor: pointer
+    }
+</style>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <img src="~/MyThemplate/dist/img/eOffice-logo2.png" alt="Logo-Image" style="width: 24px; height: 24px" />
+                <b>Thông tin chi tiết đơn nghỉ phép</b>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title pt-1">
+                            <b>File đính kèm</b>
+                        </span>
+                        <div class="card-tools ml-auto">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-80" aria-expanded="false"><i class="fas fa-tools"></i></button>
+                                <div class="dropdown-menu" role="menu" style="">
+                                    <a href="#"
+                                       ng-click="$ctrl.DownloadFile()"
+                                       class="dropdown-item">
+                                        Tải File (đã kí số)
+                                    </a>
+                                    <a href="#"
+                                       ng-click="$ctrl.DownloadUnsignedFile()"
+                                       ng-if="$ctrl.objVB.trangThai != 2"
+                                       class="dropdown-item">
+                                        Tải File (chưa kí số)
+                                    </a>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="some-pdf-container">
+                            <iframe id="childframe"
+                                    style="height:100%;width:100%"
+                                    src="{{$ctrl.urldoc}}">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title" style="padding-top: 2px;">
+                            <b>Thông tin văn bản</b>
+                        </span>
+                        <div class="card-tools ml-auto">
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body pt-2">
+                        <div class="tab-content">
+                            <div class="card card-primary card-outline">
+                                <div class="card-header pl-3 pt-2 pb-2">
+                                    <span class="card-title pt-1">
+                                        Thông tin chi tiết
+                                    </span>
+                                    <div class="card-tools">
+                                        <button type="button"
+                                                class="btn btn-outline-primary btn-sm"
+                                                data-card-widget=""
+                                                tooltip-placement="Top"
+                                                uib-tooltip="Cập Nhật"
+                                                ng-if="$ctrl.coTheChinhSua()"
+                                                ng-click="$ctrl.MoFormThemSuaVB()">
+                                            <i class="fas fa-pen-alt"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-2 pb-0">
+                                    <dl class="row mb-0 mt-1">
+                                        <dd class="col-sm-12">
+                                            <div class="callout callout-info">
+                                                <h5>Thông tin số ngày phép của {{$ctrl.objNhanVien.tenNhanVien}}</h5>
+                                                <ol>
+                                                    <li>Số ngày phép còn lại năm {{$ctrl.NamHienTai - 1}} (được sử dụng đến hết tháng 06/{{$ctrl.NamHienTai}}): {{$ctrl.objNhanVien.soNgayPhepNamCu}} - Đã nghỉ: {{$ctrl.objNhanVien.soNgayPhepNamCuDaNghi}} - <b class="text-primary">Còn lại: {{$ctrl.objNhanVien.soNgayPhepNamCuConLai}}</b></li>
+                                                    <li>Số ngày phép thâm niên tính đến hiện tại: {{$ctrl.objNhanVien.soNgayPhepThamNien}}</li>
+                                                    <li>Số ngày phép năm {{$ctrl.NamHienTai}} tính đến {{$ctrl.objVB.denNgay | date : 'dd/MM/yyyy'}}: {{$ctrl.objNhanVien.soNgayPhepNam}}</li>
+                                                    <li>Số ngày đã nghỉ trong năm {{$ctrl.NamHienTai}}: {{$ctrl.objNhanVien.soNgayDaNghi}}</li>
+                                                    <li class="text-bold text-primary">Số ngày phép còn lại trong năm {{$ctrl.NamHienTai}}: {{$ctrl.objNhanVien.soNgayConLai}}</li>
+                                                </ol>
+                                                @*<button type="button" class="btn btn-primary btn-sm" ng-click="$ctrl.MoFormThongKeBaoCao()">Theo dõi thông tin chi tiết số ngày phép</button>*@
+                                            </div>
+                                        </dd>
+                                        <dt class="col-sm-3">Trạng thái đơn:</dt>
+                                        <dd class="col-sm-9">
+                                            <span ng-switch="$ctrl.objVB.trangThai">
+                                                <span ng-switch-when="0">
+                                                    <i class="far fa-clock text-warning"></i> Chờ duyệt
+                                                </span>
+                                                <span ng-switch-when="1">
+                                                    <i class="far fa-check-circle text-success"></i> Đã duyệt
+                                                </span>
+                                                <span ng-switch-when="2">
+                                                    <i class="far fa-save text-primary"></i> Lưu nháp
+                                                </span>
+                                                <span ng-switch-when="3">
+                                                    <i class="far fa-times-circle text-danger"></i> Đã hủy
+                                                </span>
+                                                <span ng-switch-when="4">
+                                                    <i class="far fa-times-circle text-info"></i> Chờ hủy
+                                                </span>
+                                                <span ng-switch-when="-1">
+                                                    <i class="far fa-times-circle text-danger"></i> Đã xóa
+                                                </span>
+                                            </span>
+                                        </dd>
+                                        <dt class="col-sm-3">Thuộc loại:</dt>
+                                        <dd class="col-sm-9">
+                                            <span ng-switch="$ctrl.objVB.loai">
+                                                <span ng-switch-when="6">
+                                                    Đơn xin nghỉ phép thường niên trong nước mẫu 1
+                                                </span>
+                                                <span ng-switch-when="7">
+                                                    Đơn xin nghỉ phép thường niên trong nước mẫu 2
+                                                </span>
+                                                <span ng-switch-when="8">
+                                                    Đơn xin nghỉ việc riêng không hưởng lương
+                                                </span>
+                                                <span ng-switch-when="9">
+                                                    Đơn xin nghỉ phép đi nước ngoài
+                                                </span>
+                                                <span ng-switch-when="28">
+                                                    Đơn giải trình không lấy Face ID/Vân tay mẫu 5
+                                                </span>
+                                                <span ng-switch-when="29">
+                                                    Đơn giải trình không lấy Face ID/Vân tay mẫu 6
+                                                </span>
+                                                <span ng-switch-default>
+                                                    Đơn xin nghỉ phép
+                                                </span>
+                                            </span>
+                                        </dd>
+                                        <dt class="col-sm-3">File đính kèm ({{($ctrl.objVB.FileDinhKem | filter : {IsCRFile : 0}).length}}):</dt>
+                                        <dd class="col-sm-9">
+                                            <span ng-repeat="item in $ctrl.objVB.FileDinhKem | filter : {IsCRFile : 0} track by $index"
+                                                  ng-if="($ctrl.objVB.FileDinhKem | filter : {IsCRFile : 0}).length > 0"
+                                                  class="pr-1 badge badge-pill badge-info px-2 point"
+                                                  ng-click="$ctrl.ViewFile(item)">
+                                                <span ng-bind="item.MOTA"></span>
+                                            </span>
+                                            <span ng-if="($ctrl.objVB.FileDinhKem | filter : {IsCRFile : 0}).length == 0"><i>Chưa cập nhật File</i></span>
+                                        </dd>
+                                        <dt class="col-sm-3">File ký số ({{($ctrl.objVB.FileDinhKem | filter : {IsCRFile : 1}).length}}):</dt>
+                                        <dd class="col-sm-9">
+                                            <span ng-repeat="item in $ctrl.objVB.FileDinhKem | filter : {IsCRFile : 1} track by $index"
+                                                  ng-if="($ctrl.objVB.FileDinhKem | filter : {IsCRFile : 1}).length > 0"
+                                                  class="pr-1 badge badge-pill badge-info px-2 point"
+                                                  ng-click="$ctrl.ViewFile(item)">
+                                                <span ng-bind="item.MOTA"></span>
+                                            </span>
+                                            <span ng-if="($ctrl.objVB.FileDinhKem | filter : {IsCRFile : 1}).length == 0"><i>Chưa cập nhật File</i></span>
+                                        </dd>
+                                        <dt class="col-sm-3">Ngày tạo đơn:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.ngayTao != null ? ($ctrl.objVB.ngayTao | date:'dd/MM/yyyy') : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Loại nghỉ phép:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.tenLoaiDiDuong != null ? $ctrl.objVB.tenLoaiDiDuong : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Mã nhân viên:</dt>
+                                        <dd class="col-sm-9" ng-bind="$ctrl.objVB.maNhanVien"></dd>
+                                        <dt class="col-sm-3">Họ và tên:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.tenNhanVien + ($ctrl.taoGiup ? ' (được <b>' + $ctrl.objVB.nguoiTao + '</b> tạo giúp)' : '')"></dd>
+                                        <dt class="col-sm-3">Năm sinh:</dt>
+                                        <dd class="col-sm-9" ng-bind="$ctrl.objVB.namSinh"></dd>
+                                        <dt class="col-sm-3">Số CMND/CCCD:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.soCccd"></dd>
+                                        <dt class="col-sm-3">Ngày cấp:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.ngayCapCccd != null ? ($ctrl.objVB.ngayCapCccd | date:'dd/MM/yyyy') : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Phòng/Ban:</dt>
+                                        <dd class="col-sm-9" ng-bind="$ctrl.objVB.phongBan"></dd>
+                                        <dt class="col-sm-3">Chức vụ/Chức Danh:</dt>
+                                        <dd class="col-sm-9" ng-bind="$ctrl.objVB.chucVu"></dd>
+                                        <dt class="col-sm-3">Nghỉ từ ngày:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.tuNgay != null ? ($ctrl.objVB.tuNgay | date:'dd/MM/yyyy') : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Đến hết ngày:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.denNgay != null ? ($ctrl.objVB.denNgay | date:'dd/MM/yyyy') : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Tổng ngày nghỉ:</dt>
+                                        <dd class="col-sm-9" ng-bind="$ctrl.objVB.tongNgayNghi + ' (Trừ T7,CN,Ngày Lễ,Tết)'"></dd>
+                                        <dt class="col-sm-3">Nơi nghỉ phép:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.noiNghiPhep != null ? $ctrl.objVB.noiNghiPhep : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Lý do nghỉ phép:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.lyDo != null ? $ctrl.objVB.lyDo : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Số ngày tính phép:</dt>
+                                        <dd class="col-sm-9" ng-bind="$ctrl.objVB.soNgayTinhPhep"></dd>
+                                        <dt class="col-sm-3">Số ngày không lương:</dt>
+                                        <dd class="col-sm-9" ng-bind="$ctrl.objVB.soNgayKhongLuong"></dd>
+                                        <dt class="col-sm-3">Số ngày đi đường:</dt>
+                                        <dd class="col-sm-9" ng-bind="$ctrl.objVB.soNgayDiDuong"></dd>
+                                        <dt class="col-sm-3">Quốc gia nghỉ phép:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.quocGia != null ? $ctrl.objVB.quocGia : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Người tạo:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.ngayTaoHeThong != null ? ('Tạo bởi : ' + $ctrl.objVB.nguoiTao + '. Vào lúc : ' + ($ctrl.objVB.ngayTaoHeThong | date:'dd/MM/yyyy HH:mm')) : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">{{$ctrl.objVB.trangThai == 3 ? "Người hủy đơn:" : "Người cập nhật:"}}</dt>
+                                        <dd class="col-sm-9" ng-if="$ctrl.objVB.trangThai != 3" ng-bind-html="$ctrl.objVB.ngayCapNhat != null ? ('Cập nhật bởi : ' + $ctrl.objVB.nguoiCapNhat + '. Vào lúc : ' + ($ctrl.objVB.ngayCapNhat | date:'dd/MM/yyyy HH:mm')) : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dd class="col-sm-9" ng-if="$ctrl.objVB.trangThai == 3" ng-bind-html="$ctrl.objVB.ngayCapNhat != null ? ('Hủy bởi : ' + $ctrl.objVB.nguoiCapNhat + '. Vào lúc : ' + ($ctrl.objVB.ngayCapNhat | date:'dd/MM/yyyy HH:mm')) : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Lý do hủy đơn:</dt>
+                                        <dd class="col-sm-9" ng-bind-html="$ctrl.objVB.lyDoHuyDon != null ? $ctrl.objVB.lyDoHuyDon : '<i>Chưa cập nhật</i>'"></dd>
+                                        <dt class="col-sm-3">Ý kiến Phòng,Ban:</dt>
+                                        <dd class="col-sm-9">
+                                            <span ng-bind-html="$ctrl.objVB.yKienPhongBanDoi != null ? ($ctrl.objVB.yKienPhongBanDoi | unsafe) : '<i>Chưa cập nhật</i>'" class="tinyClass"></span>
+                                            <button type="button"
+                                                    ng-class="$ctrl.objVB.yKienPhongBanDoi != null ? 'btn btn-outline-primary btn-sm' : 'btn btn-outline-primary btn-sm ml-2'"
+                                                    ng-click="$ctrl.MoFormYKienPhongBan()"
+                                                    ng-if="$ctrl.objVB.DanhSachNguoiKy[0].UserName == $ctrl.Userdata.username && $ctrl.objVB.loai == 8 && $ctrl.objVB.trangThai == 0">
+                                                <i class="fas fa-pen-alt"></i> Ghi ý kiến
+                                            </button>
+                                            <button type="button"
+                                                    ng-class="$ctrl.objVB.yKienPhongBanDoi != null ? 'btn btn-outline-primary btn-sm' : 'btn btn-outline-primary btn-sm ml-2'"
+                                                    ng-click="$ctrl.XoaYKienPhongBan()"
+                                                    ng-if="$ctrl.objVB.DanhSachNguoiKy[0].UserName == $ctrl.Userdata.username && $ctrl.objVB.loai == 8 && $ctrl.objVB.trangThai == 0 && $ctrl.objVB.yKienPhongBanDoi != null">
+                                                <i class="fas fa-trash"></i> Xóa ý kiến
+                                            </button>
+                                        </dd>
+                                        <dt class="col-sm-3" ng-bind="'Đã xem VB (' + ($ctrl.objVB.DanhSachNguoiKy | filter : {NgayXem : ''}).length + '):'"></dt>
+                                        <dd class="col-sm-9">
+                                            <span ng-if="($ctrl.objVB.DanhSachNguoiKy | filter : {NgayXem : ''}).length == 0"><i>Chưa cập nhật</i></span>
+                                            <div ng-repeat="item in $ctrl.objVB.DanhSachNguoiKy | filter : {NgayXem : ''}"
+                                                 ng-bind="item.LOAIXULY + '. ' + item.FullName + ' - ' + (item.NgayXem | date:'dd/MM/yyyy HH:mm')">
+                                            </div>
+                                        </dd>
+                                        <dd class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h3 class="card-title"><i class="fas fa-users"></i> Danh sách duyệt VB ({{($ctrl.objVB.DanhSachNguoiKy).length}})</h3>
+                                                </div>
+                                                <div class="card-body p-0">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-left">Người ký</th>
+                                                                <th class="text-left">Phòng/Ban</th>
+                                                                <th class="text-left">Chức vụ</th>
+                                                                <th class="text-left">Trạng thái</th>
+                                                                <th class="text-left">Thời gian</th>
+                                                                @*<th class="text-left">Hiển thị</th>*@
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <tr ng-repeat="item in $ctrl.objVB.DanhSachNguoiKy track by $index" class="{{item.UserName == $ctrl.objVB.nguoiDuyet ? 'alert alert-info' : ''}}">
+                                                                <td ng-bind="item.LOAIXULY + '.' + item.FullName" class="text-left"></td>
+                                                                <td ng-bind="item.MAPHONG" class="text-left"></td>
+                                                                <td ng-bind="item.CHUCVU" class="text-left"></td>
+                                                                <td class="text-left">
+                                                                    <span ng-if="item.NGUOITAO == 'Chờ xác nhận'" class="pr-1 badge badge-pill badge-info px-2" ng-bind="item.NGUOITAO"></span>
+                                                                    <span ng-if="item.NGUOITAO == 'Đang chờ duyệt'" class="pr-1 badge badge-pill badge-primary px-2" ng-bind="item.NGUOITAO"></span>
+                                                                    <span ng-if="item.NGUOITAO == 'Đã ký duyệt'" class="pr-1 badge badge-pill badge-success px-2" ng-bind="item.NGUOITAO"></span>
+                                                                    <span ng-if="item.NGUOITAO == 'Đã hủy ký'" class="pr-1 badge badge-pill badge-danger px-2" ng-bind="item.NGUOITAO"></span>
+                                                                    <span ng-if="item.NGUOITAO == 'Đã quá hạn'" class="pr-1 badge badge-pill badge-warning px-2" ng-bind="item.NGUOITAO"></span>
+                                                                </td>
+                                                                <td ng-bind="item.NGAYTAO | date:'dd/MM/yyyy HH:mm'" class="text-left"></td>
+                                                                @*<td ng-switch="item.LoaiKy" class="text-left">
+                                    <span ng-switch-when="0">Ký nháy</span>
+                                    <span ng-switch-when="1">Ký chính</span>
+                                </td>*@
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="card-footer pb-1">
+                                    <div class="post mb-2 p-0 pt-2"></div>
+                                    <div class="pb-2 pt-1 text-center">
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheThuHoi()"
+                                                ng-click="$ctrl.ThuHoiVB()"
+                                                class="btn btn-sm btn-primary">
+                                            <i class="fas fa-undo"></i> Thu hồi
+                                        </button>
+
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheGuiDuyet()"
+                                                ng-click="$ctrl.GuiDuyetVB()"
+                                                class="btn btn-sm btn-primary">
+                                            <i class="fas fa-reply"></i> Gửi duyệt
+                                        </button>
+
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheKyDuyet()"
+                                                ng-click="$ctrl.KyDuyetVB()"
+                                                class="btn btn-sm btn-primary">
+                                            <i class="fas fa-check"></i> Tiến hành ký duyệt
+                                        </button>
+
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheHuyKyDuyet()"
+                                                ng-click="$ctrl.HuyKyVB()"
+                                                class="btn btn-sm btn-danger">
+                                            <i class="fas fa-times"></i> Hủy ký
+                                        </button>
+
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheYeuCauHuy()"
+                                                ng-click="$ctrl.YeuCauHuyVB()"
+                                                class="btn btn-sm btn-danger">
+                                            <i class="fas fa-times"></i> Yêu cầu hủy đơn
+                                        </button>
+
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheXacNhanHuy()"
+                                                ng-click="$ctrl.XacNhanHuyVB()"
+                                                class="btn btn-sm btn-primary">
+                                            <i class="fas fa-check-circle"></i> Xác nhận hủy đơn
+                                        </button>
+
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheTuChoiHuy()"
+                                                ng-click="$ctrl.TuChoiHuyVB()"
+                                                class="btn btn-sm btn-primary">
+                                            <i class="fas fa-times"></i> Từ chối hủy đơn
+                                        </button>
+
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheCapNhatTrangThaiKySo()"
+                                                ng-click="$ctrl.CapNhatTrangThaiKySo()"
+                                                class="btn btn-sm btn-primary">
+                                            <i class="fas fa-check"></i> Cập nhật trạng thái ký số
+                                        </button>
+
+                                        <button type="button"
+                                                ng-if="$ctrl.coTheXoa()"
+                                                ng-click="$ctrl.XoaVanBan()"
+                                                class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i> Xóa văn bản
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-primary card-outline">
+                                <div class="card-header pt-2 pb-2">
+                                    <span class="card-title pt-1">
+                                        Ý kiến phản hồi
+                                    </span>
+                                    <div class="card-tools">
+                                        <button type="button"
+                                                class="btn btn-outline-primary btn-sm"
+                                                tooltip-placement="Top"
+                                                uib-tooltip="Gửi ý kiến xử lý"
+                                                ng-click="$ctrl.MoFormYKienXuLy('Y_KIEN')">
+                                            <i class="fas fa-comment-dots"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="post" ng-if="$ctrl.dsYKien.length > 0 && item.TRANGTHAI > 0" ng-repeat="item in $ctrl.dsYKien">
+                                        <div class="user-block mb-2">
+                                            <img class="img-circle img-bordered-sm" src="~/Content/image/user.png" alt="user image" />
+                                            <span class="username" ng-bind="item.CANBO"></span>
+                                            <span class="description" ng-bind="(item.NGAYXL | date:'HH:mm dd/MM/yyyy')"></span>
+                                        </div>
+                                        <p class="mb-0" ng-if="item.TRANGTHAI == 1" ng-bind-html="item.YKIENXL | unsafe"></p>
+                                        <p class="mb-0" ng-if="item.TRANGTHAI == 3"><u>Lý do hủy đơn:</u> <span ng-bind-html="item.YKIENXL | unsafe"></span></p>
+                                        <a class="btn btn-danger btn-sm" ng-if="$ctrl.coTheXoaYKien(item.CANBO)" ng-click="$ctrl.XoaYKienXuLy(item.ID)">Xóa</a>
+                                        <div class="post"></div>
+                                    </div>
+                                    <div class="post"></div>
+                                    <form class="form-horizontal" data-_pptype="search" autocomplete="on" name="formYKXL" novalidate>
+                                        <div class="input-group input-group-sm mb-0">
+                                            <input ng-class="formYKXL.ykxl.$invalid ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'" ng-model="$ctrl.ykienxuly" placeholder="Nhập ý kiến xử lý tại đây..." name="ykxl" required>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-primary" ng-click="$ctrl.GuiYKienXuLy(0)" ng-disabled="formYKXL.$invalid">Gửi</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="button" class="btn btn-warning" ng-click="$ctrl.cancel()">Thoát</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = null;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="card card-primary card-outline" name="formYKXLNC" novalidate>
+                    <div class="card-header pl-3">
+                        <h4 class="card-title pt-1"><b>Cập nhật {{$ctrl.TieuDeForm}}</b></h4>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-12">
+                                <div class="form-group">
+                                    <label ng-class="formYKXLNC.ykienxulync.$invalid ? 'text-danger' : ''">Nội dung {{$ctrl.TieuDeForm}}:</label>
+                                    <textarea style="resize: vertical;"
+                                              ng-class="formYKXLNC.ykienxulync.$invalid ? 'form-control is-invalid' : 'form-control'"
+                                              ng-model="$ctrl.ykienxulync"
+                                              ui-tinymce="tinymceOptions"
+                                              plain-text-max-length="2000"
+                                              name="ykienxulync" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button ng-click="$ctrl.GuiYKienXuLy(0)"
+                                ng-disabled="formYKXLNC.$invalid"
+                                ng-if="$ctrl.LoaiForm == 'Y_KIEN'"
+                                type="button"
+                                class="btn btn-primary float-right">
+                            Gửi Ý Kiến
+                        </button>
+                        <button ng-click="$ctrl.GuiButPheChiDao()"
+                                ng-disabled="formYKXLNC.$invalid"
+                                ng-if="$ctrl.LoaiForm == 'BUT_PHE'"
+                                type="button"
+                                class="btn btn-primary float-right">
+                            Gửi Bút Phê
+                        </button>
+                        <button class="btn btn-warning float-left" type="button" ng-click="$ctrl.cancel()">Thoát</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

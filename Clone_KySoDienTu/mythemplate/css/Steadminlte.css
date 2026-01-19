@@ -1,0 +1,104 @@
+﻿
+
+.nav-sidebarSte .nav-item > .nav-link {
+    margin-bottom: .2rem;
+    position: relative;
+}
+
+    .nav-sidebarSte .nav-item > .nav-link .right {
+        transition: transform ease-in-out 0.3s;
+    }
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-sidebarSte .nav-item > .nav-link .right {
+        transition: none;
+    }
+}
+
+.nav-sidebarSte .nav-link > .right,
+.nav-sidebarSte .nav-link > p > .right {
+    position: absolute;
+    right: 1rem;
+    top: .7rem;
+}
+
+    .nav-sidebarSte .nav-link > .right i,
+    .nav-sidebarSte .nav-link > .right span,
+    .nav-sidebarSte .nav-link > p > .right i,
+    .nav-sidebarSte .nav-link > p > .right span {
+        margin-left: .5rem;
+    }
+
+    .nav-sidebarSte .nav-link > .right:nth-child(2),
+    .nav-sidebarSte .nav-link > p > .right:nth-child(2) {
+        right: 2.2rem;
+    }
+
+.nav-sidebarSte .menu-open > .nav-treeview {
+    display: block;
+}
+
+.nav-sidebarSte .menu-open > .nav-link i.right,
+.nav-sidebarSte .menu-is-opening > .nav-link i.right {
+    transform: rotate(-90deg);
+}
+
+.nav-sidebarSte > .nav-item {
+    margin-bottom: 0;
+}
+
+    .nav-sidebarSte > .nav-item .nav-icon {
+        margin-left: .05rem;
+        font-size: 1.2rem;
+        margin-right: .2rem;
+        text-align: center;
+        width: 1.6rem;
+    }
+
+        .nav-sidebarSte > .nav-item .nav-icon.fa, .nav-sidebarSte > .nav-item .nav-icon.fas, .nav-sidebarSte > .nav-item .nav-icon.far, .nav-sidebarSte > .nav-item .nav-icon.fab, .nav-sidebarSte > .nav-item .nav-icon.fal, .nav-sidebarSte > .nav-item .nav-icon.fad, .nav-sidebarSte > .nav-item .nav-icon.svg-inline--fa, .nav-sidebarSte > .nav-item .nav-icon.ion {
+            font-size: 1.1rem;
+        }
+
+    .nav-sidebarSte > .nav-item .float-right {
+        margin-top: 3px;
+    }
+
+.nav-sidebarSte .nav-treeview {
+    display: none;
+    list-style: none;
+    padding: 0;
+}
+
+    .nav-sidebarSte .nav-treeview > .nav-item > .nav-link > .nav-icon {
+        width: 1.6rem;
+    }
+
+.nav-sidebarSte.nav-child-indent .nav-treeview {
+    transition: padding 0.3s ease-in-out;
+    padding-left: 1rem;
+}
+
+.text-sm .nav-sidebarSte.nav-child-indent .nav-treeview {
+    padding-left: .5rem;
+}
+
+.nav-sidebarSte.nav-child-indent.nav-legacy .nav-treeview .nav-treeview {
+    padding-left: 2rem;
+    margin-left: -1rem;
+}
+
+.text-sm .nav-sidebarSte.nav-child-indent.nav-legacy .nav-treeview .nav-treeview {
+    padding-left: 1rem;
+    margin-left: -.5rem;
+}
+
+.nav-sidebarSte .nav-header {
+    font-size: .9rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.nav-sidebarSte .nav-link p {
+    display: inline;
+    margin: 0;
+    white-space: normal;
+}

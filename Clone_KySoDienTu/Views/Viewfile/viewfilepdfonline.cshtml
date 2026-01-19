@@ -1,0 +1,27 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .content-header {
+        padding: 0.2rem;
+    }
+    .modal-dialog {
+        margin: 0.75rem auto;
+    }
+</style>
+<div class="content-header">
+    <div class="container-fluid">
+        <button type="button" ng-click="$ctrl.cancel()" class="btn btn-sm btn-warning"><i class="fa fa-sign-out"></i> Thoát</button>
+        <button type="button" class="btn btn-sm btn-primary float-right" ng-click="$ctrl.save()"><i class="fa fa-download"></i> Tải</button>
+        <button type="button" class="btn btn-sm btn-primary float-right" ng-click="$ctrl.printfile()" ng-if="$ctrl.Print == true"><i class="fa fa-print"></i> In</button>
+    </div>
+</div>
+<section class="content pl-2" style="height: 90vh;">
+    <div class="container-fluid w-100 h-100">
+        <div class="row w-100 h-100">
+            <div class="w-100 h-100" style="background-color: #d7d4d4 !important;">
+                <iframe id="childframe" class="w-100 h-100" src="{{$ctrl.urldoc}}"></iframe>
+            </div>
+        </div>
+    </div>
+</section>

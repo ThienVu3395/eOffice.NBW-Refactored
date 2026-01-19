@@ -1,0 +1,384 @@
+﻿
+@{
+    ViewBag.Title = "IndexNghiPhep";
+    Layout = "~/Views/Shared/_Layout2022.cshtml";
+}
+
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6" style="padding-top: 2px">
+                <img src="~/MyThemplate/dist/img/eOffice-logo2.png" alt="Logo-Image" style="width: 24px; height: 24px" />
+                <b>eOFFICE.NBW <i class="fas fa-angle-double-right"></i> Quản lý đơn nghỉ phép</b>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a ng-href="~/Home/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Quản lý đơn nghỉ phép</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content" ng-controller="IndexNghiPhepCtrl">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a class="nav-link active p-1 pl-2 pr-2"
+                                       href="#CVdenHC"
+                                       data-toggle="tab">
+                                        Danh sách đơn nghỉ phép ({{bigTotalItems}})
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="card-tools ml-auto">
+                                <button type="button" class="btn btn-primary btn-sm"  ng-click="MoFormThemSuaVB(null)"><i class="fas fa-plus"></i> Tạo mới</button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-80">
+                                        <i class="fas fa-download"></i> Tải file
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(6)">
+                                            1. Mẫu nhân viên
+                                        </a>
+                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(7)">
+                                            2. Mẫu trưởng P/B
+                                        </a>
+                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(8)">
+                                            3. Mẫu không lương
+                                        </a>
+                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(9)">
+                                            4. Mẫu đi nước ngoài
+                                        </a>
+                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(28)">
+                                            5. Mẫu giải trình nhân viên
+                                        </a>
+                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(29)">
+                                            6. Mẫu giải trình trưởng P/B
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="btn-group" ng-if="coTheXuatBaoCao()">
+                                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-80">
+                                        <i class="fas fa-file-excel"></i> Xuất báo cáo
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a href="#" class="dropdown-item" ng-click="MoFormThongKeBaoCaoNghiPhep()">
+                                            1.Thông tin nghỉ phép
+                                        </a>
+                                        @*<a href="#" class="dropdown-item" ng-click="MoFormThongKeBaoCaoGiaiTrinh()">
+                                                2.Nhắc nhở giải trình
+                                            </a>*@
+                                    </div>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-80">
+                                        <i class="fas fa-tools"></i> Lọc
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a href="#" class="dropdown-item" ng-repeat="item in FilterTT" ng-click="LocTrangThai(item.CODE)">
+                                            <i class="{{item.CODE == LoaiLoc ? 'fas fa-check-square' : 'far fa-square'}}"></i> {{item.VALUENAME}}
+                                        </a>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="CVdenHC">
+                                <table class="table table-hover text-left mb-0">
+                                    <tbody>
+                                        <tr ng-repeat="item in DsVanBan track by $index">
+                                            <td class="pl-3">
+                                                <span class="card-title2 mb-1">
+                                                    <span>{{$index + 1}}.</span>
+
+                                                    <span ng-switch="item.trangThai">
+                                                        <i class="far fa-clock text-warning" ng-switch-when="0"></i>
+                                                        <i class="far fa-check-circle text-success" ng-switch-when="1"></i>
+                                                        <i class="far fa-save text-dark" ng-switch-when="2"></i>
+                                                        <i class="far fa-times-circle text-danger" ng-switch-when="3"></i>
+                                                        <i class="far fa-times-circle text-info" ng-switch-when="4"></i>
+                                                        <i class="far fa-save text-primary" ng-switch-when="null"></i>
+                                                    </span>
+
+                                                    <span ng-switch="item.loai">
+                                                        <a href="#" ng-click="MoFormChiTietVB(item)" ng-class="(item.DaXem == 0 && (item.trangThai != 2 && item.trangThai != null)) ? 'text-bold' : ''" ng-switch-when="6">
+                                                            ({{item.tenLoaiDiDuong}}) Đơn xin nghỉ phép thường niên trong nước mẫu 1
+                                                        </a>
+                                                        <a href="#" ng-click="MoFormChiTietVB(item)" ng-class="(item.DaXem == 0 && (item.trangThai != 2 && item.trangThai != null)) ? 'text-bold' : ''" ng-switch-when="7">
+                                                            ({{item.tenLoaiDiDuong}}) Đơn xin nghỉ phép thường niên trong nước mẫu 2
+                                                        </a>
+                                                        <a href="#" ng-click="MoFormChiTietVB(item)" ng-class="(item.DaXem == 0 && (item.trangThai != 2 && item.trangThai != null)) ? 'text-bold' : ''" ng-switch-when="8">
+                                                            ({{item.tenLoaiDiDuong}}) Đơn xin nghỉ việc riêng không hưởng lương
+                                                        </a>
+                                                        <a href="#" ng-click="MoFormChiTietVB(item)" ng-class="(item.DaXem == 0 && (item.trangThai != 2 && item.trangThai != null)) ? 'text-bold' : ''" ng-switch-when="9">
+                                                            ({{item.tenLoaiDiDuong}}) Đơn xin nghỉ phép đi nước ngoài
+                                                        </a>
+                                                        <a href="#" ng-click="MoFormChiTietVB(item)" ng-class="(item.DaXem == 0 && (item.trangThai != 2 && item.trangThai != null)) ? 'text-bold' : ''" ng-switch-when="28">
+                                                            ({{item.tenLoaiDiDuong}}) Đơn giải trình không lấy Face ID/Vân tay mẫu 5
+                                                        </a>
+                                                        <a href="#" ng-click="MoFormChiTietVB(item)" ng-class="(item.DaXem == 0 && (item.trangThai != 2 && item.trangThai != null)) ? 'text-bold' : ''" ng-switch-when="29">
+                                                            ({{item.tenLoaiDiDuong}}) Đơn giải trình không lấy Face ID/Vân tay mẫu 6
+                                                        </a>
+                                                        <a href="#" ng-click="MoFormChiTietVB(item)" ng-class="(item.DaXem == 0 && (item.trangThai != 2 && item.trangThai != null)) ? 'text-bold' : ''" ng-switch-default>
+                                                            Đơn xin nghỉ phép
+                                                        </a>
+                                                    </span>
+                                                </span>
+                                                <div class="row">
+                                                    <div ng-class="item.trangThai == 3 ? 'col-lg-5 col-12 pr-0' : 'col-lg-6 col-12 pr-0'">
+                                                        <h6 class="text-muted text-sm mb-1">
+                                                            <span>Họ tên/Phòng,Ban: {{item.tenNhanVien}} - {{item.phongBan}}</span>
+                                                        </h6>
+                                                    </div>
+                                                    <div ng-class="item.trangThai == 3 ? 'col-lg-2 col-12 pr-0' : 'col-lg-3 col-12 pr-0'">
+                                                        <h6 class="text-muted text-sm mb-1">
+                                                            <span>Ngày tạo: {{item.ngayTaoHeThong | date:'dd/MM/yyyy'}} ({{item.ngayTaoHeThong | date:'HH:mm'}})</span>
+                                                        </h6>
+                                                    </div>
+                                                    <div ng-if="item.trangThai == 3" class="col-lg-2 col-12 pr-0">
+                                                        <h6 class="text-muted text-sm mb-1">
+                                                            <span>Ngày hủy: {{item.ngayCapNhat | date:'dd/MM/yyyy'}} ({{item.ngayCapNhat | date:'HH:mm'}})</span>
+                                                        </h6>
+                                                    </div>
+                                                    <div class="col-lg-3 col-12 pr-0">
+                                                        <h6 class="text-muted text-sm mb-1">
+                                                            <span>Thời gian nghỉ: {{item.tuNgay | date:'dd/MM/yyyy'}} - {{item.denNgay | date:'dd/MM/yyyy'}}</span>
+                                                        </h6>
+                                                    </div>
+                                                    @*<div class="col-lg-3 col-12 pr-0">
+                                                            <h6 class="text-muted text-sm mb-1" ng-if="item.FileDinhKem.length > 0">
+                                                                ({{item.FileDinhKem.length}})
+                                                                <a class="pr-1" href="#"
+                                                                   ng-repeat="i in item.FileDinhKem | limitTo:1 track by $index"
+                                                                   ng-click="Viewfilepdf(i.ID)">
+                                                                    <span>
+                                                                        <i class="fas fa-file-archive"></i>
+                                                                        <span ng-bind="i.MOTA.length > 20 ? (i.MOTA | limitTo:20) + '...' : i.MOTA"></span>
+                                                                    </span>
+                                                                </a>
+                                                                <span ng-if="item.FileDinhKem.length == 0" style="white-space: nowrap;"><i>Chưa cập nhật File</i></span>
+                                                            </h6>
+                                                            <h6 class="text-muted text-sm mb-1" ng-if="item.FileDinhKem.length == 0 || item.FileDinhKem == null">
+                                                                <i>(0) Chưa cập nhật File</i>
+                                                            </h6>
+                                                        </div>*@
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer pt-3 pb-0 clearfix">
+                        <ul uib-pagination
+                            total-items="bigTotalItems"
+                            ng-model="para.FilterLenhDieuXe.Page"
+                            items-per-page="para.FilterLenhDieuXe.PageSize"
+                            ng-change="PhanTrang()"
+                            max-size="maxSize"
+                            first-text="&laquo;"
+                            last-text="&raquo;"
+                            direction-links="false"
+                            class="pagination-sm float-left"
+                            boundary-links="true"
+                            rotate="false"></ul>
+                        <button ng-click="MoFormThemSuaVB(null)"
+                                ng-if="coTheTaoDon()"
+                                role="button"
+                                class="btn btn-sm btn-primary float-right pr-2">
+                            <i class="fas fa-plus"></i> Tạo mới
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-12">
+                <div class="card card-primary card-outline text-sm">
+                    <div class="card-header">
+                        <h3 class="card-title pt-1">Công cụ - Tiện ích</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form class="card card-primary" name="formfilter" novalidate>
+                            <div class="card-header">
+                                <h4 class="card-title w-100">
+                                    <a class="d-block w-100">
+                                        Lọc đơn nghỉ phép
+                                    </a>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group mb-2">
+                                    <label class="mb-1">Danh sách phòng/ban</label>
+                                    <select class="custom-select rounded-0"
+                                            ng-model="para.FilterVanBan.PhongBan"
+                                            ng-options="item as item.name for item in dsPhongBan"
+                                            ng-change="DoiPhongBan()"></select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label ng-class="formfilter.hoten.$invalid ? 'mb-1 text-danger' : 'mb-1'">Danh sách CB/CNV</label>
+                                    <ui-select ng-model="vm.Loai" search-enabled="true" theme="selectize" class="inputtable" on-select="DoiNhanVien()" name="hoten" ng-required="true" readonly>
+                                        <ui-select-match placeholder="Chọn người dùng..." style="font-size:16px">{{$select.selected.maNhanVien + '. ' + $select.selected.tenNhanVien}}</ui-select-match>
+                                        <ui-select-choices group-by="'tenPhongBan'" repeat="person in DanhSachNhanVien| filter: $select.search">
+                                            <div style="font-size:16px" ng-bind-html="person.maNhanVien + '. ' + person.tenNhanVien | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label ng-class="formfilter.loainghi.$invalid ? 'mb-1 text-danger' : 'mb-1'">Loại nghỉ phép</label>
+                                    <ui-select ng-model="vm.Loai2" search-enabled="true" theme="selectize" class="inputtable" on-select="DoiLoaiNghiPhep()" name="loainghi" ng-required="true" readonly>
+                                        <ui-select-match placeholder="Chọn loại nghỉ phép..." style="font-size:16px">{{$select.selected.moTa}}</ui-select-match>
+                                        <ui-select-choices group-by="'tenLoaiDiDuong'" repeat="person in LoaiNghiPhep| filter: $select.search">
+                                            <div style="font-size:16px" ng-bind-html="person.moTa | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label class="mb-1">Loại đơn nghỉ phép</label>
+                                    <select class="custom-select rounded-0"
+                                            ng-model="para.FilterVanBan.LoaiVB"
+                                            ng-options="item.CODE as item.VALUENAME for item in dsDon"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nghỉ từ ngày</label>
+                                    <div>
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="BeginDate" is-open="bd.opened" close-text="Close" ng-click="openBeginDate()" readonly />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-secondary height-100" ng-click="openBeginDate()">
+                                                    <i class="fa-svg-icon">
+                                                        <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                        </svg>
+                                                    </i>
+                                                </button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Đến hết ngày</label>
+                                    <div>
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="EndDate" is-open="ed.opened" close-text="Close" ng-click="openEndDate()" readonly />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-secondary height-100" ng-click="openEndDate()">
+                                                    <i class="fa-svg-icon">
+                                                        <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                        </svg>
+                                                    </i>
+                                                </button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="pb-2 pt-1">
+                                    <button type="button" class="btn btn-sm btn-primary" ng-disabled="formfilter.$invalid" ng-click="TimKiem()"><i class="fas fa-search pr-1"></i>Tìm kiếm</button>
+                                    <button type="button" class="btn btn-sm btn-primary float-right" ng-click="Reset()"><i class="fas fa-ban pr-1"></i>Hủy tìm</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title w-100">Chú thích trạng thái đơn</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-pills flex-row flex-wrap">
+                                    <li class="nav-item mx-2 my-1">
+                                        <span class="nav-link p-1" style="font-size:15px">
+                                            <i class="far fa-clock text-warning"></i> Chờ duyệt
+                                        </span>
+                                    </li>
+                                    <li class="nav-item mx-2 my-1">
+                                        <span class="nav-link p-1" style="font-size:15px">
+                                            <i class="far fa-check-circle text-success"></i> Đã duyệt
+                                        </span>
+                                    </li>
+                                    <li class="nav-item mx-2 my-1">
+                                        <span class="nav-link p-1" style="font-size:15px">
+                                            <i class="far fa-save text-dark"></i> Lưu nháp
+                                        </span>
+                                    </li>
+                                    <li class="nav-item mx-2 my-1">
+                                        <span class="nav-link p-1" style="font-size:15px">
+                                            <i class="far fa-times-circle text-info"></i> Chờ hủy
+                                        </span>
+                                    </li>
+                                    <li class="nav-item mx-2 my-1">
+                                        <span class="nav-link p-1" style="font-size:15px">
+                                            <i class="far fa-times-circle text-danger"></i> Đã hủy
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/ng-template" id="formThemSuaVB.html">
+    @Html.Partial("~/Views/DonNghiPhep/AddEditNghiPhep.cshtml")
+</script>
+
+<script type="text/ng-template" id="formChiTietVB.html">
+    @Html.Partial("~/Views/DonNghiPhep/DetailsNghiPhep.cshtml")
+</script>
+
+<script type="text/ng-template" id="modalYKienXuLyVB.html">
+    @Html.Partial("~/Views/Modal/ModalYKienXuLy.cshtml")
+</script>
+
+<script type="text/ng-template" id="modalYKienPhongBan.html">
+    @Html.Partial("~/Views/Modal/ModalYKienPhongBan.cshtml")
+</script>
+
+<script type="text/ng-template" id="modalHuyVB.html">
+    @Html.Partial("~/Views/Modal/ModalHuyVanBan.cshtml")
+</script>
+
+<script type="text/ng-template" id="modalChonNguoiKy.html">
+    @Html.Partial("~/Views/Modal/ModalChonNguoiKyNghiPhep.cshtml")
+</script>
+
+<script type="text/ng-template" id="modalThongKeBaoCao.html">
+    @Html.Partial("~/Views/Modal/ModalThongKeBaoCaoNghiPhep.cshtml")
+</script>
+
+<script type="text/ng-template" id="modalThongKeGiaiTrinh.html">
+    @Html.Partial("~/Views/Modal/ModalThongKeBaoCaoGiaiTrinh.cshtml")
+</script>
+
+<script type="text/ng-template" id="viewPDFonline.html">
+    @Html.Partial("~/Views/Viewfile/viewfilepdfonline.cshtml")
+</script>
+
+<script src="~/MyScript/donnghiphep/IndexCtrl.js"></script>
+<script src="~/MyScript/donnghiphep/AddEditCtrl.js"></script>
+<script src="~/MyScript/donnghiphep/DetailCtrl.js"></script>
+<script src="~/MyScript/donnghiphep/ChonNguoiKyCtrl.js"></script>
+<script src="~/MyScript/donnghiphep/SoanYKienCtrl.js"></script>
+<script src="~/MyScript/donnghiphep/XuatBaoCaoCtrl.js"></script>
+
+
+
+<script src="~/MyScript/viewfile/viewfilepdfCtrl.js"></script>

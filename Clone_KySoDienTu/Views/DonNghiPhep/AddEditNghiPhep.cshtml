@@ -1,0 +1,350 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .some-pdf-container {
+        width: 100%;
+        height: 800px;
+    }
+</style>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <img src="~/MyThemplate/dist/img/eOffice-logo2.png" alt="Logo-Image" style="width: 24px; height: 24px" />
+                <span ng-switch="$ctrl.TieuDeForm">
+                    <b ng-switch-when="0">Thêm mới đơn nghỉ phép</b>
+                    <b ng-switch-when="1">Cập nhật đơn nghỉ phép</b>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <b>Mẫu văn bản</b>
+                        </span>
+                        <div class="card-tools ml-auto">
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="some-pdf-container">
+                            <iframe id="childframe"
+                                    style="height: 100%;width:100%"
+                                    src="{{$ctrl.urldoc}}">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <form class="card" name="formadd" novalidate>
+                    <div class="card-header">
+                        <span class="card-title">
+                            <b>Thông tin văn bản</b>
+                        </span>
+                        <div class="card-tools ml-auto">
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body pt-2 pb-0">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.hoten.$invalid ? 'mb-1 text-danger' : 'mb-1'">Người xin nghỉ/xin làm đơn <span ng-if="$ctrl.taoGiup">(tạo giúp người khác)</span></label>
+                                            <ui-select ng-model="$ctrl.nhanvien" search-enabled="true" theme="selectize" class="inputtable" name="hoten" on-select="$ctrl.DoiNhanVien()" ng-required="true" readonly>
+                                                <ui-select-match placeholder="Chọn người dùng..." style="font-size:16px">{{$select.selected.maNhanVien + '. ' + $select.selected.tenNhanVien}}</ui-select-match>
+                                                <ui-select-choices group-by="'tenPhongBan'" repeat="person in $ctrl.DanhSachNhanVien| filter: $select.search">
+                                                    <div style="font-size:16px" ng-bind-html="person.maNhanVien + '. ' + person.tenNhanVien | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.loainghi.$invalid ? 'mb-1 text-danger' : 'mb-1'">Loại nghỉ phép</label>
+                                            <ui-select ng-model="$ctrl.loainghi" search-enabled="true" theme="selectize" class="inputtable" name="loainghi" on-select="$ctrl.DoiLoaiNghiPhep()" ng-required="true" ng-disabled="$ctrl.KhoaLoai" readonly>
+                                                <ui-select-match placeholder="Chọn loại nghỉ phép..." style="font-size:16px">{{$select.selected.moTa}}</ui-select-match>
+                                                <ui-select-choices group-by="'tenLoaiDiDuong'" repeat="person in $ctrl.LoaiNghiPhep| filter: $select.search">
+                                                    <div style="font-size:16px" ng-bind-html="person.moTa | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Loại đơn nghỉ phép</label>
+                                            <select class="custom-select rounded-0"
+                                                    ng-model="$ctrl.loai"
+                                                    ng-options="item.CODE as item.VALUENAME for item in $ctrl.dsDon"
+                                                    ng-change="$ctrl.DoiLoaiVB()"></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group pt-1 mb-1">
+                                    <label class="mb-1" for="exampleInputFile">File đính kèm</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" nv-file-select="" uploader="$ctrl.uploader" />
+                                            <label class="custom-file-label" for="exampleInputFile">Chọn file ...</label>
+                                        </div>
+                                    </div>
+                                    <label class="text-muted text-sm pt-2">File đã upload:</label>
+                                    <div class="card-footer p-0" ng-if="$ctrl.para.FileDinhKem.length > 0" style="">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item" ng-repeat="item in $ctrl.para.FileDinhKem track by $index">
+                                                <a href="#" class="nav-link">
+                                                    <span ng-bind="item.MOTA"></span>
+                                                    <span ng-click="$ctrl.XoaFile(item,$index)" class="pl-2 float-right">
+                                                        <i class="fa fa-trash text-danger"></i>
+                                                    </span>
+                                                    <span ng-click="$ctrl.XemFile(item)" class="pl-2 float-right">
+                                                        <i class="fa fa-eye"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @*<div class="col-lg-6 col-12">
+                                            <div class="form-group mb-2">
+                                                <label ng-class="formadd.sovb.$invalid ? 'mb-1 text-danger' : 'mb-1'">Số văn bản</label>
+                                                <input type="text" class="form-control" placeholder="Nhập số văn bản ..." ng-model="$ctrl.para.soVanBan" ng-required="true" name="sovb">
+                                            </div>
+                                        </div>*@
+                                    <div class="col-lg-12 col-12" ng-if="$ctrl.nhanvien">
+                                        <div class="callout callout-info">
+                                            <h5>
+                                                Thông tin số ngày phép của {{$ctrl.nhanvien.tenNhanVien}}
+                                            </h5>
+                                            <ol>
+                                                <li>Số ngày phép còn lại năm {{$ctrl.NamHienTai - 1}} (được sử dụng đến hết tháng 06/{{$ctrl.NamHienTai}}): {{$ctrl.ThongTinNghiPhep.soNgayPhepNamCu}} - Đã nghỉ: {{$ctrl.ThongTinNghiPhep.soNgayPhepNamCuDaNghi}} - <b class="text-primary">Còn lại: {{$ctrl.ThongTinNghiPhep.soNgayPhepNamCuConLai}}</b></li> 
+                                                <li>Số ngày phép thâm niên tính đến hiện tại: {{$ctrl.ThongTinNghiPhep.soNgayPhepThamNien}}</li>
+                                                <li>Số ngày phép năm {{$ctrl.NamHienTai}} tính đến {{$ctrl.NgayNghiEnd | date : 'dd/MM/yyyy'}}: {{$ctrl.ThongTinNghiPhep.soNgayPhepNam}}</li>
+                                                <li>Số ngày đã nghỉ trong năm {{$ctrl.NamHienTai}}: {{$ctrl.ThongTinNghiPhep.soNgayDaNghi}}</li>
+                                                <li class="text-bold text-primary">Số ngày phép còn lại trong năm {{$ctrl.NamHienTai}}: {{$ctrl.ThongTinNghiPhep.soNgayConLai}}</li>
+                                            </ol>
+                                            @*<button type="button" class="btn btn-primary btn-sm" ng-click="$ctrl.MoFormThongKeBaoCao()">Theo dõi thông tin chi tiết số ngày phép</button>*@
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Danh sách ký duyệt (<span class="text-danger"><i>{{$ctrl.messLoai}}</i></span>)</label>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th @*style="width: 10px"*@>Thứ tự ký</th>
+                                                                <th>Người ký</th>
+                                                                <th>Chức vụ - Phòng ban</th>
+                                                                @*<th>Kiểu hiển thị</th>*@
+                                                                @*<th>
+                                                                        <button type="button"
+                                                                                class="btn btn-sm btn-success"
+                                                                                ng-click="$ctrl.moFormChonNguoiKy()">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </th>*@
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in $ctrl.para.DanhSachNguoiKy track by $index">
+                                                                <td ng-bind="$index + 1"></td>
+                                                                <td ng-bind="item.FullName"></td>
+                                                                <td ng-bind="item.CHUCVU + ' (' + item.MAPHONG + ')'"></td>
+                                                                @*<td ng-switch="item.LoaiKy">
+                                                                        <span ng-switch-when="0">Ký nháy</span>
+                                                                        <span ng-switch-when="1">Ký chính</span>
+                                                                    </td>*@
+                                                                @*<td>
+                                                                        <button type="button"
+                                                                                class="btn btn-sm btn-danger"
+                                                                                ng-click="$ctrl.xoaNguoiKy(item.UserName)">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                    </td>*@
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.ngay01.$invalid ? 'mb-1 text-danger' : 'mb-1'">Ngày tạo đơn</label>
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.NgayTao" is-open="$ctrl.Ngay01.opened" datepicker-options="dateOptions" close-text="Close" ng-click="$ctrl.openNgayTao()" ng-required="true" name="ngay01" ng-disabled="true" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openNgayTao()" ng-disabled="true">
+                                                        <i class="fa-svg-icon">
+                                                            <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                            </svg>
+                                                        </i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.namsinh.$invalid ? 'mb-1 text-danger' : 'mb-1'">Năm sinh</label>
+                                            <input type="number" class="form-control" placeholder="Nhập năm sinh ..." ng-model="$ctrl.para.namSinh" ng-required="true" name="namsinh" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.cccd.$invalid ? 'mb-1 text-danger' : 'mb-1'">Số CMND/CCCD</label>
+                                            <input type="text" class="form-control" placeholder="Nhập số cmnd/cccd ..." ng-model="$ctrl.para.soCccd" ng-required="true" name="cccd" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.ngay02.$invalid ? 'mb-1 text-danger' : 'mb-1'">Cấp ngày</label>
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.NgayCap" is-open="$ctrl.Ngay04.opened" datepicker-options="dateOptions" close-text="Close" ng-click="$ctrl.openNgayCap()" ng-required="true" name="ngay02" ng-disabled="true" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openNgayCap()" ng-disabled="true">
+                                                        <i class="fa-svg-icon">
+                                                            <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                            </svg>
+                                                        </i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.phongban.$invalid ? 'mb-1 text-danger' : 'mb-1'">Phòng/Ban</label>
+                                            <input type="text" class="form-control" placeholder="Nhập phòng ban ..." ng-model="$ctrl.para.phongBan" ng-required="true" name="phongban" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.chucdanh.$invalid ? 'mb-1 text-danger' : 'mb-1'">Chức vụ/Chức danh</label>
+                                            <input type="text" class="form-control" placeholder="Nhập chức danh/chức vụ ..." ng-model="$ctrl.para.chucVu" ng-required="true" name="chucdanh" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.ngay03.$invalid ? 'mb-1 text-danger' : 'mb-1'">Nghỉ từ ngày</label>
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.NgayNghiStart" is-open="$ctrl.Ngay02.opened" datepicker-options="$ctrl.dateOptionsStartDate" close-text="Close" ng-click="$ctrl.openNgayNghiStart()" ng-change="$ctrl.changedStartDate()" ng-required="true" name="ngay03" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openNgayNghiStart()">
+                                                        <i class="fa-svg-icon">
+                                                            <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                            </svg>
+                                                        </i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.ngay04.$invalid ? 'mb-1 text-danger' : 'mb-1'">Đến hết ngày</label>
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.NgayNghiEnd" is-open="$ctrl.Ngay03.opened" datepicker-options="$ctrl.dateOptionsEndDate" close-text="Close" ng-click="$ctrl.openNgayNghiEnd()" ng-change="$ctrl.changedEndDate()" ng-required="true" name="ngay04" readonly />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openNgayNghiEnd()">
+                                                        <i class="fa-svg-icon">
+                                                            <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                            </svg>
+                                                        </i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Nơi nghỉ phép</label>
+                                            <input type="text" class="form-control" placeholder="Nhập nơi nghỉ phép ..." ng-model="$ctrl.para.noiNghiPhep">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Lý do nghỉ phép</label>
+                                            <input type="text" class="form-control" placeholder="Nhập lý do nghỉ phép ..." ng-model="$ctrl.para.lyDo">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Quốc gia nghỉ phép (nếu có)</label>
+                                            <input type="text" class="form-control" placeholder="Nhập quốc gia nghỉ phép ..." ng-model="$ctrl.para.quocGia">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label ng-class="formadd.yKienPhongBanDoi.$invalid ? 'mb-1 text-danger' : 'mb-1'">Ý kiến của Phòng,Ban {{formadd.yKienPhongBanDoi.$invalid ? '(nếu có - tối đa 200 từ)' : ''}}</label>
+                                            <textarea style="resize: vertical;"
+                                                      ng-class="formadd.yKienPhongBanDoi.$invalid ? 'form-control is-invalid' : 'form-control'"
+                                                      placeholder="Nhập ý kiến của Phòng/Ban ..." 
+                                                      ng-model="$ctrl.para.yKienPhongBanDoi"
+                                                      name="yKienPhongBanDoi"
+                                                      ng-maxlength="200"></textarea>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-lg-12">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" ng-model="$ctrl.para.coChuKySo" class="custom-control-input" id="customSwitch1">
+                                                    <label class="custom-control-label" for="customSwitch1">
+                                                        Người xin nghỉ phép đã có chữ ký số ?
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="pb-2 pt-2">
+                            <button type="button"
+                                    class="btn btn-sm btn-primary"
+                                    ng-if="$ctrl.TieuDeForm == 0"
+                                    ng-disabled="formadd.$invalid"
+                                    ng-click="$ctrl.LuuNhap()">
+                                Tạo mới
+                            </button>
+                            <button type="button"
+                                    class="btn btn-sm btn-primary"
+                                    ng-if="$ctrl.TieuDeForm == 1"
+                                    ng-disabled="formadd.$invalid"
+                                    ng-click="$ctrl.CapNhatVanBan()">
+                                Cập nhật
+                            </button>
+                            <button type="button"
+                                    class="btn btn-sm btn-warning float-right"
+                                    ng-click="$ctrl.cancel()">
+                                Thoát
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

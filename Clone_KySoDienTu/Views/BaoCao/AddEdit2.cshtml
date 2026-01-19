@@ -1,0 +1,334 @@
+﻿
+@{
+    Layout = null;
+}
+<style>
+    .some-pdf-container {
+        width: 100%;
+        height: 800px;
+    }
+</style>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <img src="~/MyThemplate/dist/img/eOffice-logo2.png" alt="Logo-Image" style="width: 24px; height: 24px" />
+                <span ng-switch="$ctrl.TieuDeForm">
+                    <b ng-switch-when="0">Thêm mới văn bản</b>
+                    <b ng-switch-when="1">Cập nhật văn bản</b>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <b>Mẫu văn bản</b>
+                        </span>
+                        <div class="card-tools ml-auto">
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="some-pdf-container">
+                            <iframe id="childframe"
+                                    style="height: 100%;width:100%"
+                                    src="{{$ctrl.urldoc}}">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <form class="card" name="formadd" novalidate>
+                    <div class="card-header">
+                        <span class="card-title">
+                            <b>Thông tin văn bản</b>
+                        </span>
+                        <div class="card-tools ml-auto">
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body pt-2 pb-0">
+                        <div class="card">
+                            <div class="card-body">
+                                @*<div class="row">
+                                        <div class="col-lg-12 col-12">
+                                            <div class="form-group mb-2">
+                                                <label class="mb-1">Loại văn bản</label>
+                                                <ui-select ng-model="$ctrl.loaiVB" search-enabled="true" theme="selectize" class="inputtable" on-select="$ctrl.DoiLoaiVB($item)">
+                                                    <ui-select-match placeholder="Chọn loại văn bản..." style="font-size:16px">{{$select.selected.VALUENAME}}</ui-select-match>
+                                                    <ui-select-choices group-by="'LOAIDM'" repeat="person in $ctrl.dsLoaiVB| filter: $select.search">
+                                                        <div style="font-size:16px" ng-bind-html="person.VALUENAME | highlight: $select.search"></div>
+                                                    </ui-select-choices>
+                                                </ui-select>
+                                            </div>
+                                        </div>
+                                    </div>*@
+
+                                <div class="form-group pt-1 mb-1">
+                                    <label class="mb-1" for="exampleInputFile">File đính kèm</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" nv-file-select="" uploader="$ctrl.uploader" />
+                                            <label class="custom-file-label" for="exampleInputFile">Chọn file ...</label>
+                                        </div>
+                                    </div>
+                                    <label class="text-muted text-sm pt-2">File đã upload:</label>
+                                    <div class="card-footer p-0" ng-if="$ctrl.para.FileDinhKem.length > 0" style="">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item" ng-repeat="item in $ctrl.para.FileDinhKem  | filter:{ IsCRFile: 0 } track by $index">
+                                                <a href="#" class="nav-link">
+                                                    <span ng-bind="item.MOTA"></span>
+                                                    <span ng-click="$ctrl.XoaFile($index)" class="pl-2 float-right">
+                                                        <i class="fa fa-trash text-danger"></i>
+                                                    </span>
+                                                    <span ng-click="$ctrl.XemFile(item)" class="pl-2 float-right">
+                                                        <i class="fa fa-eye"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group pt-1 mb-1">
+                                    <label class="mb-1">File căn cứ</label>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Số/Ký hiệu</th>
+                                                <th>Ngày ban hành</th>
+                                                <th>Nội dung/Mô tả</th>
+                                                <th>
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-success"
+                                                            ng-click="$ctrl.moFormChonFileCanCu()">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in $ctrl.para.FileCanCu track by $index">
+                                                <td ng-bind="$index + 1"></td>
+                                                <td ng-bind="item.SoVanBan + '/' + item.SoKyHieu"></td>
+                                                <td ng-bind="item.NgayBanHanh | date : 'dd/MM/yyyy'"></td>
+                                                <td ng-bind="item.MOTA"></td>
+                                                <td>
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-primary"
+                                                            ng-click="$ctrl.XemFileCanCu(item)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                            class="btn btn-sm btn-danger"
+                                                            ng-click="$ctrl.XoaFileCanCu(item.ID,$index)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="row" ng-if="$ctrl.para.IsCRForm == 0">
+                                    @*<div class="col-lg-6 col-12">
+                                            <div class="form-group mb-2">
+                                                <label class="mb-1" for="exampleInputEmail1">Số văn bản</label>
+                                                <input type="text" class="form-control" placeholder="Nhập số ..." ng-model="$ctrl.para.valstring1">
+                                            </div>
+                                        </div>*@
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Loại văn bản</label>
+                                            <ui-select ng-model="$ctrl.loaiVB" search-enabled="true" theme="selectize" class="inputtable" on-select="$ctrl.DoiLoaiVB($item)">
+                                                <ui-select-match placeholder="Chọn loại văn bản..." style="font-size:16px">{{$select.selected.VALUENAME}}</ui-select-match>
+                                                <ui-select-choices group-by="'LOAIDM'" repeat="person in $ctrl.dsLoaiVB| filter: $select.search">
+                                                    <div style="font-size:16px" ng-bind-html="person.VALUENAME | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.sokyhieu.$invalid ? 'mb-1 text-danger' : 'mb-1'">Số/Ký hiệu</label>
+                                            <input type="text" class="form-control" placeholder="vd: 123/Ttr-QLĐHCN" ng-model="$ctrl.para.valstring1" name="sokyhieu" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1" for="exampleInputEmail1">Nơi ban hành</label>
+                                            <input type="text" class="form-control" placeholder="Nhập nơi ban hành ..." ng-model="$ctrl.para.valstring3">
+                                            @*<select class="custom-select rounded-0"
+                                                ng-model="$ctrl.para.valstring3"
+                                                ng-options="item.TENPHONG as item.TENPHONG for item in $ctrl.DsPhongBan"></select>*@
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1" ng-class="formadd.ngaybanhanh.$invalid ? 'mb-1 text-danger' : 'mb-1'">Ngày ban hành</label>
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.valdate1" is-open="$ctrl.Ngay01.opened" datepicker-options="dateOptions" close-text="Close" name="ngaybanhanh" ng-click="$ctrl.openNgay01()" readonly required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openNgay01()">
+                                                        <i class="fa-svg-icon">
+                                                            <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                            </svg>
+                                                        </i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-lg-6 col-12">
+                                            <div class="form-group mb-2">
+                                                <label class="mb-1" for="exampleInputEmail1">Nơi ban hành</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       uib-typeahead="state for state in $ctrl.dvbh | filter:$viewValue | limitTo:8"
+                                                       placeholder="Nhập nơi ban hành ..."
+                                                       ng-model="$ctrl.para.valstring4">
+                                            </div>
+                                        </div>*@
+                                    @*<div class="col-lg-6 col-12">
+                                            <div class="form-group mb-2">
+                                                <label class="mb-1">Ngày hiệu lực</label>
+                                                <p class="input-group">
+                                                    <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="$ctrl.valdate2" is-open="$ctrl.Ngay02.opened" datepicker-options="dateOptions" close-text="Close" ng-click="$ctrl.openNgay02()" readonly />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-secondary height-100" ng-click="$ctrl.openNgay02()">
+                                                            <i class="fa-svg-icon">
+                                                                <svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" />
+                                                                </svg>
+                                                            </i>
+                                                        </button>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>*@
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-group mb-2">
+                                            <label ng-class="formadd.noidung.$invalid ? 'mb-1 text-danger' : 'mb-1'">Nội dung</label>
+                                            <textarea ng-class="formadd.noidung.$invalid ? 'form-control is-invalid' : 'form-control'"
+                                                      style="max-height: 62px;"
+                                                      rows="3"
+                                                      placeholder="Nhập nội dung ..."
+                                                      ng-model="$ctrl.para.valstring5" name="noidung" required>
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Mô tả</label>
+                                            <textarea style="resize: vertical;"
+                                                      class="form-control"
+                                                      ui-tinymce="tinymceOptions"
+                                                      ng-model="$ctrl.para.valstring6"
+                                                      plain-text-max-length="2000">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Danh sách ký duyệt</label>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 10px">#</th>
+                                                        <th>Người ký</th>
+                                                        <th>Chức vụ - Phòng ban</th>
+                                                        @*<th>Kiểu hiển thị</th>*@
+                                                        <th>
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success"
+                                                                    ng-click="$ctrl.moFormChonNguoiKy()">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in $ctrl.para.DanhSachNguoiKy track by $index">
+                                                        <td ng-bind="$index + 1"></td>
+                                                        <td ng-bind="item.FullName"></td>
+                                                        <td ng-bind="item.CHUCVU + ' (' + item.MAPHONG + ')'"></td>
+                                                        @*<td ng-switch="item.LoaiKy">
+                                                                <span ng-switch-when="0">Chỉ hình chữ ký</span>
+                                                                <span ng-switch-when="1">Hình chữ ký và nội dung</span>
+                                                                <span ng-switch-when="2">Chỉ nội dung</span>
+                                                                <span ng-switch-when="3">Mộc công văn</span>
+                                                            </td>*@
+                                                        <td>
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-danger"
+                                                                    ng-click="$ctrl.xoaNguoiKy(item.UserName)">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="mb-1">Nơi tiếp nhận văn bản</label>
+                                            <div class="row">
+                                                <div class="col-lg-11 col-10">
+                                                    <ui-select multiple ng-model="$ctrl.NguoiTheoDoi" sortable="true" close-on-select="false" on-remove="$ctrl.addUpdateUser($item,0,2)" on-select="$ctrl.addUpdateUser($item,1,2)" theme="selectize">
+                                                        <ui-select-match placeholder="Chọn phòng/ban nhận văn bản..."><i ng-class="$item.checked ? 'fas fa-user' : 'fas fa-users'"></i>{{' ' + $item.FullName}}</ui-select-match>
+                                                        <ui-select-choices repeat="person in $ctrl.dsNhomPhongBan | filter: $select.search">
+                                                            <div ng-bind-html="person.FullName + ' (' + person.BOPHAN + ')' | highlight: $select.search"></div>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                                <div class="col-lg-1 col-2">
+                                                    <button class="btn btn-info" tooltip-placement="Top" uib-tooltip="Chọn người nhận văn bản" ng-click="$ctrl.openUserSelect(2)"><i class="fas fa-users-cog"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="pb-2 pt-2">
+                            <button type="button"
+                                    class="btn btn-sm btn-primary"
+                                    ng-if="$ctrl.TieuDeForm == 0"
+                                    ng-disabled="formadd.$invalid"
+                                    ng-click="$ctrl.LuuNhap()">
+                                Tạo mới
+                            </button>
+                            <button type="button"
+                                    class="btn btn-sm btn-primary"
+                                    ng-if="$ctrl.TieuDeForm == 1"
+                                    ng-disabled="formadd.$invalid"
+                                    ng-click="$ctrl.CapNhatVanBan()">
+                                Cập nhật
+                            </button>
+                            <button type="button"
+                                    class="btn btn-sm btn-warning float-right"
+                                    ng-click="$ctrl.cancel()">
+                                Thoát
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
