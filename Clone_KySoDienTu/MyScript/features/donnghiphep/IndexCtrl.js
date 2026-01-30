@@ -1,4 +1,5 @@
-﻿angular.module("oamsapp")
+﻿angular
+    .module("aims")
     .controller("IndexNghiPhepCtrl", [
         '$window',
         "$scope",
@@ -509,4 +510,5 @@
                         }
                     });
             };
-        }]);
+        }
+    ]);

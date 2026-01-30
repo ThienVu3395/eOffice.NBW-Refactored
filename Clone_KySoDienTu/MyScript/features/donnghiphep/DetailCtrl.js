@@ -1,4 +1,5 @@
-﻿angular.module("oamsapp")
+﻿angular
+    .module("aims")
     .controller('chiTietVBNghiPhepCtrl', [
         "$scope",
         "$uibModalInstance",
@@ -857,4 +858,5 @@
                     )
                 );
             }
-        }]);
+        }
+    ]);

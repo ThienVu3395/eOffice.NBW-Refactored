@@ -1,4 +1,5 @@
-﻿angular.module("oamsapp")
+﻿angular
+    .module("aims")
     .controller('chonNguoiKyVBCtrl', [
         "$uibModalInstance",
         "blockUI",
@@ -131,4 +132,5 @@
                         blockUI.stop();
                     });
             }
-        }]);
+        }
+    ]);

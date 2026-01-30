@@ -1,4 +1,5 @@
-﻿angular.module("oamsapp")
+﻿angular
+    .module("aims")
     .controller('themSuaVBNghiPhepCtrl', [
         "$scope",
         "$uibModalInstance",
@@ -148,7 +149,7 @@
                 var resp = loginservice.getdata("api/QLDieuXe/GetAccessToken_DonNghiPhep");
                 resp.then(
                     function successCallback(response) {
-                     
+
                         $ctrl.accessToken = response.data;
                         console.log(response.data)
                     },
@@ -866,4 +867,5 @@
                     }
                 );
             }
-        }]);
+        }
+    ]);

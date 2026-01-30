@@ -1,20 +1,24 @@
 ﻿angular
     .module("aims")
-    .controller('viewFilePDFCtrl', [
+    .controller('viewFileTrucVbCtrl', [
+        'thongbao',
         "$scope",
         "$uibModalInstance",
         "blockUI",
+        "appSettings",
         "loginservice",
         "idselect",
         function (
+            thongbao,
             $scope,
             $uibModalInstance,
             blockUI,
+            appSettings,
             loginservice,
             idselect) {
             var $ctrl = this;
 
-            $ctrl.Print = true;
+            $ctrl.Print = false;
 
             $ctrl.sumitformedit = function () {
             }
@@ -27,37 +31,35 @@
                 $uibModalInstance.dismiss('cancel');
             };
 
-            $ctrl.urldoc = "http://localhost:36467/Viewfile/viewfileonline";
-
             $ctrl.pdf = {
                 src: '',  // get pdf source from a URL that points to a pdf
                 data: null // get pdf source from raw data of a pdf
             };
 
-            $ctrl.Permispdf = {
-                download: 'false',  // get pdf source from a URL that points to a pdf
-                print: 'false' // get pdf source from raw data of a pdf
-            };
-
             getdatafilePDF();
 
             function getdatafilePDF() {
+                $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=13&filename=" + idselect.filename;
+            }
+
+            $ctrl.save = function () {
                 blockUI.start();
-                var resp = loginservice.getdatafile("api/viewfileonline/getviewpdf");
+                let url = "api/QLTrucVanBan/getviewpdfvb?fileName=" + idselect.filename + "&description=" + idselect.description;
+                var resp = loginservice.getdatafile(url);
                 resp.then(function (response) {
-                    $ctrl.pdf.data = new Uint8Array(response.data);
-                    if (!$ctrl.reload)
-                        $ctrl.pageview = 1;
-                    //document.title = 'FSM - Hệ thống quản trị số hóa tài liệu';
                     blockUI.stop();
+                    var headers = response.headers();
+                    var filename = headers['x-filename'];
+                    var contentType = headers['content-type'];
+                    var file = new Blob([response.data], { type: contentType });
+                    saveAs(file, filename);
                 }
                     , function errorCallback(response) {
-                        $ctrl.pdf.data = null;
                         blockUI.stop();
-
-                        //document.title = 'FSM - Hệ thống quản trị số hóa tài liệu';
+                        thongbao.errorcenter("Không tìm thấy file");
                     });
             }
+
             $ctrl.onPageLoad = function (page) {
                 $ctrl.page1 = page;
                 $ctrl.pageview = page;

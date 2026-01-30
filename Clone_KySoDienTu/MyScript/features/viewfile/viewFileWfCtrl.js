@@ -1,0 +1,82 @@
+﻿angular
+    .module("aims")
+    .controller('viewFileWFCtrl', [
+        'thongbao',
+        "$scope",
+        "$uibModalInstance",
+        "blockUI",
+        "appSettings",
+        "loginservice",
+        "idselect",
+        function (
+            thongbao,
+            $scope,
+            $uibModalInstance,
+            blockUI,
+            appSettings,
+            loginservice,
+            idselect) {
+            var $ctrl = this;
+
+            $ctrl.Print = true;
+
+            $ctrl.sumitformedit = function () {
+            }
+
+            $ctrl.ok = function () {
+                $ctrl.presult = "0";
+            };
+
+            $ctrl.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?id=" + idselect.ID + "&type=" + idselect.type;
+
+            $ctrl.pdf = {
+                src: '',
+                data: null
+            };
+
+            $ctrl.save = function () {
+                blockUI.start();
+                var resp = loginservice.getdatafile("api/congviec/Workflow?id=" + idselect.ID + "&type=" + idselect.type);
+                resp.then(function (response) {
+                    blockUI.stop();
+                    var headers = response.headers();
+                    var contentType = headers['content-type'];
+                    var file = new Blob([response.data], { type: contentType });
+                    saveAs(file, idselect.MoTa);
+                }
+                    , function errorCallback(response) {
+                        blockUI.stop();
+                        thongbao.errorcenter('Không tìm thấy file');
+                    });
+            }
+
+            $ctrl.printfile = function () {
+                blockUI.start();
+                var resp = loginservice.getdatafile("api/congviec/Workflow?id=" + idselect.ID + "&type=" + idselect.type);
+                resp.then(function (response) {
+                    blockUI.stop();
+                    var headers = response.headers();
+                    var contentType = headers['content-type'];
+                    var file = new Blob([response.data], { type: contentType });
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onloadend = function () {
+                        window.printJS({ printable: reader.result.split(',')[1], type: 'pdf', base64: true });
+                    }
+                }
+                    , function errorCallback(response) {
+                        blockUI.stop();
+                        thongbao.errorcenter('Không tìm thấy file');
+                    });
+            }
+
+            $ctrl.onPageLoad = function (page) {
+                $ctrl.page1 = page;
+                $ctrl.pageview = page;
+            };
+        }
+    ]);

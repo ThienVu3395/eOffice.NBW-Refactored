@@ -1,4 +1,5 @@
-﻿angular.module("aims")
+﻿angular
+    .module("aims")
     .controller("homeIndexCtrl", [
         '$filter',
         '$http',
