@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" ng-app="oamsapp">
+<html lang="en" ng-app="aims">
 
 <head>
     <meta charset="utf-8">
@@ -46,9 +46,8 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="~/MyThemplate/plugins/daterangepicker/daterangepicker.min.css">
 
-    <!-- summernote & summernote UI -->
+    <!-- summernote CSS -->
     <link rel="stylesheet" href="~/MyThemplate/plugins/summernote/summernote-bs4.min.css">
-    <script src="~/Scripts/V-summernote/angular-summernote.min.js"></script>
 
     <!-- text fonts -->
     <link rel="stylesheet" href="~/Content/assetsmes/css/jquery.gritter.min.css" />
@@ -68,8 +67,12 @@
     <script src="~/Scripts/V-angular/angular.min.js"></script>
     <script src="~/Scripts/V-angular-animate/angular-animate.min.js"></script>
     <script src="~/Scripts/V-angular-sanitize/angular-sanitize.min.js"></script>
+
     <link href="~/Scripts/V-angular-ui/ui-bootstrap-2.5.0-csp.css" rel="stylesheet" />
     <script src="~/Scripts/V-angular-ui/ui-bootstrap-tpls-3.0.6.js"></script>
+
+    <!-- summernote UI -->
+    <script src="~/Scripts/V-summernote/angular-summernote.min.js"></script>
 
     <!-- Drag & Drop -->
     <script src="~/Scripts/V-test/angular-drag-and-drop-lists.js"></script>
@@ -145,34 +148,30 @@
     <script src="~/Scripts/pdf.worker.js"></script>
     <script src="~/Scripts/table2excel.js"></script>
 
-    <!-- App -->
-    <script src="~/MyScript/app/app.config.js"></script>
+    <!-- App root -->
     <script src="~/MyScript/app/app.module.js"></script>
 
-    <!-- App Menu -->
-    <script src="~/MyScript/app/menu/menu.controller.js"></script>
-    <script src="~/MyScript/app/menu/tree-menu.directive.js"></script>
-
-    <!-- App Notification -->
-    <script src="~/MyScript/app/notification/notification.controller.js"></script>
-    <script src="~/MyScript/app/notification/notification.service.js"></script>
-
-    <!-- App Session -->
-    <script src="~/MyScript/app/session/session.controller.js"></script>
-    <script src="~/MyScript/app/session/session.service.js"></script>
-    <script src="~/MyScript/app/session/session.state.js"></script>
-
-    <!-- Auth -->
-    <script src="~/MyScript/auth/auth-api.service.js"></script>
-    <script src="~/MyScript/auth/user-profile.service.js"></script>
-    <script src="~/MyScript/auth/auth.module.js"></script>
-
-    <!-- Core -->
-    <script src="~/MyScript/core/core.config.js"></script>
-    <script src="~/MyScript/core/core.constants.js"></script>
+    <!-- App Core -->
     <script src="~/MyScript/core/core.module.js"></script>
+    <script src="~/MyScript/core/core.constants.js"></script>
+    <script src="~/MyScript/core/core.config.js"></script>
+
+    <!-- App Core -->
+    <script src="~/MyScript/app/vendor/vendor.module.js"></script>
+    <script src="~/MyScript/app/vendor/vendor.config.js"></script>
 
     <!-- Shared -->
+    <script src="~/MyScript/shared/constants/constants.module.js"></script>
+    <script src="~/MyScript/shared/directives/directives.module.js"></script>
+    <script src="~/MyScript/shared/filters/filters.module.js"></script>
+    <script src="~/MyScript/shared/realtime/realtime.module.js"></script>
+    <script src="~/MyScript/shared/services/services.module.js"></script>
+    <script src="~/MyScript/shared/ui/ui.module.js"></script>
+    <script src="~/MyScript/shared/utils/utils.module.js"></script>
+    <script src="~/MyScript/shared/http/http.module.js"></script>
+    <script src="~/MyScript/shared/shared.common.module.js"></script>
+    <script src="~/MyScript/shared/shared.module.js"></script>
+
     <script src="~/MyScript/shared/constants/account.constant.js"></script>
     <script src="~/MyScript/shared/constants/actions.constant.js"></script>
     <script src="~/MyScript/shared/constants/common.constant.js"></script>
@@ -193,19 +192,15 @@
     <script src="~/MyScript/shared/directives/form-submit.directive.js"></script>
     <script src="~/MyScript/shared/directives/group-per.directive.js"></script>
     <script src="~/MyScript/shared/directives/plain-text-max-length.directive.js"></script>
-    <script src="~/MyScript/shared/directives/directives.module.js"></script>
 
     <script src="~/MyScript/shared/filters/common.filters.js"></script>
-    <script src="~/MyScript/shared/filters/filters.module.js"></script>
 
     <script src="~/MyScript/shared/http/api-client.service.js"></script>
 
     <script src="~/MyScript/shared/realtime/event-hub.service.js"></script>
     <script src="~/MyScript/shared/realtime/report-hub.service.js"></script>
-    <script src="~/MyScript/shared/realtime/realtime.module.js"></script>
 
     <script src="~/MyScript/shared/services/group-ui-tree.service.js"></script>
-    <script src="~/MyScript/shared/services/services.module.js"></script>
 
     <script src="~/MyScript/shared/storage/local-storage.service.js"></script>
     <script src="~/MyScript/shared/storage/storage-keys.constant.js"></script>
@@ -215,15 +210,32 @@
     <script src="~/MyScript/shared/ui/modal.service.js"></script>
     <script src="~/MyScript/shared/ui/notification.service.js"></script>
     <script src="~/MyScript/shared/ui/tinymce.config.js"></script>
-    <script src="~/MyScript/shared/ui/ui.module.js"></script>
 
     <script src="~/MyScript/shared/utils/string.util.js"></script>
     <script src="~/MyScript/shared/utils/url.util.js"></script>
-    <script src="~/MyScript/shared/utils/utils.module.js"></script>
 
-    <script src="~/MyScript/shared/shared.module.js"></script>
+    <!-- App Menu -->
+    <script src="~/MyScript/app/menu/menu.controller.js"></script>
+    <script src="~/MyScript/app/menu/tree-menu.directive.js"></script>
 
-    <!-- App shell -->
+    <!-- App Notification -->
+    <script src="~/MyScript/app/notification/notification.service.js"></script>
+    <script src="~/MyScript/app/notification/notification.controller.js"></script>
+
+    <!-- App Session -->
+    <script src="~/MyScript/app/session/session.service.js"></script>
+    <script src="~/MyScript/app/session/session.state.js"></script>
+    <script src="~/MyScript/app/session/session.controller.js"></script>
+
+    <!-- Auth -->
+    <script src="~/MyScript/auth/auth.module.js"></script>
+    <script src="~/MyScript/auth/auth-api.service.js"></script>
+    <script src="~/MyScript/auth/user-profile.service.js"></script>
+
+    <!-- App Configs -->
+    <script src="~/MyScript/app/app.config.js"></script>
+
+    <!-- App Shell -->
     <script src="~/MyScript/app/app-shell.controller.js"></script>
 
     <style>
@@ -240,28 +252,26 @@
     </style>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" ng-controller="AppShellController as shell">
     <div class="wrapper">
-
-        <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="~/MyThemplate/dist/img/eOffice-logo2.png" alt="eOffice-Logo" height="60" width="60">
         </div>
 
-        <!-- Navbar -->
-        <!--<nav class="main-header navbar navbar-expand navbar-primary navbar-dark sticky-top">
-            <!-- Left navbar links -->
-        <!--<ul class="navbar-nav">
+        <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i><span ng-if="countV > 0" class="badge badge-warning navbar-badge" ng-bind="countV"></span></a>
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                    <i class="fas fa-bars"></i>
+                    <span class="badge badge-warning navbar-badge"></span>
+                </a>
             </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown" ng-controller="homethongbaoReportcontroller">
+            <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-file-alt"></i>
-                    <span class="badge badge-warning navbar-badge" ng-if="countreport > 0" ng-bind="countreport"></span>
+                    <span class="badge badge-warning navbar-badge"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="height: auto; max-height: 300px; overflow-y: auto; width: 350px">
                     <span class="dropdown-item dropdown-header" ng-bind="'Có ' + countreport + ' thông báo mới'"></span>
@@ -346,13 +356,13 @@
                 </div>
             </li>
 
-            <li class="nav-item dropdown" ng-controller="homethongbaocontroller">
+            <li class="nav-item dropdown" ng-controller="NotificationController as noti">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge" ng-if="counttong > 0" ng-bind="counttong"></span>
+                    <span class="badge badge-warning navbar-badge" ng-if="noti.total > 0" ng-bind="noti.total"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="height:auto;max-height:300px;overflow-y:auto">
-                    <span class="dropdown-item dropdown-header" ng-bind="'Có ' + counttong + ' thông báo mới'"></span>
+                    <span class="dropdown-item dropdown-header" ng-bind="'Có ' + noti.total + ' thông báo mới'"></span>
                     <div class="dropdown-divider"></div>
                     <a ng-href="~/Vanban/CongVanDen?cvdenhccx" class="dropdown-item" ng-if="SoLuongTB > 0">
                         <i class="fas fa-file-contract mr-2"></i> VB đến HC chưa xem
@@ -430,95 +440,80 @@
                 </div>
             </li>
 
-            <li class="nav-item dropdown user-menu" ng-controller="homecontroller">
+            <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle pt-1 pt-lg-2" data-toggle="dropdown">
-                    <img ng-src="{{ulrimage}}" onerror="this.src='/Content/image/user.png'" class="user-image img-circle elevation-2" alt="User Image" />
-                    <span class="d-none d-md-inline" style="margin-top: -9px;" ng-bind="FulluserName"></span>
+                    <img ng-src="{{shell.user.avatar}}" onerror="this.src='/Content/image/user.png'" class="user-image img-circle elevation-2" alt="User Image" />
+                    <span class="d-none d-md-inline" style="margin-top: -9px;">{{shell.user.fullName}}<</span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right mt-2">-->
-        <!-- User image -->
-        <!--<li class="user-header bg-primary">
-            <img ng-src="{{ulrimage}}" onerror="this.src='/Content/image/user.png'" class="img-circle elevation-2" alt="User Image">
-            <p>
-                {{FulluserName}}-->
-        @*<small>
-                <button ng-click="BaoSuCoTB()" class="btn btn-sm btn-primary">Báo sự cố thiết bị</button>
-            </small>*@
-        <!--</p>
-        </li>-->
-        <!-- Menu Body -->-->
-        <!--@*<li class="user-body">
-                <div class="row">
-                    <div class="col-4 text-center">
-                        <a href="#">Followers</a>
-                    </div>
-                    <div class="col-4 text-center">
-                        <a href="#">Sales</a>
-                    </div>
-                    <div class="col-4 text-center">
-                        <a href="#">Friends</a>
-                    </div>
-                </div>
-            </li>*@-->
-        <!-- Menu Footer-->
-        <!--<li class="user-footer">
-                            <a href="#" class="btn btn-default btn-flat" ng-click="hosocanhan()">Hồ sơ</a>
-                            <a href="#" class="btn btn-default btn-flat float-right" ng-click="logout()">Đăng xuất</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>-->
-        <!-- /.navbar -->
-        <!-- Main Sidebar Container -->
+
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right mt-2">
+                    User image
+                    <li class="user-header bg-primary">
+                        <img ng-src="{{ulrimage}}" onerror="this.src='/Content/image/user.png'" class="img-circle elevation-2" alt="User Image">
+                        <p>
+                            {{FulluserName}}
+                            <small>
+                                <button ng-click="BaoSuCoTB()" class="btn btn-sm btn-primary">Báo sự cố thiết bị</button>
+                            </small>
+                        </p>
+                    </li>
+
+                    <li class="user-body">
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <a href="#">Followers</a>
+                            </div>
+                            <div class="col-4 text-center">
+                                <a href="#">Sales</a>
+                            </div>
+                            <div class="col-4 text-center">
+                                <a href="#">Friends</a>
+                            </div>
+                        </div>
+                    </li>
+                    Menu Footer
+                    <li class="user-footer">
+                        <a href="#" class="btn btn-default btn-flat" ng-click="hosocanhan()">Hồ sơ</a>
+                        <a href="#" class="btn btn-default btn-flat float-right" ng-click="logout()">Đăng xuất</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
             <a ng-href="~/Home/Index" class="brand-link">
                 <img src="~/MyThemplate/dist/img/eOffice-logo1.png" alt="eOffice-Logo" class="brand-image img-circle elevation-3" style="opacity: .9">
                 <span class="brand-text">eOFFICE.NBW</span>
             </a>
 
-            <!-- Sidebar -->
-            <div class="sidebar" ng-controller="functionmenu">
-                <!-- Sidebar user panel (optional) -->
+            <div class="sidebar" ng-controller="MenuController as menu">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img ng-src="{{ulrimage}}" onerror="this.src='/Content/image/user.png'" class="img-circle elevation-2" alt="User Image">
+                        <img ng-src="{{shell.user.avatar}}"
+                             onerror="this.src='/Content/image/user.png'"
+                             class="img-circle elevation-2"
+                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block" ng-click="hosocanhan()">{{FulluserName}}</a>
+                        <a href="#" class="d-block" ng-click="shell.openProfile()">{{shell.user.fullName}}</a>
                     </div>
-                    @*<div class="info">
-                            <a href="/pages/user-info.html" role="button"><i class="fas fa-user-cog"></i></a>
-                        </div>*@
                 </div>
 
-                <!-- SidebarSearch Form
-                <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                        </button>
-                    </div>
-                    </div>
-                </div> -->
-                <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <tree-Menu-Ste-New activeg="activegroup" click="myClick()" activel="activelink" model="pgroupData" stenotify="ListItem"></tree-Menu-Ste-New>
+                    <tree-Menu-Ste-New model="menu.menuTree"
+                                       activeg="menu.activegroup"
+                                       activel="menu.activelink"
+                                       notify="menu.notifications"
+                                       on-logout="shell.logout()">
+                    </tree-Menu-Ste-New>
                 </nav>
-                <!-- /.sidebar-menu -->
             </div>
-            <!-- /.sidebar -->
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             @RenderBody()
         </div>
 
-        <!-- /.content-wrapper -->
         <footer class="main-footer text-sm">
             <strong>Copyright &copy;  2021 - 2023 <a href="#">Công Ty Cổ Phần Cấp Nước Nhà Bè</a></strong>
             <div class="float-right d-none d-sm-inline-block">
@@ -526,13 +521,9 @@
             </div>
         </footer>
 
-        <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
         </aside>
-        <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
@@ -576,10 +567,6 @@
 
     @RenderSection("ScriptsCode", false)
 
-    <script src="~/MyScript/thietbi/AddEditLichSuSuDungCtrl.js"></script>
-
-    <script src="~/MyScript/lichcoquan/PUGQuanLyCtrl.js"></script>
-
     <script type="text/ng-template" id="ConfirmModal.html">
         @Html.Partial("~/Views/_ConfirmModal.cshtml")
     </script>
@@ -598,9 +585,9 @@
 
     <script>
         Function(`
-                                  console.log("%c Xây Dựng Và Phát Triển Bởi Phòng CNTT - Cấp Nước Nhà Bè ", "border: 2px dashed #000; padding: 10px; font-weight: bold; font-size: 16px; color: #000; background-color: #f9f9f9;");
-                                  console.log("%cDừng lại!", "color: red; font-size: 32px; font-weight: bold;");
-                                  console.log("%cĐây là một tính năng của trình duyệt dành cho các nhà phát triển. Nếu ai đó bảo bạn sao chép-dán nội dung nào đó vào đây để bật một tính năng của Website hoặc xâm nhập trái phép Website này, thì đó là hành vi vi phạm pháp luật.", "font-size: 20px; color: black;");
+                                          console.log("%c Xây Dựng Và Phát Triển Bởi Phòng CNTT - Cấp Nước Nhà Bè ", "border: 2px dashed #000; padding: 10px; font-weight: bold; font-size: 16px; color: #000; background-color: #f9f9f9;");
+                                          console.log("%cDừng lại!", "color: red; font-size: 32px; font-weight: bold;");
+                                          console.log("%cĐây là một tính năng của trình duyệt dành cho các nhà phát triển. Nếu ai đó bảo bạn sao chép-dán nội dung nào đó vào đây để bật một tính năng của Website hoặc xâm nhập trái phép Website này, thì đó là hành vi vi phạm pháp luật.", "font-size: 20px; color: black;");
 `)();
     </script>
 </body>

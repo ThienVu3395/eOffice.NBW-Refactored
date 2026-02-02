@@ -21,17 +21,17 @@ function UserProfileService() {
     const TOKEN_EXPIRE_DAYS = 14;
 
     // ========= AUTH =========
-    function setAuthProfile({
-        username,
+    function setAuthProfile(
+        userName,
         accessToken,
-        firebaseToken,
         refreshToken,
-        roleName
-    }) {
-        localStorage.setItem(KEYS.USERNAME, username);
+        firebaseToken,
+        roleName)
+    {
+        localStorage.setItem(KEYS.USERNAME, userName);
         localStorage.setItem(KEYS.ACCESS_TOKEN, accessToken);
-        localStorage.setItem(KEYS.FIREBASE_TOKEN, firebaseToken);
         localStorage.setItem(KEYS.REFRESH_TOKEN, refreshToken);
+        localStorage.setItem(KEYS.FIREBASE_TOKEN, firebaseToken);
         localStorage.setItem(KEYS.ROLE, roleName);
 
         const expireAt = Date.now() + TOKEN_EXPIRE_DAYS * 24 * 60 * 60 * 1000;
@@ -63,13 +63,13 @@ function UserProfileService() {
     }
 
     // ========= EXTENDED PROFILE =========
-    function setExtendedProfile({
+    function setExtendedProfile(
         fullname,
         avatar,
         employeeId,
         department,
-        position
-    }) {
+        position)
+    {
         localStorage.setItem(KEYS.FULLNAME, fullname);
         localStorage.setItem(KEYS.AVATAR, avatar);
         localStorage.setItem(KEYS.EMPLOYEE_ID, employeeId);

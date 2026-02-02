@@ -7,9 +7,8 @@ eventHub.$inject = [
     '$document',
     '$uibModal',
     'Hub',
-    'appSettings',
-    'userProfile',
-    'loginservice'
+    'UserProfileService',
+    'ApiClient'
 ];
 
 function eventHub(
@@ -17,9 +16,8 @@ function eventHub(
     $document,
     $uibModal,
     Hub,
-    appSettings,
-    userProfile,
-    loginservice
+    UserProfileService,
+    ApiClient
 ) {
 
     var service = {};
@@ -27,7 +25,7 @@ function eventHub(
     $rootScope.quyenuser = { NhanThongBao: false };
     $rootScope.ListItem = [];
 
-    var data = userProfile.getProfile();
+    var data = UserProfileService.getProfile();
     var accesstoken = data.isLoggedIn ? data.access_token : null;
 
     var hub = new Hub('eventHub', {
@@ -107,7 +105,7 @@ function eventHub(
             token: accesstoken
         },
 
-        rootPath: '/' + appSettings.serverApp + 'signalr'
+        rootPath: '/signalr'
     });
 
     // ================= PRIVATE =================
@@ -134,8 +132,8 @@ function eventHub(
     }
 
     function getCountDaXem() {
-        loginservice
-            .getdata('api/congviec/getdsDaxem')
+        ApiClient
+            .get('api/congviec/getdsDaxem')
             .then(
                 function successCallback(res) {
                     $rootScope.countCongViec = res.data;
@@ -147,8 +145,8 @@ function eventHub(
     }
 
     function getCountDuyetCv() {
-        loginservice
-            .getdata('api/congviec/getCountDuyet')
+        ApiClient
+            .get('api/congviec/getCountDuyet')
             .then(
                 function successCallback(res) {
                     $rootScope.countDuyetcv = res.data;
@@ -160,8 +158,8 @@ function eventHub(
     }
 
     function getChuongThongBaoVB() {
-        loginservice
-            .getdata('api/QLVanBan/getListVBDenDiAll_ChuaXemVaXoa')
+        ApiClient
+            .get('api/QLVanBan/getListVBDenDiAll_ChuaXemVaXoa')
             .then(
                 function successCallback(res) {
                     angular.extend($rootScope, res.data);

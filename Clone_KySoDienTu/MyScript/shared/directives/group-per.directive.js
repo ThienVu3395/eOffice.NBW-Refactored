@@ -1,5 +1,5 @@
 ﻿angular
-    .module('aims.shared.directive')
+    .module('aims.shared.directives')
     .directive('groupPer', groupPer);
 
 groupPer.$inject = ['$compile'];

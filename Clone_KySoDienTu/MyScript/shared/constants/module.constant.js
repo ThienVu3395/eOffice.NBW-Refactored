@@ -1,5 +1,5 @@
 ﻿angular
-    .module('aims.shared')
+    .module('aims.shared.constants')
     .constant('MODULES', {
         PHIEU_NANG_SUAT: {
             KEY: 'PhieuChamNangSuat',

@@ -5,21 +5,19 @@
 ReportHub.$inject = [
     '$rootScope',
     'Hub',
-    'appSettings',
-    'userProfile',
-    'loginservice'
+    'UserProfileService',
+    'ApiClient'
 ];
 
 function ReportHub(
     $rootScope,
     Hub,
-    appSettings,
-    userProfile,
-    loginservice
+    UserProfileService,
+    ApiClient
 ) {
     var service = {};
 
-    var data = userProfile.getProfile();
+    var data = UserProfileService.getProfile();
     var accesstoken = data.isLoggedIn ? data.access_token : null;
 
     var hub = new Hub('eventHub', {
@@ -33,12 +31,12 @@ function ReportHub(
         queryParams: {
             token: accesstoken
         },
-        rootPath: '/' + appSettings.serverApp + 'signalr'
+        rootPath: '/signalr'
     });
 
     service.getCountReport = function () {
-        loginservice
-            .getdata('api/QLDieuXe/GetCountThongBao')
+        ApiClient
+            .get('api/QLDieuXe/GetCountThongBao')
             .then(function (res) {
                 angular.extend($rootScope, res.data);
             });

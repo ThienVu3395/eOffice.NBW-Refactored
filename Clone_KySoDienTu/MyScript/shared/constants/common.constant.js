@@ -1,4 +1,4 @@
-﻿angular.module('aims.shared')
+﻿angular.module('aims.shared.constants')
     .constant('COMMON', {
         TAT_CA_PHONG_BAN: 'All',
         TAT_CA_NHAN_VIEN: '0',

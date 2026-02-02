@@ -1,5 +1,5 @@
 ﻿angular
-    .module('aims.shared')
+    .module('aims.shared.constants')
     .constant('ACTIONS', {
         HUY_KY: 1,
         THU_HOI: 2,

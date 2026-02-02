@@ -1,4 +1,4 @@
-﻿angular.module('aims.shared')
+﻿angular.module('aims.shared.constants')
     .constant('PERMISSIONS', {
         PHIEU_NANG_SUAT: {
             CREATE_GROUP: 'CREATE_GROUP',

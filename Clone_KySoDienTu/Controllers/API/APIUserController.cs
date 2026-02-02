@@ -40,7 +40,8 @@ namespace Clone_KySoDienTu.Controllers.API
         {
             try
             {
-                return Ok(vc.GetUserInfo(para.valstring1));
+                var result = vc.GetUserInfo(para.valstring1);
+                return Ok(result);
             }
             catch
             {

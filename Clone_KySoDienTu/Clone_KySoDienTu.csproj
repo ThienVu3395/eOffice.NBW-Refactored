@@ -293,6 +293,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\APICal_SuKienController.cs" />
     <Compile Include="Controllers\API\APIOtherController.cs" />
     <Compile Include="Controllers\API\APIPUGController.cs" />
@@ -1848,7 +1849,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="MyScript\app\app-shell.controller.js" />
     <Content Include="MyScript\app\app.module.js" />
+    <Content Include="MyScript\app\session\login\login.module.js" />
     <Content Include="MyScript\app\session\session.state.js" />
+    <Content Include="MyScript\app\vendor\vendor.config.js" />
+    <Content Include="MyScript\app\vendor\vendor.module.js" />
     <Content Include="MyScript\auth\auth.module.js" />
     <Content Include="MyScript\auth\auth-api.service.js" />
     <Content Include="MyScript\auth\user-profile.service.js" />
@@ -1884,7 +1888,7 @@
     <Content Include="MyScript\features\donnghiphep\XuatBaoCaoThongKeNghiPhepCtrl.js" />
     <Content Include="MyScript\features\home\homeCongViecCtrl.js" />
     <Content Include="MyScript\features\home\homeIndexCtrl.js" />
-    <Content Include="MyScript\features\login\logincontroller.js" />
+    <Content Include="MyScript\app\session\login\login.controller.js" />
     <Content Include="MyScript\features\viewfile\viewFileCalCtrl.js" />
     <Content Include="MyScript\features\viewfile\viewFileTaiLieuCtrl.js" />
     <Content Include="MyScript\features\viewfile\viewFileTaiLieuVersionCtrl.js" />
@@ -1900,6 +1904,7 @@
     <Content Include="MyScript\shared\constants\account.constant.js" />
     <Content Include="MyScript\shared\constants\actions.constant.js" />
     <Content Include="MyScript\shared\constants\common.constant.js" />
+    <Content Include="MyScript\shared\constants\constants.module.js" />
     <Content Include="MyScript\shared\constants\file.constant.js" />
     <Content Include="MyScript\shared\constants\filters.constant.js" />
     <Content Include="MyScript\shared\constants\message.constant.js" />
@@ -1920,11 +1925,13 @@
     <Content Include="MyScript\shared\filters\common.filters.js" />
     <Content Include="MyScript\shared\filters\filters.module.js" />
     <Content Include="MyScript\shared\http\api-client.service.js" />
+    <Content Include="MyScript\shared\http\http.module.js" />
     <Content Include="MyScript\shared\realtime\event-hub.service.js" />
     <Content Include="MyScript\shared\realtime\realtime.module.js" />
     <Content Include="MyScript\shared\realtime\report-hub.service.js" />
     <Content Include="MyScript\shared\services\group-ui-tree.service.js" />
     <Content Include="MyScript\shared\services\services.module.js" />
+    <Content Include="MyScript\shared\shared.common.module.js" />
     <Content Include="MyScript\shared\shared.module.js" />
     <Content Include="MyScript\shared\storage\local-storage.service.js" />
     <Content Include="MyScript\shared\storage\storage-keys.constant.js" />

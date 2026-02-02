@@ -1,5 +1,5 @@
 ﻿angular
-    .module('aims.shared')
+    .module('aims.shared.constants')
     .constant('ROLES', {
         CHUC_VU: {
             CONG_NHAN: ['CN'],

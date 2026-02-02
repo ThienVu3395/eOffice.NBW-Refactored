@@ -1,5 +1,5 @@
 ﻿angular
-    .module('aims.shared')
+    .module('aims.shared.constants')
     .constant('FILES', {
         LOAI_DINH_KEM: {
             THUONG: 0,

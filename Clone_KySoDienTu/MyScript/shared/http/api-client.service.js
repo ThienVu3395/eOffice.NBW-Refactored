@@ -1,47 +1,91 @@
 ﻿angular
-    .module('aims.shared')
+    .module('aims.http')
     .service('ApiClient', ApiClient);
 
 function ApiClient($http, appSettings, UserProfileService) {
 
-    function authHeader() {
+    function getAuthHeader() {
         const token = UserProfileService.getProfile().accessToken;
         return token ? { Authorization: `Bearer ${token}` } : {};
     }
 
-    this.get = function (url, config = {}) {
-        return $http.get(appSettings.serverPath + url, {
-            ...config,
-            headers: { ...authHeader(), ...config.headers }
+    // ================= BASIC =================
+    this.get = function (url) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: 'GET',
+            headers: getAuthHeader()
         });
     };
 
-    this.postJson = function (url, data, config = {}) {
-        return $http.post(appSettings.serverPath + url, data, {
-            ...config,
-            headers: {
-                'Content-Type': 'application/json',
-                ...authHeader(),
-                ...config.headers
-            }
-        });
-    };
-
-    this.postForm = function (url, data, config = {}) {
-        return $http.post(appSettings.serverPath + url, $.param(data), {
-            ...config,
+    this.postForm = function (url, data) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: 'POST',
+            data: $.param(data),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                ...authHeader(),
-                ...config.headers
+                ...getAuthHeader()
             }
         });
     };
 
-    this.download = function (url, data) {
-        return $http.post(appSettings.serverPath + url, data, {
+    this.postData = function (url, data) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: 'POST',
+            data: data,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                ...getAuthHeader()
+            }
+        });
+    };
+
+    this.postJson = function (url, data) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: 'POST',
+            data: data,
+            headers: {
+                'Content-Type': 'application/json',
+                ...getAuthHeader()
+            }
+        });
+    };
+
+    // ================= FILE =================
+    this.downloadFile = function (url) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: 'GET',
             responseType: 'arraybuffer',
-            headers: authHeader()
+            headers: getAuthHeader()
+        });
+    };
+
+    this.postFile = function (url, data) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: 'POST',
+            data: $.param(data),
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                ...getAuthHeader()
+            }
+        });
+    };
+
+    // ================= EXTERNAL API =================
+    this.postExternal = function (baseUrl, url, data, token) {
+        return $http({
+            url: baseUrl + url,
+            method: 'POST',
+            data: data,
+            headers: {
+                Authorization: token
+            }
         });
     };
 }

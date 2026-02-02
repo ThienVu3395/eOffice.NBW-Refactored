@@ -1,10 +1,10 @@
 ﻿angular.module("aims")
-    .service("SessionService", function (loginservice, userProfile, appSettings, $q) {
+    .service("SessionService", function (AuthApiService, ApiClient, UserProfileService, appSettings) {
         this.getProfile = function () {
-            var data = userProfile.getProfile();
+            var data = UserProfileService.getProfile();
             if (!data.isLoggedIn) return { isLoggedIn: false };
 
-            var ext = userProfile.getProfileExten();
+            var ext = UserProfileService.getExtendedProfile();
 
             return {
                 isLoggedIn: true,
@@ -18,11 +18,15 @@
             };
         };
 
+        this.login = function (credentials) {
+            return AuthApiService.login(credentials);
+        };
+
         this.logout = function () {
-            return loginservice
-                .postdata("api/Account/Logout")
+            return ApiClient
+                .postData("api/Account/Logout")
                 .finally(function () {
-                    userProfile.clearall();
+                    UserProfileService.clear();
                 });
         };
     });

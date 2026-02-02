@@ -5,24 +5,34 @@
         "$scope",
         "ModalService",
         "blockUI",
-        "loginservice",
+        "ApiClient",
         "appSettings",
-        "userProfile",
-        "commonConstants",
+        "UserProfileService",
+        "MODULES",
+        "SPECIAL_ACCOUNTS",
+        "PERMISSIONS",
+        "ROUTERS",
+        "FILTERS",
         function (
             $window,
             $scope,
             ModalService,
             blockUI,
-            loginservice,
+            ApiClient,
             appSettings,
-            userProfile,
-            commonConstants) {
+            UserProfileService,
+            MODULES,
+            SPECIAL_ACCOUNTS,
+            PERMISSIONS,
+            ROUTERS,
+            FILTERS) {
             $scope.vm = {};
 
-            var Userdata = userProfile.getProfile();
+            var Userdata = UserProfileService.getProfile();
 
-            var module = commonConstants.MA_MODULE_DON_NGHI_PHEP;
+            var UserdataExt = UserProfileService.getExtendedProfile();
+
+            var module = MODULES.DON_NGHI_PHEP.ID;
 
             var namHienTai = new Date().getFullYear();
 
@@ -41,7 +51,7 @@
                 $scope.quyenuser = {};
                 $scope.para = {};
                 $scope.para.FilterVanBan = {};
-                $scope.para.FilterVanBan.CANBO = Userdata.manhanvien;
+                $scope.para.FilterVanBan.CANBO = UserdataExt.employeeId;
                 $scope.para.FilterVanBan.PhongBan = {};
                 $scope.para.FilterLenhDieuXe = {};
                 $scope.para.FilterLenhDieuXe.Filters = [];
@@ -61,134 +71,164 @@
             }
 
             function GetQuyenUserVB(resourceid) {
-                var resp = loginservice.postdata("api/getCore/getAllPermissionsOfUserByModuleResource", $.param({ valstring1: "RP", valstring2: 'G', valstring3: resourceid }));
-                resp.then(
-                    function successCallback(response) {
-                        //const nhanVienDangNhap = $scope.DanhSachNhanVien[$scope.DanhSachNhanVien.findIndex(f => parseInt(f.maNhanVien) == parseInt(Userdata.manhanvien))];
-                        console.log(response.data);
-                        let vaitrotao = commonConstants.VAI_TRO_KHONG_CAN_TAO_DON_NGHI_PHEP;
-                        //$scope.quyenuser.TaoVB = vaitrotao.includes(nhanVienDangNhap.idChucVu) ? false : true;
-                        $scope.quyenuser.TaoVB = response.data
-                            .findIndex(x => x.PermissionAction == commonConstants.TEN_QUYEN_TAO_DON_NGHI_PHEP) > -1 &&
-                            !vaitrotao.includes(parseInt(Userdata.manhanvien));
+                var resp = ApiClient
+                    .postForm("api/getCore/getAllPermissionsOfUserByModuleResource",
+                        {
+                            valstring1: "RP",
+                            valstring2: 'G',
+                            valstring3: resourceid
+                        })
+                    .then(
+                        function successCallback(response) {
+                            //const nhanVienDangNhap = $scope.DanhSachNhanVien[$scope.DanhSachNhanVien.findIndex(f => parseInt(f.maNhanVien) == parseInt(Userdata.manhanvien))];
+                            let vaitrotao = SPECIAL_ACCOUNTS.MA_NHAN_VIEN_KHONG_CAN_TAO_DON_NGHI_PHEP;
+                            //$scope.quyenuser.TaoVB = vaitrotao.includes(nhanVienDangNhap.idChucVu) ? false : true;
+                            $scope.quyenuser.TaoVB = response.data
+                                .findIndex(x => x.PermissionAction == PERMISSIONS.DON_NGHI_PHEP.CREATE) > -1 &&
+                                !vaitrotao.includes(parseInt(Userdata.manhanvien));
 
-                        $scope.quyenuser.XuatBaoCaoVB = response.data
-                            .findIndex(x => x.PermissionAction == commonConstants.TEN_QUYEN_XUAT_BAO_CAO_DON_NGHI_PHEP) > -1;
+                            $scope.quyenuser.XuatBaoCaoVB = response.data
+                                .findIndex(x => x.PermissionAction == PERMISSIONS.DON_NGHI_PHEP.REPORT) > -1;
 
-                        $scope.quyenuser.XemVB = response.data
-                            .findIndex(x => x.PermissionAction == commonConstants.TEN_QUYEN_XEM_DON_NGHI_PHEP) > -1;
+                            $scope.quyenuser.XemVB = response.data
+                                .findIndex(x => x.PermissionAction == PERMISSIONS.DON_NGHI_PHEP.VIEW) > -1;
 
-                        GetDanhSachPhongBan();
-                    },
-                    function errorCallback(err) {
-                    }
-                );
+                            GetDanhSachPhongBan();
+                        },
+                        function errorCallback(err) {
+                        }
+                    );
             }
 
             function GetDanhSachPhongBan() {
-                let resp = loginservice.getdata("api/QLNghiPhep/GetDanhSachPhongBan");
-                resp.then(
-                    function successCallback(response) {
-                        $scope.dsPhongBan = response.data;
-                        response.data.unshift({ id: "All", name: "-- Tất cả (" + $scope.dsPhongBan.length + ") --" });
-                        $scope.para.FilterVanBan.PhongBan = $scope.dsPhongBan[0];
-                        GetDanhSachNhanVien();
-                    },
-                    function errorCallback(err) {
-                        blockUI.stop();
-                    }
-                );
+                let resp = ApiClient
+                    .get("api/QLNghiPhep/GetDanhSachPhongBan")
+                    .then(
+                        function successCallback(response) {
+                            $scope.dsPhongBan = response.data;
+                            response.data.unshift(
+                                {
+                                    id: "All",
+                                    name: "-- Tất cả (" + $scope.dsPhongBan.length + ") --"
+                                });
+                            $scope.para.FilterVanBan.PhongBan = $scope.dsPhongBan[0];
+                            GetDanhSachNhanVien();
+                        },
+                        function errorCallback(err) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             function GetDanhSachNhanVien() {
                 $scope.para.FilterLenhDieuXe.PageSize = 1000;
                 if ($scope.para.FilterVanBan.PhongBan.id != "All") {
-                    let obj = {
-                        propertyName: "IdPhongBan",
-                        type: 0,
-                        value: $scope.para.FilterVanBan.PhongBan.id
-                    }
-                    $scope.para.FilterLenhDieuXe.Filters.push(obj);
+                    $scope.para.FilterLenhDieuXe.Filters.push(
+                        {
+                            propertyName: "IdPhongBan",
+                            type: 0,
+                            value: $scope.para.FilterVanBan.PhongBan.id
+                        });
                 }
-                var resp = loginservice.postdata("api/QLNghiPhep/GetDanhSachNhanVien", $.param($scope.para));
-                resp.then(
-                    function successCallback(response) {
-                        $scope.DanhSachNhanVien = response.data.data;
-                        $scope.DanhSachNhanVien.unshift({ tenPhongBan: "-- Tất cả (" + $scope.DanhSachNhanVien.length + ") --", maNhanVien: "0", tenNhanVien: "Tất cả CB/CNV" });
-                        $scope.vm.Loai = $scope.DanhSachNhanVien[0];
-                        $scope.maNhanVien = $scope.vm.Loai.maNhanVien;
-                        $scope.tenNhanVien = $scope.vm.Loai.tenNhanVien;
-                        $scope.para.FilterLenhDieuXe.Filters = [];
-                        GetDanhSachDon();
-                    },
-                    function errorCallback(response) {
-                        blockUI.stop();
-                    }
-                );
+                var resp = ApiClient
+                    .postForm("api/QLNghiPhep/GetDanhSachNhanVien", $scope.para)
+                    .then(
+                        function successCallback(response) {
+                            $scope.DanhSachNhanVien = response.data.data;
+                            $scope.DanhSachNhanVien.unshift(
+                                {
+                                    tenPhongBan: "-- Tất cả (" + $scope.DanhSachNhanVien.length + ") --",
+                                    maNhanVien: "0",
+                                    tenNhanVien: "Tất cả CB/CNV"
+                                });
+                            $scope.vm.Loai = $scope.DanhSachNhanVien[0];
+                            $scope.maNhanVien = $scope.vm.Loai.maNhanVien;
+                            $scope.tenNhanVien = $scope.vm.Loai.tenNhanVien;
+                            $scope.para.FilterLenhDieuXe.Filters = [];
+                            GetDanhSachDon();
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             function GetDanhSachDon() {
-                var resp = loginservice.getdata("api/getCore/getdanhmuchethong?loai=" + appSettings.typeNghiPhep);
-                resp.then(
-                    function successCallback(response) {
-                        response.data.unshift({ ID: 0, CODE: "0", VALUENAME: "-- Tất Cả -- " });
-                        $scope.dsDon = response.data;
-                        let index = $scope.dsDon.findIndex(x => x.ID == 3726);
-                        if (index != -1) {
-                            $scope.dsDon.splice(index, 1);
+                var resp = ApiClient
+                    .get("api/getCore/getdanhmuchethong?loai=" + appSettings.typeNghiPhep)
+                    .then(
+                        function successCallback(response) {
+                            response.data.unshift(
+                                {
+                                    ID: 0,
+                                    CODE: "0",
+                                    VALUENAME: "-- Tất Cả -- "
+                                });
+                            $scope.dsDon = response.data;
+                            let index = $scope.dsDon.findIndex(x => x.ID == 3726);
+                            if (index != -1) {
+                                $scope.dsDon.splice(index, 1);
+                            }
+                            let index2 = $scope.dsDon.findIndex(x => x.ID == 3727);
+                            if (index2 != -1) {
+                                $scope.dsDon.splice(index2, 1);
+                            }
+                            $scope.para.FilterVanBan.LoaiVB = $scope.dsDon[0].CODE;
+                            GetDanhSachLoaiNghiPhep();
+                        },
+                        function errorCallback(err) {
                         }
-                        let index2 = $scope.dsDon.findIndex(x => x.ID == 3727);
-                        if (index2 != -1) {
-                            $scope.dsDon.splice(index2, 1);
-                        }
-                        $scope.para.FilterVanBan.LoaiVB = $scope.dsDon[0].CODE;
-                        GetDanhSachLoaiNghiPhep();
-                    },
-                    function errorCallback(err) {
-                    }
-                );
+                    );
             }
 
             function GetDanhSachLoaiNghiPhep() {
-                var resp = loginservice.getdata("api/QLNghiPhep/GetDanhSachLoaiNghiPhep");
-                resp.then(
-                    function successCallback(response) {
-                        $scope.LoaiNghiPhep = response.data;
-                        $scope.LoaiNghiPhep.unshift({ moTa: "-- Tất cả (" + $scope.LoaiNghiPhep.length + ") --", id: "0", soNgay: 0, tenLoaiDiDuong: "Tất cả loại nghỉ" });
-                        $scope.vm.Loai2 = $scope.LoaiNghiPhep[0];
-                        $scope.loainghiphep = $scope.vm.Loai2.id;
-                        LoadfilterTrangThai();
-                    },
-                    function errorCallback(response) {
-                        blockUI.stop();
-                    }
-                );
+                var resp = ApiClient
+                    .get("api/QLNghiPhep/GetDanhSachLoaiNghiPhep")
+                    .then(
+                        function successCallback(response) {
+                            $scope.LoaiNghiPhep = response.data;
+                            $scope.LoaiNghiPhep.unshift(
+                                {
+                                    moTa: "-- Tất cả (" + $scope.LoaiNghiPhep.length + ") --",
+                                    id: "0",
+                                    soNgay: 0,
+                                    tenLoaiDiDuong: "Tất cả loại nghỉ"
+                                });
+                            $scope.vm.Loai2 = $scope.LoaiNghiPhep[0];
+                            $scope.loainghiphep = $scope.vm.Loai2.id;
+                            LoadfilterTrangThai();
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             function LoadfilterTrangThai() {
-                var resp = loginservice.getdata("api/getCore/getdanhmuchethong?loai=FilterRP");
-                resp.then(
-                    function successCallback(response) {
-                        $scope.FilterTT = response.data;
-                        switch ($window.location.search) {
-                            case `?${commonConstants.ROUTER_DON_NGHI_PHEP_CHUA_XEM}`:
-                                $scope.LoaiLoc = commonConstants.MA_FILTER_DON_NGHI_PHEP_CHUA_XEM;
-                                break;
-                            case `?${commonConstants.ROUTER_DON_NGHI_PHEP_CHO_DUYET}`:
-                                $scope.LoaiLoc = commonConstants.MA_FILTER_DON_NGHI_PHEP_CHO_DUYET;
-                                break;
-                            case `?${commonConstants.ROUTER_DON_NGHI_PHEP_DA_DUYET}`:
-                                $scope.LoaiLoc = commonConstants.MA_FILTER_DON_NGHI_PHEP_DA_DUYET;
-                                break;
-                            default:
-                                $scope.LoaiLoc = response.data[0].CODE;
-                                break;
+                var resp = ApiClient
+                    .get("api/getCore/getdanhmuchethong?loai=FilterRP")
+                    .then(
+                        function successCallback(response) {
+                            $scope.FilterTT = response.data;
+                            switch ($window.location.search) {
+                                case `?${ROUTERS.DON_NGHI_PHEP.CHUA_XEM}`:
+                                    $scope.LoaiLoc = FILTERS.DON_NGHI_PHEP.CHUA_XEM;
+                                    break;
+                                case `?${ROUTERS.DON_NGHI_PHEP.CHO_DUYET}`:
+                                    $scope.LoaiLoc = FILTERS.DON_NGHI_PHEP.CHO_DUYET;
+                                    break;
+                                case `?${ROUTERS.DON_NGHI_PHEP.DA_DUYET}`:
+                                    $scope.LoaiLoc = FILTERS.DON_NGHI_PHEP.DA_DUYET;
+                                    break;
+                                default:
+                                    $scope.LoaiLoc = response.data[0].CODE;
+                                    break;
+                            }
+                            FilterTrangThai($scope.LoaiLoc);
+                        },
+                        function errorCallback(err) {
                         }
-                        FilterTrangThai($scope.LoaiLoc);
-                    },
-                    function errorCallback(err) {
-                    }
-                );
+                    );
             }
 
             function FilterTrangThai(Code) {
@@ -267,24 +307,24 @@
                 //}
                 //$scope.para.FilterLenhDieuXe.Filters.push(obj);
                 //console.log($scope.para);
-                var resp = loginservice.postdata("api/QLNghiPhep/GetListVB", $.param($scope.para));
-                resp.then(
-                    function successCallback(response) {
-                        blockUI.stop();
-                        //console.log(response.data);
-                        $scope.DsVanBan = response.data.data;
-                        if ($scope.DsVanBan.length == 0) {
-                            $scope.bigTotalItems = 0;
+                var resp = ApiClient
+                    .postForm("api/QLNghiPhep/GetListVB", $scope.para)
+                    .then(
+                        function successCallback(response) {
+                            blockUI.stop();
+                            $scope.DsVanBan = response.data.data;
+                            if ($scope.DsVanBan.length == 0) {
+                                $scope.bigTotalItems = 0;
+                            }
+                            else {
+                                $scope.bigTotalItems = response.data.metadata.totalCount;
+                            }
+                            $scope.para.FilterLenhDieuXe.Filters = [];
+                        },
+                        function errorCallback(err) {
+                            blockUI.stop();
                         }
-                        else {
-                            $scope.bigTotalItems = response.data.metadata.totalCount;
-                        }
-                        $scope.para.FilterLenhDieuXe.Filters = [];
-                    },
-                    function errorCallback(err) {
-                        blockUI.stop();
-                    }
-                );
+                    );
             }
 
             function CheckValueOfDateRange(bd) {

@@ -1,5 +1,5 @@
 ﻿angular
-    .module('aims.shared')
+    .module('aims.shared.constants')
     .constant('STATUS', {
         CHO_DUYET: 0,
         DA_DUYET: 1,

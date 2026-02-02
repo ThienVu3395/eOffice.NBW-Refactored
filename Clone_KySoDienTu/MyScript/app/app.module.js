@@ -1,10 +1,7 @@
-﻿angular.module('aims', [
+﻿// Không config, không constant, Chỉ làm composition root
+angular.module('aims', [
+    'aims.vendor',
     'aims.core',
     'aims.shared',
-    'aims.auth',
-
-    // UI / third-party
-    'ui.tinymce',
-    'SignalR',
-    'summernote'
+    'aims.auth'
 ]);

@@ -1,5 +1,5 @@
 ﻿angular
-    .module('aims.shared')
+    .module('aims.shared.constants')
     .constant('ROUTERS', {
         DON_NGHI_PHEP: {
             CHUA_XEM: 'doncx',

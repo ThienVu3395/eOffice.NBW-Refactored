@@ -2,9 +2,9 @@
     .controller("MenuController", [
         "$scope",
         "$timeout",
-        "loginservice",
+        "ApiClient",
         "appSettings",
-        function ($scope, $timeout, loginservice, appSettings) {
+        function ($scope, $timeout, ApiClient, appSettings) {
 
             $scope.menuTree = [];
             $scope.activegroup = {};
@@ -14,7 +14,8 @@
             loadMenu();
 
             function loadMenu() {
-                loginservice.getdata("api/userinfo/getUsersMenu")
+                ApiClient
+                    .get("api/userinfo/getUsersMenu")
                     .then(function (res) {
                         $scope.menuTree = normalizeMenu(res.data);
                     });

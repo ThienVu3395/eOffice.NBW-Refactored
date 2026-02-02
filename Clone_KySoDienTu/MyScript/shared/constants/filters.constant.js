@@ -1,5 +1,5 @@
 ﻿angular
-    .module('aims.shared')
+    .module('aims.shared.constants')
     .constant('FILTERS', {
         DON_NGHI_PHEP: {
             TAT_CA: 0,

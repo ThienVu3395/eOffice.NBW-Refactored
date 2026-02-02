@@ -1,15 +1,5 @@
-﻿angular.module("aims.core", [
-    'ui.sortable',
-    'blockUI',
-    'ui.knob',
-    'angularBootstrapNavTree',
-    'angularFileUpload',
+﻿// Không vendor, không UI mà chỉ chứa Angular nền
+angular.module("aims.core", [
     'ngAnimate',
-    'ui.bootstrap',
-    'ui.select',
-    'ngSanitize',
-    'SignalR',
-    'pdfjsViewer',
-    'chart.js',
-    'dndLists'
+    'ngSanitize'
 ]);
