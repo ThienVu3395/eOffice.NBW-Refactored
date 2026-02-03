@@ -38,43 +38,45 @@
                                 </li>
                             </ul>
                             <div class="card-tools ml-auto">
-                                <button type="button" class="btn btn-primary btn-sm"  ng-click="MoFormThemSuaVB(null)"><i class="fas fa-plus"></i> Tạo mới</button>
+                                <button type="button" class="btn btn-primary btn-sm" ng-click="MoFormThemSuaVB(null)" ng-if="coTheTaoDon()"><i class="fas fa-plus"></i> Tạo mới</button>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-80">
-                                        <i class="fas fa-download"></i> Tải file
+                                        <i class="fa fa-vials"></i> Thao tác
                                     </button>
-                                    <div class="dropdown-menu" role="menu">
-                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(6)">
-                                            1. Mẫu nhân viên
-                                        </a>
-                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(7)">
-                                            2. Mẫu trưởng P/B
-                                        </a>
-                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(8)">
-                                            3. Mẫu không lương
-                                        </a>
-                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(9)">
-                                            4. Mẫu đi nước ngoài
-                                        </a>
-                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(28)">
-                                            5. Mẫu giải trình nhân viên
-                                        </a>
-                                        <a href="#" class="dropdown-item" ng-click="DownloadTestFile(29)">
-                                            6. Mẫu giải trình trưởng P/B
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="btn-group" ng-if="coTheXuatBaoCao()">
-                                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-80">
-                                        <i class="fas fa-file-excel"></i> Xuất báo cáo
-                                    </button>
-                                    <div class="dropdown-menu" role="menu">
-                                        <a href="#" class="dropdown-item" ng-click="MoFormThongKeBaoCaoNghiPhep()">
-                                            1.Thông tin nghỉ phép
-                                        </a>
-                                        @*<a href="#" class="dropdown-item" ng-click="MoFormThongKeBaoCaoGiaiTrinh()">
+                                    <div class="dropdown-menu" role="menu" ng-if="coTheThaoTac()">
+                                        <div ng-if="coTheTest()">
+                                            <span class="dropdown-item"><i class="fas fa-download"></i> Tải File mẫu</span>
+
+                                            <a href="#" class="dropdown-item" ng-click="DownloadTestFile(6)">
+                                                1. Mẫu nhân viên
+                                            </a>
+                                            <a href="#" class="dropdown-item" ng-click="DownloadTestFile(7)">
+                                                2. Mẫu trưởng P/B
+                                            </a>
+                                            <a href="#" class="dropdown-item" ng-click="DownloadTestFile(8)">
+                                                3. Mẫu không lương
+                                            </a>
+                                            <a href="#" class="dropdown-item" ng-click="DownloadTestFile(9)">
+                                                4. Mẫu đi nước ngoài
+                                            </a>
+                                            <a href="#" class="dropdown-item" ng-click="DownloadTestFile(28)">
+                                                5. Mẫu giải trình nhân viên
+                                            </a>
+                                            <a href="#" class="dropdown-item" ng-click="DownloadTestFile(29)">
+                                                6. Mẫu giải trình trưởng P/B
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                        <div ng-if="coTheXuatBaoCao()">
+                                            <span class="dropdown-item"><i class="fas fa-file-excel"></i> Xuất báo cáo</span>
+
+                                            <a href="#" class="dropdown-item" ng-click="MoFormThongKeBaoCaoNghiPhep()">
+                                                1.Thông tin nghỉ phép
+                                            </a>
+                                            @*<a href="#" class="dropdown-item" ng-click="MoFormThongKeBaoCaoGiaiTrinh()">
                                                 2.Nhắc nhở giải trình
                                             </a>*@
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="btn-group">

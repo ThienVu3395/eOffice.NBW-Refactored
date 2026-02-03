@@ -1,0 +1,128 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Đơn xin nghỉ phép mẫu 3</title>
+    <!-- CSS_INJECT -->
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <table class="header-table">
+        <tr>
+            <td>
+                <div class="center">TỔNG CÔNG TY CẤP NƯỚC SÀI GÒN</div>
+                <div class="center">TRÁCH NHIỆM HỮU HẠN MỘT THÀNH VIÊN</div>
+                <div class="bold center"><u>CÔNG TY CỔ PHẦN CẤP NƯỚC NHÀ BÈ</u></div>
+            </td>
+
+            <td>
+                <div class="bold center">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+                <div class="bold center"><u>Độc lập - Tự do - Hạnh phúc</u></div>
+                <div class="center"><i>{{NgayTao}}</i></div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- TITLE -->
+    <table class="title-table">
+        <tr>
+            <td style="width:33%;"></td>
+
+            <td style="width:34%; text-align:center;">
+                <div class="title-text">ĐƠN XIN NGHỈ <br /> VIỆC RIÊNG KHÔNG LƯƠNG</div>
+            </td>
+
+            <td style="width:33%; text-align:right;">
+                <div class="mau-box">Mẫu 3</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width:33%;"></td>
+
+            <td style="width:34%; text-align:center;">
+                <div class="title-text">Kính gửi: Ông Giám đốc Công ty cổ phần Cấp nước Nhà Bè</div>
+                <div class="title-text">(Thông qua Phòng Tổ chức Hành chính Công ty)</div>
+            </td>
+
+            <td style="width:33%; text-align:right;">
+            </td>
+        </tr>
+    </table>
+
+    <!-- THÔNG TIN CÁ NHÂN -->
+    <table class="info-table">
+        <tr>
+            <td>Tôi tên là: {{HoVaTen}}</td>
+            <td>Năm sinh: {{NamSinh}}</td>
+        </tr>
+
+        <tr>
+            <td>Số CMND/CCCD: {{SoCCCD}}</td>
+            <td>Cấp ngày: {{NgayCapCCCD}}</td>
+        </tr>
+
+        <tr>
+            <td>Phòng/Ban: {{DonVi}}</td>
+            <td>Chức vụ/Chức danh: {{ChucDanh}}</td>
+        </tr>
+    </table>
+
+    <!-- LÝ DO NGHỈ PHÉP -->
+    <div class="section">
+        <p>Nay tôi làm đơn này xin nghỉ việc riêng không hưởng lương:</p>
+
+        <table class="info-table">
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Từ ngày: {{NghiTuNgay}}</td>
+                <td>Đến hết ngày: {{DenHetNgay}}</td>
+            </tr>
+        </table>
+
+        <p>Lý do nghỉ phép: {{LyDoNghiPhep}}</p>
+
+        <p>Nơi nghỉ phép: {{NoiNghiPhep}}</p>
+
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rất mong được sự chấp thuận.</p>
+
+        <p><b>Ý kiến của Phòng/Ban:</b> {{LyDoNghiPhep}}</p>
+    </div>
+
+    <!-- CHỮ KÝ -->
+    <div class="sign-wrap">
+        <div class="sign-block">
+            <p class="bold">Người làm đơn</p>
+            <div class="sign-pad">
+                <div style="text-align:center; font-style:italic; padding-top: 40px">
+                    (Đã ký)
+                </div>
+            </div>
+            <br/>
+            <p class="bold">{{HoVaTen}}</p>
+        </div>
+
+        <div class="sign-block">
+            <p class="bold">DUYỆT <br />GIÁM ĐỐC</p>
+            <div class="sign-pad"></div>
+            <p class="bold">{{NguoiKy02}}</p>
+        </div>
+
+        <div class="sign-block">
+            <p class="bold">Trưởng Phòng/Ban</p>
+            <div class="sign-pad"></div>
+            <br />
+            <p class="bold">{{NguoiKy01}}</p>
+        </div>
+    </div>
+
+    <!-- GHI CHÚ -->
+    <div style="margin-top: 12mm; font-size: 12pt; border-top:solid; border-width:1px">
+        <b>Ghi chú về thẩm quyền ký Đơn xin nghỉ phép:</b><br />
+        - Giám đốc Công ty ký giải quyết đơn xin nghỉ phép cho cấp trưởng P/B và đơn xin nghỉ việc riêng không hưởng lương.<br />
+        - TP. Tổ chức Hành chính: ký thừa lệnh Giám đốc đơn xin nghỉ phép các trường hợp còn lại.<br />
+        - Đơn xin nghỉ phép phải gửi trước ít nhất 01 ngày làm việc và phải thông qua Phòng TCHC.
+    </div>
+</body>
+</html>

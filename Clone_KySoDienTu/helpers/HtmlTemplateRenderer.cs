@@ -13,20 +13,64 @@ namespace Clone_KySoDienTu.Helpers
     {
         public static string RenderPhieuDanhGia(PdfPhieuDanhGiaVm vm)
         {
-            var path = HostingEnvironment.MapPath("~/TemplateHTML/PhieuDanhGia.html");
-            var tpl = File.ReadAllText(path, Encoding.UTF8);
-            return Render.StringToString(tpl, vm);
+            // 1. Đọc HTML template
+            var htmlPath = HostingEnvironment.MapPath("~/TemplateHTML/PhieuDanhGia.html");
+            var html = File.ReadAllText(htmlPath, Encoding.UTF8);
+
+            // 2. Đọc CSS (inject cho Chrome Headless)
+            var commonCssPath = HostingEnvironment.MapPath("~/TemplateHTML/css/print-common.css");
+            var phieuCssPath = HostingEnvironment.MapPath("~/TemplateHTML/css/phieudanhgia.css");
+
+            var commonCss = File.ReadAllText(commonCssPath, Encoding.UTF8);
+            var phieuCss = File.ReadAllText(phieuCssPath, Encoding.UTF8);
+
+            var cssBlock = $@"
+            <style>
+                {commonCss}
+
+                {phieuCss}
+            </style>
+            ";
+
+            // 3. Inject CSS vào HTML
+            html = html.Replace("<!-- CSS_INJECT -->", cssBlock);
+
+            // 4. Render dữ liệu vào template (Mustache / Stubble / Render)
+            return Render.StringToString(html, vm);
         }
 
         public static string RenderBangTongHop(PdfBangTongHopChamCongVm vm)
         {
-            var path = HostingEnvironment.MapPath("~/TemplateHTML/BangTongHop.html");
-            var tpl = File.ReadAllText(path, Encoding.UTF8);
-            return Render.StringToString(tpl, vm);
+            // 1. Đọc HTML template
+            var htmlPath = HostingEnvironment.MapPath("~/TemplateHTML/BangTongHop.html");
+            var html = File.ReadAllText(htmlPath, Encoding.UTF8);
+
+            // 2. Đọc CSS (inject cho Chrome Headless)
+            var commonCssPath = HostingEnvironment.MapPath("~/TemplateHTML/css/print-common.css");
+            var bangCssPath = HostingEnvironment.MapPath("~/TemplateHTML/css/bangtonghop.css");
+
+            var commonCss = File.ReadAllText(commonCssPath, Encoding.UTF8);
+            var bangCss = File.ReadAllText(bangCssPath, Encoding.UTF8);
+
+            var cssBlock = $@"
+            <style>
+                {commonCss}
+
+                {bangCss}
+            </style>
+            ";
+
+            // 3. Inject CSS vào HTML
+            html = html.Replace("<!-- CSS_INJECT -->", cssBlock);
+
+            // 4. Render dữ liệu vào template (Mustache / Stubble / Render)
+            return Render.StringToString(html, vm);
         }
 
         public static string RenderDonNghiPhep(PdfDonNghiPhepVm vm)
         {
+            // 0. Render tùy theo mẫu đơn nghỉ phép/giải trình
+            var donCssPath = "";
             string templateName = "";
             switch (vm.Module)
             {
@@ -35,6 +79,7 @@ namespace Clone_KySoDienTu.Helpers
                     break;
                 case VanBanKiSo.Module.DON_NGHI_PHEP_MAU_3_KHONG_LUONG:
                     templateName = "DonNghiPhepKhongLuong.html";
+                    donCssPath = HostingEnvironment.MapPath("~/TemplateHTML/css/donnghiphep.css");
                     break;
                 case VanBanKiSo.Module.DON_NGHI_PHEP_MAU_4_DI_NUOC_NGOAI:
                     templateName = "DonNghiPhepDiNuocNgoai.html";
@@ -49,11 +94,42 @@ namespace Clone_KySoDienTu.Helpers
                     templateName = "DonNghiPhepNhanVien.html";
                     break;
             }
+
+            // 1. Đọc HTML template
+            var htmlPath = HostingEnvironment.MapPath($"~/TemplateHTML/{templateName}");
+            var html = File.ReadAllText(htmlPath, Encoding.UTF8);
+
+            // 2. Đọc CSS (inject cho Chrome Headless)
+            var commonCssPath = HostingEnvironment.MapPath("~/TemplateHTML/css/print-dnp-common.css");
+
+            var commonCss = File.ReadAllText(commonCssPath, Encoding.UTF8);
+            var donCss = donCssPath != "" ? File.ReadAllText(donCssPath, Encoding.UTF8) : "";
+
+            var cssBlock = "";
+            if (donCss != "")
+            {
+                cssBlock = $@"
+                <style>
+                    {commonCss}
+
+                    {donCss}
+                </style>
+                ";
+            }
+            else
+            {
+                cssBlock = $@"
+                <style>
+                    {commonCss}
+                </style>
+                ";
+            }
+
+            // 3. Inject CSS vào HTML
+            html = html.Replace("<!-- CSS_INJECT -->", cssBlock);
             vm.NguoiKy01 = vm.DanhSachNguoiKy[0].FullName;
             vm.NguoiKy02 = vm.DanhSachNguoiKy[1].FullName ?? vm.DanhSachNguoiKy[0].FullName;
-            var path = HostingEnvironment.MapPath($"~/TemplateHTML/{templateName}");
-            var tpl = File.ReadAllText(path, Encoding.UTF8);
-            return Render.StringToString(tpl, vm);
+            return Render.StringToString(html, vm);
         }
     }
 }

@@ -1,0 +1,189 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Phiếu đánh giá</title>
+    <!-- CSS_INJECT -->
+</head>
+<body>
+    <!-- Header 3 cột -->
+    <div class="hdr">
+        <div class="l"><span class="title-small"><b><u>Bảng 2.1.</u></b></span></div>
+        <div class="c">
+            <p class="title">PHIẾU ĐÁNH GIÁ</p>
+            <p class="title">KẾT QUẢ THỰC HIỆN NHIỆM VỤ CỦA NGƯỜI LAO ĐỘNG</p>
+            <p class="title">{{AppliedFor}}</p>
+        </div>
+        <div class="r"><span class="title-small"><b>{{MauPhieuCode}}</b></span></div>
+    </div>
+
+    <!-- Thông tin điền tay -->
+    <div class="meta">
+        <div class="row">
+            <div><b>Họ và tên:</b> {{HoVaTen}}</div>
+            <div class="right"><b>Đánh giá tháng:</b> {{DanhGiaThang}}</div>
+        </div>
+        <div class="row">
+            <div><b>Chức danh:</b> {{ChucDanh}}</div>
+            <div class="right"><b>Thuộc đơn vị:</b> {{DonVi}}</div>
+        </div>
+    </div>
+
+    <!-- Bảng -->
+    <table class="tbl">
+        <colgroup>
+            <col class="tt">
+            <col class="nd">
+            <col class="chuan">
+            <col class="kq">
+            <col class="note">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>TT</th>
+                <th>Nội dung đánh giá</th>
+                <th>Điểm chuẩn</th>
+                <th>Kết quả đánh giá</th>
+                <th>Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#Rows}}
+            <tr class="{{#IsParent}}section{{/IsParent}}">
+                <td class="center nowrap">{{Code}}</td>
+
+                <td>
+                    {{#IsParent}}<b>{{Title}}</b>{{/IsParent}}
+                    {{^IsParent}}{{Title}}{{/IsParent}}
+                    {{#SubTitle}}<div class="subtitle">{{SubTitle}}</div>{{/SubTitle}}
+                </td>
+
+                <td class="center nowrap">{{Score}}</td>
+
+                <!-- Kết quả đánh giá -->
+                <td class="center nowrap">
+                    {{#IsParent}}
+                    <!-- parent: để trống -->
+                    {{/IsParent}}
+                    {{^IsParent}}
+                    {{#KetQua}}{{KetQua}}{{/KetQua}}
+                    {{^KetQua}}&ndash;{{/KetQua}}
+                    {{/IsParent}}
+                </td>
+
+                <!-- Ghi chú: chỉ hiện số mũ index ghi chú nếu có -->
+                <td class="center nowrap">
+                    {{#IsParent}}
+                    <!-- parent: để trống -->
+                    {{/IsParent}}
+                    {{^IsParent}}
+                    {{#FnIndex}}
+                    <sup id="fnref-{{FnIndex}}">
+                        <a class="fnref" href="#fn-{{FnIndex}}">[{{FnIndex}}]</a>
+                    </sup>
+                    {{/FnIndex}}
+                    {{^FnIndex}}&ndash;{{/FnIndex}}
+                    {{/IsParent}}
+                </td>
+            </tr>
+            {{/Rows}}
+
+            <!-- Tổng điểm -->
+            <tr style="font-weight:bold">
+                <td></td>
+                <td>TỔNG ĐIỂM ĐÁNH GIÁ</td>
+                <td class="center nowrap">{{DiemFull}}</td>
+                <td class="center nowrap">{{DiemTuCham}}</td>
+                <td class="center nowrap">
+                    {{#HasCommonNote}}
+                    <sup id="fnref-0">
+                        <a class="fnref" href="#fn-0">[*]</a>
+                    </sup>
+                    {{/HasCommonNote}}
+                </td>
+            </tr>
+
+            <!-- Xếp loại-->
+            <tr style="font-weight:bold">
+                <td></td>
+                <td>XẾP LOẠI HOÀN THÀNH NHIỆM VỤ</td>
+                <td class="center nowrap"></td>
+                <td class="center nowrap">MỨC {{XepLoai}}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Chân trang ký tên -->
+    {{#IsNoNeedCreatedUserSection}}
+    <div class="sign-wrap">
+        {{NgayIn}}
+    </div>
+    {{/IsNoNeedCreatedUserSection}}
+
+    <!-- Khu vực chữ ký -->
+    {{#IsNeedCreatedUserSection}}
+    <div class="sign-area">
+        <div class="sign-col">
+            <p class="sign-role">NGƯỜI ĐÁNH GIÁ</p>
+            <div class="sign-pad">
+                <div>Họ tên: {{HoTenNguoiLapBieu}}</div>
+                <div>Chức vụ: {{ChucVuNguoiLapBieu}}</div>
+                <div>Phòng/Ban: {{PhongBanNguoiLapBieu}}</div>
+                <div>Ngày tạo: {{ThoiGianLapBieu}}</div>
+            </div>
+            <p class="sign-name">(Đã ký)</p>
+        </div>
+
+        <div class="sign-col">
+            <p class="sign-role">NGƯỜI KÝ DUYỆT</p>
+            <div class="sign-pad"></div>
+            <p class="sign-name">{{NguoiDanhGia}}</p>
+        </div>
+    </div>
+    {{/IsNeedCreatedUserSection}}
+
+
+    {{#IsNoNeedCreatedUserSection}}
+    <div class="sign-area sign-area-right-only">
+        <div class="sign-col">
+            <p class="sign-role">NGƯỜI ĐÁNH GIÁ</p>
+            <div class="sign-pad"></div>
+            <p class="sign-name">{{NguoiDanhGia}}</p>
+        </div>
+    </div>
+    {{/IsNoNeedCreatedUserSection}}
+
+    <!-- Endnotes (giả lập footnotes) -->
+    {{#HasFootnotes}}
+    <div class="footnotes">
+        <hr class="fn-hr" />
+        <div class="fn-title">Ghi chú</div>
+        <ol class="fn-list">
+            {{#Footnotes}}
+            <li id="fn-{{Index}}">
+                <span class="fn-text">
+                    {{#IsCommonNote}}
+                    [*] {{Text}}
+                    {{/IsCommonNote}}
+
+                    {{^IsCommonNote}}
+                    [{{Index}}] {{Text}}
+                    {{/IsCommonNote}}
+                </span>
+
+                <!-- Backref -->
+                {{#IsCommonNote}}
+                <a class="fn-backref" href="#fnref-0" title="Quay lại">↩</a>
+                {{/IsCommonNote}}
+
+                {{^IsCommonNote}}
+                <a class="fn-backref" href="#fnref-{{Index}}" title="Quay lại">↩</a>
+                {{/IsCommonNote}}
+            </li>
+            {{/Footnotes}}
+        </ol>
+    </div>
+    {{/HasFootnotes}}
+</body>
+</html>

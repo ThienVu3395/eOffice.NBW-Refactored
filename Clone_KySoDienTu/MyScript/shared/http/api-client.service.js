@@ -42,6 +42,17 @@ function ApiClient($http, appSettings, UserProfileService) {
         });
     };
 
+    this.postDataNoAuth = function (url, data) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: 'POST',
+            data: data,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+    };
+
     this.postJson = function (url, data) {
         return $http({
             url: appSettings.serverPath + url,
@@ -50,6 +61,17 @@ function ApiClient($http, appSettings, UserProfileService) {
             headers: {
                 'Content-Type': 'application/json',
                 ...getAuthHeader()
+            }
+        });
+    };
+
+    this.postJsonNoAuth = function (url, data) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: 'POST',
+            data: data,
+            headers: {
+                'Content-Type': 'application/json'
             }
         });
     };
@@ -74,6 +96,19 @@ function ApiClient($http, appSettings, UserProfileService) {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 ...getAuthHeader()
             }
+        });
+    };
+
+    this.getFile = function (url) {
+        return $http({
+            url: appSettings.serverPath + url,
+            method: "GET",
+            responseType: 'arraybuffer',
+            headers:
+            {
+                'foo': 'bar',
+                ...getAuthHeader()
+            },
         });
     };
 

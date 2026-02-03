@@ -1,0 +1,20 @@
+﻿/* Phiếu đánh giá – column widths */
+col.tt {
+    width: 5%;
+}
+
+col.nd {
+    width: 63%;
+}
+
+col.chuan {
+    width: 8%;
+}
+
+col.kq {
+    width: 14%;
+}
+
+col.note {
+    width: 10%;
+}

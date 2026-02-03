@@ -1,0 +1,28 @@
+﻿/* Bảng tổng hợp – column widths */
+col.stt {
+    width: 6%;
+}
+
+col.manv {
+    width: 10%;
+}
+
+col.hoten {
+    width: 20%;
+}
+
+col.chucvu {
+    width: 20%;
+}
+
+col.diem {
+    width: 10%;
+}
+
+col.xeploai {
+    width: 10%;
+}
+
+col.note {
+    width: 10%;
+}

@@ -1,0 +1,113 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Bảng tổng hợp kết quả thực hiện nhiệm vụ của NLĐ</title>
+    <!-- CSS_INJECT -->
+</head>
+<body>
+    <!-- Header -->
+    <div class="hdr">
+        <div class="l"><span class="title-small"><b><u>Bảng 2.5.</u></b></span></div>
+        <div class="c">
+            <p class="title">BẢNG TỔNG HỢP</p>
+            <p class="title">KẾT QUẢ THỰC HIỆN NHIỆM VỤ CỦA NGƯỜI LAO ĐỘNG</p>
+        </div>
+        <div class="r"><span class="title-small"><b>Mẫu 02/ĐG</b></span></div>
+    </div>
+
+    <!-- Thông tin điền tay -->
+    <div class="meta">
+        <div class="row">
+            <div><b>Đơn vị:</b> {{PhongBan}}</div>
+            <div class="right"><b>Tháng đánh giá:</b> {{DanhGiaThang}}</div>
+        </div>
+    </div>
+
+    <!-- Bảng dữ liệu -->
+    <table class="tbl">
+        <colgroup>
+            <col class="stt">
+            <col class="manv">
+            <col class="hoten">
+            <col class="chucvu">
+            <col class="diem">
+            <col class="xeploai">
+            <col class="note">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>TT</th>
+                <th>Mã NV</th>
+                <th>Họ và tên</th>
+                <th>Chức danh</th>
+                <th>Tổng điểm</th>
+                <th>Xếp loại</th>
+                <th>Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#Groups}}
+            <tr class="section">
+                <td colspan="7">TỔ: {{TenToChuyenMon}}</td>
+            </tr>
+
+            {{#Rows}}
+            <tr>
+                <td class="center nowrap">{{STT}}</td>
+                <td class="center nowrap">{{MaNhanVien}}</td>
+                <td>{{HoTen}}</td>
+                <td>{{ChucVu}}</td>
+                <td class="center nowrap">{{Diem_TuTinh}}</td>
+                <td class="center nowrap">{{XepLoai}}</td>
+                <td class="center nowrap">
+                    {{#FnIndex}}
+                    <sup id="fnref-{{FnIndex}}">
+                        <a class="fnref" href="#fn-{{FnIndex}}">[{{FnIndex}}]</a>
+                    </sup>
+                    {{/FnIndex}}
+                    {{^FnIndex}}&ndash;{{/FnIndex}}
+                </td>
+            </tr>
+            {{/Rows}}
+            {{/Groups}}
+        </tbody>
+    </table>
+
+    <!-- Chân trang ký tên -->
+    <div class="sign-area">
+        <div class="sign-col">
+            <p class="sign-role">NGƯỜI LẬP BIỂU</p>
+            <div class="sign-pad">
+                <div>Họ tên: {{HoTenNguoiLapBieu}}</div>
+                <div>Chức vụ: {{ChucVuNguoiLapBieu}}</div>
+                <div>Phòng/Ban: {{PhongBanNguoiLapBieu}}</div>
+                <div>Ngày tạo: {{ThoiGianLapBieu}}</div>
+            </div>
+            <p class="sign-name">(Đã ký)</p>
+        </div>
+
+        <div class="sign-col">
+            <p class="sign-role">NGƯỜI KÝ DUYỆT</p>
+            <div class="sign-pad"></div>
+            <p class="sign-name">{{NguoiKy}}</p>
+        </div>
+    </div>
+
+    <!-- Ghi chú (Footnotes) -->
+    {{#HasFootnotes}}
+    <div class="footnotes">
+        <hr class="fn-hr" />
+        <div class="fn-title">Ghi chú</div>
+        <ol class="fn-list">
+            {{#Footnotes}}
+            <li id="fn-{{Index}}">
+                <span class="fn-text">{{Text}}</span>
+                <a class="fn-backref" href="#fnref-{{Index}}" title="Quay lại">↩</a>
+            </li>
+            {{/Footnotes}}
+        </ol>
+    </div>
+    {{/HasFootnotes}}
+</body>
+</html>

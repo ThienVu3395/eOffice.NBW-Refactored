@@ -1,0 +1,98 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Đơn giải trình mẫu 6</title>
+    <!-- CSS_INJECT -->
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <table class="header-table">
+        <tr>
+            <td>
+                <div class="center">TỔNG CÔNG TY CẤP NƯỚC SÀI GÒN</div>
+                <div class="center">TRÁCH NHIỆM HỮU HẠN MỘT THÀNH VIÊN</div>
+                <div class="bold center"><u>CÔNG TY CỔ PHẦN CẤP NƯỚC NHÀ BÈ</u></div>
+            </td>
+
+            <td>
+                <div class="bold center">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+                <div class="bold center"><u>Độc lập - Tự do - Hạnh phúc</u></div>
+                <div class="center"><i>{{NgayTao}}</i></div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- TITLE -->
+    <table class="title-table">
+        <tr>
+            <td style="width:33%;"></td>
+
+            <td style="width:34%; text-align:center;">
+                <div class="title-text">ĐƠN GIẢI TRÌNH <br/> KHÔNG LẤY FACE ID/VÂN TAY</div>
+            </td>
+
+            <td style="width:33%; text-align:right;">
+                <div class="mau-box">Mẫu 6</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- THÔNG TIN CÁ NHÂN -->
+    <table class="info-table">
+        <tr>
+            <td>Tôi tên là: {{HoVaTen}}</td>
+            <td>Năm sinh: {{NamSinh}}</td>
+        </tr>
+
+        <tr>
+            <td>Số CMND/CCCD: {{SoCCCD}}</td>
+            <td>Cấp ngày: {{NgayCapCCCD}}</td>
+        </tr>
+
+        <tr>
+            <td>Phòng/Ban: {{DonVi}}</td>
+            <td>Chức danh: {{ChucDanh}}</td>
+        </tr>
+    </table>
+
+    <!-- LÝ DO NGHỈ PHÉP -->
+    <div class="section">
+        <p>Nay tôi làm đơn giải trình về việc không lấy Face ID/ Vân tay:</p>
+
+        <table class="info-table">
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Từ ngày: {{NghiTuNgay}}</td>
+                <td>Đến hết ngày: {{DenHetNgay}}</td>
+            </tr>
+        </table>
+
+        <p>Lý do: {{LyDoNghiPhep}}</p>
+
+        <p>Chân thành cảm ơn.</p>
+    </div>
+
+    <!-- CHỮ KÝ -->
+    <div class="sign-wrap">
+        <div class="sign-block">
+            <p class="bold">Người làm đơn</p>
+            <div class="sign-pad">
+                <div style="text-align:center; font-style:italic; padding-top: 40px">
+                    (Đã ký)
+                </div>
+            </div>
+            <br/><br />
+            <p class="bold">{{HoVaTen}}</p>
+        </div>
+
+        <div class="sign-block">
+            <p class="bold">DUYỆT <br/> Giám đốc</p>
+            <div class="sign-pad"></div>
+            <br />
+            <p class="bold">{{NguoiKy01}}</p>
+        </div>
+    </div>
+</body>
+</html>

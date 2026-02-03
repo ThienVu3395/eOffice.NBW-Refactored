@@ -19,5 +19,10 @@
         LAY_THEO: {
             NAM_HIEN_TAI: 0,
             THANG_HIEN_TAI: 1
+        },
+
+        CONG_CU_TAO_PDF: {
+            CRYSTAL_REPORT: 0,
+            CHROME_HEADLESS: 1
         }
     });

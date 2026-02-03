@@ -120,12 +120,6 @@
                                 </div>
 
                                 <div class="row">
-                                    @*<div class="col-lg-6 col-12">
-                                            <div class="form-group mb-2">
-                                                <label ng-class="formadd.sovb.$invalid ? 'mb-1 text-danger' : 'mb-1'">Số văn bản</label>
-                                                <input type="text" class="form-control" placeholder="Nhập số văn bản ..." ng-model="$ctrl.para.soVanBan" ng-required="true" name="sovb">
-                                            </div>
-                                        </div>*@
                                     <div class="col-lg-12 col-12" ng-if="$ctrl.nhanvien">
                                         <div class="callout callout-info">
                                             <h5>
@@ -138,7 +132,6 @@
                                                 <li>Số ngày đã nghỉ trong năm {{$ctrl.NamHienTai}}: {{$ctrl.ThongTinNghiPhep.soNgayDaNghi}}</li>
                                                 <li class="text-bold text-primary">Số ngày phép còn lại trong năm {{$ctrl.NamHienTai}}: {{$ctrl.ThongTinNghiPhep.soNgayConLai}}</li>
                                             </ol>
-                                            @*<button type="button" class="btn btn-primary btn-sm" ng-click="$ctrl.MoFormThongKeBaoCao()">Theo dõi thông tin chi tiết số ngày phép</button>*@
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-12">
@@ -149,17 +142,9 @@
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th @*style="width: 10px"*@>Thứ tự ký</th>
+                                                                <th>Thứ tự ký</th>
                                                                 <th>Người ký</th>
                                                                 <th>Chức vụ - Phòng ban</th>
-                                                                @*<th>Kiểu hiển thị</th>*@
-                                                                @*<th>
-                                                                        <button type="button"
-                                                                                class="btn btn-sm btn-success"
-                                                                                ng-click="$ctrl.moFormChonNguoiKy()">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-                                                                    </th>*@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -167,17 +152,6 @@
                                                                 <td ng-bind="$index + 1"></td>
                                                                 <td ng-bind="item.FullName"></td>
                                                                 <td ng-bind="item.CHUCVU + ' (' + item.MAPHONG + ')'"></td>
-                                                                @*<td ng-switch="item.LoaiKy">
-                                                                        <span ng-switch-when="0">Ký nháy</span>
-                                                                        <span ng-switch-when="1">Ký chính</span>
-                                                                    </td>*@
-                                                                @*<td>
-                                                                        <button type="button"
-                                                                                class="btn btn-sm btn-danger"
-                                                                                ng-click="$ctrl.xoaNguoiKy(item.UserName)">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>*@
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -306,16 +280,6 @@
                                                       ng-maxlength="200"></textarea>
                                         </div>
                                     </div>
-                                    @*<div class="col-lg-12">
-                                            <div class="form-group">
-                                                <div class="custom-control custom-switch">
-                                                    <input type="checkbox" ng-model="$ctrl.para.coChuKySo" class="custom-control-input" id="customSwitch1">
-                                                    <label class="custom-control-label" for="customSwitch1">
-                                                        Người xin nghỉ phép đã có chữ ký số ?
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>*@
                                 </div>
                             </div>
                         </div>
@@ -333,7 +297,7 @@
                                     class="btn btn-sm btn-primary"
                                     ng-if="$ctrl.TieuDeForm == 1"
                                     ng-disabled="formadd.$invalid"
-                                    ng-click="$ctrl.CapNhatVanBan()">
+                                    ng-click="$ctrl.CapNhat()">
                                 Cập nhật
                             </button>
                             <button type="button"

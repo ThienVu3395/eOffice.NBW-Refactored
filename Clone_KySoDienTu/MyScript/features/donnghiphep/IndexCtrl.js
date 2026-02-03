@@ -8,6 +8,7 @@
         "ApiClient",
         "appSettings",
         "UserProfileService",
+        "DateUtil",
         "MODULES",
         "SPECIAL_ACCOUNTS",
         "PERMISSIONS",
@@ -21,6 +22,7 @@
             ApiClient,
             appSettings,
             UserProfileService,
+            DateUtil,
             MODULES,
             SPECIAL_ACCOUNTS,
             PERMISSIONS,
@@ -29,8 +31,6 @@
             $scope.vm = {};
 
             var Userdata = UserProfileService.getProfile();
-
-            var UserdataExt = UserProfileService.getExtendedProfile();
 
             var module = MODULES.DON_NGHI_PHEP.ID;
 
@@ -51,7 +51,7 @@
                 $scope.quyenuser = {};
                 $scope.para = {};
                 $scope.para.FilterVanBan = {};
-                $scope.para.FilterVanBan.CANBO = UserdataExt.employeeId;
+                $scope.para.FilterVanBan.CANBO = Userdata.employeeId;
                 $scope.para.FilterVanBan.PhongBan = {};
                 $scope.para.FilterLenhDieuXe = {};
                 $scope.para.FilterLenhDieuXe.Filters = [];
@@ -239,8 +239,8 @@
             function LocVanBan() {
                 blockUI.start();
                 $scope.para.FilterLenhDieuXe.PageSize = 12;
-                let value1 = CheckValueOfDateRange($scope.BeginDate);
-                let value2 = CheckValueOfDateRange($scope.EndDate);
+                let value1 = DateUtil.toDateString($scope.BeginDate);
+                let value2 = DateUtil.toDateString($scope.EndDate);
                 // Json đưa lên sẽ là từng object riêng biệt, vd:
                 //{
                 //"filters": [
@@ -325,18 +325,6 @@
                             blockUI.stop();
                         }
                     );
-            }
-
-            function CheckValueOfDateRange(bd) {
-                let value = null;
-                if (bd != null) {
-                    let bdd = new Date(bd);
-                    value = bdd.getFullYear() + "-" + (bdd.getMonth() + 1) + "-" + bdd.getDate();
-                }
-                else if (bd == null) {
-                    value = null;
-                }
-                return value;
             }
 
             function OpenDetailModal(item) {
@@ -507,7 +495,11 @@
             }
 
             $scope.coTheTest = function () {
-                return Userdata.username == "thienvu.lh";
+                return SPECIAL_ACCOUNTS.ADMIN.includes(Userdata.username);
+            }
+
+            $scope.coTheThaoTac = function () {
+                return ($scope.coTheTest() || $scope.coTheXuatBaoCao());
             }
 
             // Testing

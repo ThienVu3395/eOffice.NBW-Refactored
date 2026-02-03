@@ -1,0 +1,241 @@
+﻿/* ================================
+   PRINT COMMON STYLES
+   ================================ */
+
+/* Trang in */
+@page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+}
+
+@media print {
+    html, body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tfoot {
+        display: table-footer-group;
+    }
+
+    tr {
+        page-break-inside: avoid;
+    }
+}
+
+/* Typography */
+body {
+    font-family: "Times New Roman", serif;
+    font-size: 12pt;
+}
+
+/* Header */
+.hdr {
+    display: table;
+    width: 100%;
+    margin-bottom: 2mm;
+}
+
+    .hdr > div {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .hdr .l {
+        text-align: left;
+    }
+
+    .hdr .c {
+        text-align: center;
+    }
+
+    .hdr .r {
+        text-align: right;
+    }
+
+.title {
+    margin: 0;
+    line-height: 1.15;
+    font-weight: bold;
+}
+
+.title-small {
+    font-weight: normal;
+}
+
+/* Meta info */
+.meta {
+    margin: 1mm 0 2mm;
+}
+
+    .meta .row {
+        display: table;
+        width: 100%;
+    }
+
+        .meta .row > div {
+            display: table-cell;
+            width: 50%;
+            padding-right: 10mm;
+        }
+
+.line {
+    display: inline-block;
+    min-width: 60mm;
+    border-bottom: 1px dotted #000;
+    padding: 0 2mm;
+}
+
+/* Table */
+table.tbl {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.tbl th, .tbl td {
+    border: 1px solid #000;
+    padding: 3px 5px;
+    vertical-align: top;
+}
+
+.tbl thead th {
+    text-align: center;
+}
+
+/* Utilities */
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+/* Section row */
+.section {
+    background: #d9d9d9;
+    font-weight: bold;
+}
+
+    .section td {
+        background: #d9d9d9;
+        font-weight: bold;
+    }
+
+        .section td .subtitle {
+            font-weight: normal;
+            color: #555;
+            font-style: italic;
+        }
+
+.subtitle {
+    color: #555;
+    font-style: italic;
+}
+
+/* ================================
+   SIGNATURE – SYMMETRIC LAYOUT
+   ================================ */
+.sign-wrap {
+    margin-top: 6mm;
+    margin-bottom: 4mm;
+    text-align: right;
+    font-style: italic;
+    page-break-inside: avoid;
+}
+
+.sign-area {
+    display: table;
+    width: 100%;
+    margin-top: 4mm;
+    page-break-inside: avoid;
+}
+
+/* Case chỉ có người đánh giá */
+.sign-area-right-only {
+    display: block;
+    width: 100%;
+}
+
+    .sign-area-right-only .sign-col {
+        display: block;
+        width: 35%;
+        margin-left: auto;
+        margin-right: 0;
+        text-align: center;
+    }
+
+.sign-col {
+    display: table-cell;
+    width: 50%;
+    text-align: center;
+    vertical-align: top;
+}
+
+.sign-role {
+    font-weight: bold;
+    margin-bottom: 2mm;
+    text-align: center;
+}
+
+.sign-pad {
+    height: 25mm; /* khoảng trống để ký */
+    margin: 2mm 0;
+}
+
+.sign-name {
+    margin-top: 2mm;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* ================================
+   FOOTNOTES LAYOUT
+   ================================ */
+.footnotes {
+    font-size: 11pt;
+    margin-top: 8mm;
+}
+
+.fn-hr {
+    border: 0;
+    border-top: 1px solid #000;
+    margin: 6mm 0 3mm;
+}
+
+.fn-title {
+    font-weight: bold;
+    margin-bottom: 3mm;
+}
+
+.fn-list {
+    margin: 0;
+    padding-left: 5mm;
+}
+
+    .fn-list li {
+        margin: 1mm 0;
+        page-break-inside: avoid;
+    }
+
+.fnref, .fn-backref {
+    text-decoration: none;
+}
+
+.fnref {
+    font-weight: bold;
+}

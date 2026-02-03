@@ -311,7 +311,6 @@
     <Compile Include="Controllers\ModalController.cs" />
     <Compile Include="Controllers\BaocaoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\API\quanlydieuxe\QuanLyDieuXeAPIController.cs" />
     <Compile Include="Controllers\VanbanController.cs" />
     <Compile Include="Controllers\VanBanKiSoController.cs" />
     <Compile Include="Controllers\viewfile\ViewfileController.cs" />
@@ -1941,6 +1940,7 @@
     <Content Include="MyScript\shared\ui\notification.service.js" />
     <Content Include="MyScript\shared\ui\tinymce.config.js" />
     <Content Include="MyScript\shared\ui\ui.module.js" />
+    <Content Include="MyScript\shared\utils\date.util.js" />
     <Content Include="MyScript\shared\utils\string.util.js" />
     <Content Include="MyScript\shared\utils\url.util.js" />
     <Content Include="MyScript\shared\utils\utils.module.js" />
@@ -5241,6 +5241,19 @@
     <Content Include="Scripts\V-ui-select\select2.css" />
     <Content Include="Scripts\V-ui-select\selectize.default.css" />
     <None Include="Scripts\_references.js" />
+    <Content Include="TemplateHTML\BangTongHop.html" />
+    <Content Include="TemplateHTML\css\bangtonghop.css" />
+    <Content Include="TemplateHTML\css\donnghiphep.css" />
+    <Content Include="TemplateHTML\css\phieudanhgia.css" />
+    <Content Include="TemplateHTML\css\print-common.css" />
+    <Content Include="TemplateHTML\css\print-dnp-common.css" />
+    <Content Include="TemplateHTML\DonGiaiTrinhNhanVien.html" />
+    <Content Include="TemplateHTML\DonGiaiTrinhTruongPhong.html" />
+    <Content Include="TemplateHTML\DonNghiPhepDiNuocNgoai.html" />
+    <Content Include="TemplateHTML\DonNghiPhepKhongLuong.html" />
+    <Content Include="TemplateHTML\DonNghiPhepNhanVien.html" />
+    <Content Include="TemplateHTML\DonNghiPhepTruongPhong.html" />
+    <Content Include="TemplateHTML\PhieuDanhGia.html" />
     <Content Include="VNPT\imgs\bang.ph\PhamHuaBang-sign.png" />
     <Content Include="VNPT\imgs\cnnb\123rtgfgfd.png" />
     <Content Include="VNPT\imgs\hien.pd\123rtgfgfd.png" />
