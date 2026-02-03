@@ -40,7 +40,7 @@
 
             var authHeaders = {};
 
-            var createPdfTool = COMMON.CONG_CU_TAO_PDF.CRYSTAL_REPORT; // CHROME_HEADLESS || CRYSTAL_REPORT
+            var createPdfTool = COMMON.CONG_CU_TAO_PDF.CHROME_HEADLESS; // CHROME_HEADLESS || CRYSTAL_REPORT
 
             var apiCreateUrl = createPdfTool == COMMON.CONG_CU_TAO_PDF.CRYSTAL_REPORT ?
                 "api/QLNghiPhep/ThemVanBanCR" :

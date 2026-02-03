@@ -677,47 +677,6 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyBaoCao
         }
 
         [HttpPost]
-        [Route("GuiThongBaoKyDuyet")]
-        public async Task<IHttpActionResult> KyDuyet(CommonModel model)
-        {
-            try
-            {
-                using (IDbConnection db = new SqlConnection(_cnn))
-                {
-                    if (db.State == System.Data.ConnectionState.Closed)
-                        db.Open();
-                    var signTable = await _smartCAFunction.FindSignTable(model.valstring1);
-                    var signFileList = await _smartCAFunction.FindFiles(model.valstring1);
-                    var signer = await _smartCAFunction.FindSigner(signTable.Id, signTable.Status);
-                    if (signer != null)
-                    {
-                        var signFlow = await _smartCAFunction.FindSignerFlow(model.valint1, model.valstring2, model.valint2, signTable.Status);
-                        vc.ChangeSignerFlowVB(model.valint1, model.valint2, 1, null, "Đang chờ duyệt", signer.UserName, 0, 0, signTable.Status);
-                        model.valstring3 = model.valstring3 == null ? null : model.valstring3.Replace("\n", "<br/>");
-                        int signResult = await _smartCAKyDonLuong.SignPDFBaoCao(signer, signFileList, model.valint2, model.valint1, signTable, signFlow, model.valstring3);
-                        if (signResult == 11)
-                        {
-                            List<string> userThongBao = vc.LayUserThongBao(model.valint1, model.valint2, 0);
-                            if (userThongBao.Count > 0)
-                            {
-                                Hub.Clients.Groups(userThongBao).countThongBaoReport(0);
-                            }
-                            var nguoikytieptheo = await _smartCAFunction.FindSigner(signTable.Id, signTable.Status + 1);
-                            string[] userNames = GetUsersNotification(nguoikytieptheo.UserName);
-                            await NotificationApp(userNames, model.valint1, model.valint2);
-                        }
-                        return Ok(signResult);
-                    }
-                    return BadRequest();
-                }
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpPost]
         [Route("XoaVanBan")]
         public IHttpActionResult XoaVanBan(CommonModel model)
         {

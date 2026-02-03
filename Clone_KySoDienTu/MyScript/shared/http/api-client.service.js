@@ -42,9 +42,9 @@ function ApiClient($http, appSettings, UserProfileService) {
         });
     };
 
-    this.postDataNoAuth = function (url, data) {
+    this.postDataForSmartCA = function (url, data) {
         return $http({
-            url: appSettings.serverPath + url,
+            url: url,
             method: 'POST',
             data: data,
             headers: {

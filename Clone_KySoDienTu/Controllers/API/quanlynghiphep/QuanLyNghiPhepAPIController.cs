@@ -1392,8 +1392,8 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyNghiPhep
         }
 
         [HttpPost]
-        [Route("GuiThongBaoKyDuyet")]
-        public async Task<IHttpActionResult> KyDuyet(CommonModel model)
+        [Route("KySo")]
+        public async Task<IHttpActionResult> KySo(CommonModel model)
         {
             try
             {
@@ -1408,13 +1408,85 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyNghiPhep
                     {
                         var signFlow = await _smartCAFunction.FindSignerFlow(model.valint1, model.valstring2, model.valint2, signTable.Status);
                         vc.ChangeSignerFlowVB(model.valint1, model.valint2, 1, null, "Đang chờ duyệt", signer.UserName, 0, 0, signTable.Status);
-                        int signResult = await _smartCAKyDonLuong.SignPDFLenhDieuXe(signer, signFileList, model.valint2, model.valint1, signTable, signFlow);
+                        int signResult = await _smartCAKyDonLuong.SignSmartCaPDF(signer, signFileList, model.valint2, model.valint1, signTable, signFlow);
                         UpdateDocumentRequest updateDocumentRequest = new UpdateDocumentRequest();
                         updateDocumentRequest.id = model.valint1;
                         updateDocumentRequest.nguoiCapNhat = User.Identity.Name;
                         updateDocumentRequest.propertyName = PropertyName.NGUOI_DUYET;
                         updateDocumentRequest.className = GetClassName(model.valint2);
                         updateDocumentRequest.accessToken = model.valstring3;
+                        if (updateDocumentRequest.className != null)
+                        {
+                            if (signResult == 11)
+                            {
+                                var nguoikytieptheo = await _smartCAFunction.FindSigner(signTable.Id, signTable.Status + 1);
+                                updateDocumentRequest.noiDung = nguoikytieptheo.UserName;
+                                ResponseInt result = await CapNhatThongTinVanBan(updateDocumentRequest);
+                                if (result != null)
+                                {
+                                    List<string> userThongBao = vc.LayUserThongBao(model.valint1, model.valint2, 0);
+                                    if (userThongBao.Count > 0)
+                                    {
+                                        userThongBao.Add(result.NguoiTao);
+                                        Hub.Clients.Groups(userThongBao).countThongBaoReport(0);
+                                    }
+                                }
+                            }
+                            else if (signResult == 1)
+                            {
+                                updateDocumentRequest.noiDung = null;
+                                await CapNhatThongTinVanBan(updateDocumentRequest);
+                            }
+                            return Ok(signResult);
+                        }
+                        return BadRequest();
+                    }
+                    return BadRequest();
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("KyThuong")]
+        public async Task<IHttpActionResult> KyThuong(CommonModel model)
+        {
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_cnn))
+                {
+                    if (db.State == System.Data.ConnectionState.Closed)
+                        db.Open();
+                    var signTable = await _smartCAFunction.FindSignTable(model.valstring1);
+                    var signFileList = await _smartCAFunction.FindFiles(model.valstring1);
+                    var signer = await _smartCAFunction.FindSigner(signTable.Id, signTable.Status);
+                    if (signer != null)
+                    {
+                        var signFlow = await _smartCAFunction.FindSignerFlow(
+                            model.valint1, 
+                            model.valstring2, 
+                            model.valint2, 
+                            signTable.Status);
+                        
+                        int signResult = await _smartCAKyDonLuong.SignNoSmartCaPDF(
+                            signer, 
+                            signFileList, 
+                            model.valint2, 
+                            model.valint1, 
+                            signTable, 
+                            signFlow,
+                            null);
+                        
+                        UpdateDocumentRequest updateDocumentRequest = new UpdateDocumentRequest();
+                        updateDocumentRequest.id = model.valint1;
+                        updateDocumentRequest.nguoiCapNhat = User.Identity.Name;
+                        updateDocumentRequest.propertyName = PropertyName.NGUOI_DUYET;
+                        updateDocumentRequest.className = GetClassName(model.valint2);
+                        updateDocumentRequest.accessToken = model.valstring3;
+
                         if (updateDocumentRequest.className != null)
                         {
                             if (signResult == 11)

@@ -9,19 +9,15 @@ using System;
 using GatewayServiceTest;
 using log4net;
 using VnptHashSignatures.Interface;
-using VnptHashSignatures.Office;
 using VnptHashSignatures.Pdf;
-using VnptHashSignatures.Xml;
 using System.Net;
 using VNPTdtos;
 using System.Threading.Tasks;
 using SmartCAAPI.Dtos.signpdf;
-using VnptHashSignatures.Common;
 using static VModel.WFModel;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.IO;
-using System.Threading;
 
 namespace Clone_KySoDienTu.Controllers.API.SmartCAFunction
 {

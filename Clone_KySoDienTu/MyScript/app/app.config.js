@@ -21,7 +21,7 @@ var ENV_CONFIG = {
         serverHome: 'DonNghiPhep/IndexNghiPhep',
         serverLogin: 'Login/AuthLogin',
 
-        dragAndDropSignUIUrl: 'https://localhost:3000/?id=',
+        dragAndDropSignUIUrl: 'http://localhost:3000/?id=',
 
         typeNghiPhep: 'TypeRP_NPP',
 

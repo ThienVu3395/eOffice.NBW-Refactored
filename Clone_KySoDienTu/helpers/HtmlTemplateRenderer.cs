@@ -127,8 +127,18 @@ namespace Clone_KySoDienTu.Helpers
 
             // 3. Inject CSS vào HTML
             html = html.Replace("<!-- CSS_INJECT -->", cssBlock);
-            vm.NguoiKy01 = vm.DanhSachNguoiKy[0].FullName;
-            vm.NguoiKy02 = vm.DanhSachNguoiKy[1].FullName ?? vm.DanhSachNguoiKy[0].FullName;
+
+            vm.NguoiKy01 = vm.DanhSachNguoiKy[0].FullName.ToUpper();
+
+            if (vm.DanhSachNguoiKy.Count > 1)
+            {
+                vm.NguoiKy02 = vm.DanhSachNguoiKy[1].FullName.ToUpper();
+            }
+            else
+            {
+                vm.NguoiKy02 = vm.NguoiKy01;
+            }
+
             return Render.StringToString(html, vm);
         }
     }

@@ -301,6 +301,7 @@
     <Compile Include="Controllers\API\APIUserController.cs" />
     <Compile Include="Controllers\API\quanlybaocao\QuanLyBaoCaoAPIController.cs" />
     <Compile Include="Controllers\API\quanlynghiphep\QuanLyNghiPhepAPIController.cs" />
+    <Compile Include="Controllers\API\quanlysmartca\APISmartCAController .cs" />
     <Compile Include="Controllers\bnle\Class1.cs" />
     <Compile Include="Controllers\bnle\FunctionClass.cs" />
     <Compile Include="Controllers\bnle\FunctionFullController.cs" />
@@ -316,7 +317,6 @@
     <Compile Include="Controllers\viewfile\ViewfileController.cs" />
     <Compile Include="Controllers\viewfile\viewfileonlineController.cs" />
     <Compile Include="Controllers\vnpt\SmartCAFunctionController.cs" />
-    <Compile Include="Controllers\vnpt\SmartCAKyDaLuongController.cs" />
     <Compile Include="Controllers\vnpt\SmartCAKyDonLuongController.cs" />
     <Compile Include="datalogin\AspNetRole.cs" />
     <Compile Include="datalogin\AspNetUser.cs" />
@@ -5254,26 +5254,26 @@
     <Content Include="TemplateHTML\DonNghiPhepNhanVien.html" />
     <Content Include="TemplateHTML\DonNghiPhepTruongPhong.html" />
     <Content Include="TemplateHTML\PhieuDanhGia.html" />
-    <Content Include="VNPT\imgs\bang.ph\PhamHuaBang-sign.png" />
-    <Content Include="VNPT\imgs\cnnb\123rtgfgfd.png" />
-    <Content Include="VNPT\imgs\hien.pd\123rtgfgfd.png" />
-    <Content Include="VNPT\imgs\hien.pd\PhanDucHien-sign.png" />
-    <Content Include="VNPT\imgs\hieu.lt\123rtgfgfd.png" />
-    <Content Include="VNPT\imgs\hieu.lt\chukyanhhieu.png" />
-    <Content Include="VNPT\imgs\hoang.nm\123213rtg.png" />
-    <Content Include="VNPT\imgs\moccvdendb\MocVuongDangUy.png" />
-    <Content Include="VNPT\imgs\mocdang\MocDangUy1.png" />
-    <Content Include="VNPT\imgs\mocvden\KhungVienCongVanCoNenTrang.png" />
-    <Content Include="VNPT\imgs\mocvden\Untitled-1.png" />
-    <Content Include="VNPT\imgs\mocvdi\KhungVienCongVanCoNenTrang.png" />
-    <Content Include="VNPT\imgs\mocvdi\Untitled-1.png" />
-    <Content Include="VNPT\imgs\tai.lt\234534tgfdg.png" />
-    <Content Include="VNPT\imgs\thanh.nn\ChukySepThanh_PGDKT.png" />
-    <Content Include="VNPT\imgs\thienvu.lh\123123fgfda.png" />
-    <Content Include="VNPT\imgs\trang.nn\ChukySepTrang_PGDKD.png" />
-    <Content Include="VNPT\imgs\triem.nt\sadsa123.png" />
-    <Content Include="VNPT\imgs\tuan.bh\3245324fsdsa.png" />
-    <Content Include="VNPT\imgs\tuan.nh\asdsavb567.png" />
+    <Content Include="VNPT\SignImg\bang.ph\PhamHuaBang-sign.png" />
+    <Content Include="VNPT\SignImg\cnnb\123rtgfgfd.png" />
+    <Content Include="VNPT\SignImg\hien.pd\123rtgfgfd.png" />
+    <Content Include="VNPT\SignImg\hien.pd\PhanDucHien-sign.png" />
+    <Content Include="VNPT\SignImg\hieu.lt\123rtgfgfd.png" />
+    <Content Include="VNPT\SignImg\hieu.lt\chukyanhhieu.png" />
+    <Content Include="VNPT\SignImg\hoang.nm\123213rtg.png" />
+    <Content Include="VNPT\SignImg\moccvdendb\MocVuongDangUy.png" />
+    <Content Include="VNPT\SignImg\mocdang\MocDangUy1.png" />
+    <Content Include="VNPT\SignImg\mocvden\KhungVienCongVanCoNenTrang.png" />
+    <Content Include="VNPT\SignImg\mocvden\Untitled-1.png" />
+    <Content Include="VNPT\SignImg\mocvdi\KhungVienCongVanCoNenTrang.png" />
+    <Content Include="VNPT\SignImg\mocvdi\Untitled-1.png" />
+    <Content Include="VNPT\SignImg\tai.lt\234534tgfdg.png" />
+    <Content Include="VNPT\SignImg\thanh.nn\ChukySepThanh_PGDKT.png" />
+    <Content Include="VNPT\SignImg\thienvu.lh\123123fgfda.png" />
+    <Content Include="VNPT\SignImg\trang.nn\ChukySepTrang_PGDKD.png" />
+    <Content Include="VNPT\SignImg\triem.nt\sadsa123.png" />
+    <Content Include="VNPT\SignImg\tuan.bh\3245324fsdsa.png" />
+    <Content Include="VNPT\SignImg\tuan.nh\asdsavb567.png" />
     <Content Include="VNPT\sdks\itextsharp.dll" />
     <Content Include="VNPT\sdks\iTextVNPT.dll" />
     <Content Include="VNPT\sdks\System.Security.Custom.dll" />
@@ -6204,13 +6204,13 @@
     <Content Include="Views\DonNghiPhep\AddEditNghiPhep.cshtml" />
     <Content Include="Views\DonNghiPhep\DetailsNghiPhep.cshtml" />
     <Content Include="Views\DonNghiPhep\IndexNghiPhep.cshtml" />
-    <Content Include="VNPT\imgs\hieu.lt\Thumbs.db" />
+    <Content Include="VNPT\SignImg\hieu.lt\Thumbs.db" />
     <Content Include="Views\login\AuthLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="report\ReportFile\" />
-    <Folder Include="VNPT\imgs\sang.ln\" />
+    <Folder Include="VNPT\SignImg\sang.ln\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

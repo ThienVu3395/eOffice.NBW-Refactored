@@ -549,7 +549,7 @@
                         });
 
                         var resp = ApiClient
-                            .postDataNoAuth(apiCreateSign, $.param($ctrl.signSmartCA))
+                            .postDataForSmartCA(apiCreateSign, $.param($ctrl.signSmartCA))
                             .then(
                                 function successCallback(response) {
                                     window.open(dragAndDropSignUIUrl + response.data);
@@ -565,7 +565,7 @@
                 );
             }
 
-            $ctrl.KyDuyetVB = function () {
+            $ctrl.KySoVB = function () {
                 if ($ctrl.objVB.yKienPhongBanDoi == null && $ctrl.objVB.DanhSachNguoiKy[0].UserName == $ctrl.Userdata.username && $ctrl.objVB.loai == 8) {
                     notificationService.error("Văn bản chưa có ý kiến phòng/ban, vui lòng kiểm tra lại trước khi ký");
                 }
@@ -578,49 +578,11 @@
                             return 'Đồng ý kí duyệt đơn nghỉ phép/giải trình ? Sau khi bấm đồng ý hệ thống sẽ gửi tin nhắn xác nhận kí số đến ứng dụng SmartCA trên thiết bị di động ?';
                         }
                     }
-                }).then(function () {
-                    blockUI.start({ message: "Xin vui lòng kiểm tra ứng dụng SmartCA trên điện thoại của bạn" });
-                    if (
-                        $ctrl.objVB.DanhSachNguoiKy[0].UserName == $ctrl.Userdata.username &&
-                        $ctrl.objVB.loai == 8) {
+                }).then(
+                    function successCallback() {
+                        blockUI.start({ message: "Xin vui lòng kiểm tra ứng dụng SmartCA trên điện thoại của bạn" });
                         var resp = ApiClient
-                            .postData("api/QLNghiPhep/CapNhatFileBiBatDongBo", $.param(
-                                {
-                                    valint1: idselect.IDVanBan,
-                                    valint2: $ctrl.objVB.loai,
-                                    valstring1: $ctrl.objVB.smartCAStringID
-                                }))
-                            .then(
-                                function successCallback(response) {
-                                    var res = ApiClient
-                                        .postData("api/QLNghiPhep/GuiThongBaoKyDuyet", $.param({
-                                            valint1: idselect.IDVanBan,
-                                            valint2: idselect.Module,
-                                            valstring1: $ctrl.objVB.smartCAStringID,
-                                            valstring2: $ctrl.objVB.nguoiDuyet,
-                                            valstring3: $ctrl.accessToken
-                                        }))
-                                        .then(
-                                            function successCallback(response) {
-                                                document.getElementById('childframe').contentWindow.location.reload();
-                                                if (response.data == -7) {
-                                                    notificationService.error("Sai thông tin đăng nhập SmartCA được cung cấp trên VPĐT");
-                                                }
-                                                blockUI.stop();
-                                            },
-                                            function errorCallback(err) {
-                                                blockUI.stop();
-                                            }
-                                        );
-                                },
-                                function errorCallback(err) {
-                                    blockUI.stop();
-                                }
-                            );
-                    }
-                    else {
-                        var resp = ApiClient
-                            .postData("api/QLNghiPhep/GuiThongBaoKyDuyet", $.param({
+                            .postData("api/QLNghiPhep/KySo", $.param({
                                 valint1: idselect.IDVanBan,
                                 valint2: idselect.Module,
                                 valstring1: $ctrl.objVB.smartCAStringID,
@@ -639,10 +601,54 @@
                                     blockUI.stop();
                                 }
                             );
+                    },
+                    function errorCallback() {
+                        blockUI.stop();
                     }
-                }, function () {
-                    blockUI.stop();
-                });
+                );
+            }
+
+            $ctrl.KyThuongVB = function () {
+                if ($ctrl.objVB.yKienPhongBanDoi == null && $ctrl.objVB.DanhSachNguoiKy[0].UserName == $ctrl.Userdata.username && $ctrl.objVB.loai == 8) {
+                    notificationService.error("Văn bản chưa có ý kiến phòng/ban, vui lòng kiểm tra lại trước khi ký");
+                }
+                ModalService.open({
+                    templateUrl: 'ConfirmModal.html',
+                    controller: 'ModalConfirmCtrl',
+                    size: 'md',
+                    resolve: {
+                        confirmMessage: function () {
+                            return 'Đồng ý kí duyệt đơn nghỉ phép/giải trình ?';
+                        }
+                    }
+                }).then(
+                    function successCallback() {
+                        blockUI.start({ message: "Đang thực hiện ký, xin vui lòng chờ trong giây lát..." });
+                        var resp = ApiClient
+                            .postData("api/QLNghiPhep/KyThuong", $.param({
+                                valint1: idselect.IDVanBan,
+                                valint2: idselect.Module,
+                                valstring1: $ctrl.objVB.smartCAStringID,
+                                valstring2: $ctrl.objVB.nguoiDuyet,
+                                valstring3: $ctrl.accessToken
+                            }))
+                            .then(
+                                function successCallback(response) {
+                                    document.getElementById('childframe').contentWindow.location.reload();
+                                    if (response.data == -7) {
+                                        notificationService.error("Sai thông tin đăng nhập SmartCA được cung cấp trên VPĐT");
+                                    }
+                                    blockUI.stop();
+                                },
+                                function errorCallback(err) {
+                                    blockUI.stop();
+                                }
+                            );
+                    },
+                    function errorCallback() {
+                        blockUI.stop();
+                    }
+                );
             }
 
             $ctrl.ThuHoiVB = function () {
@@ -777,20 +783,30 @@
                                 return 'Xác nhận hủy đơn nghỉ phép/giải trình này ?';
                             }
                         }
-                    }).then(function () {
-                        let resp = loginservice.postdata("api/QLNghiPhep/GoDuyetVB", $.param({ valint1: idselect.IDVanBan, valint2: 5, valint3: idselect.Module, valstring1: $ctrl.objVB.smartCAStringID, valstring2: $ctrl.accessToken }));
-                        resp.then(
-                            function successCallback(response) {
-                                document.getElementById('childframe').contentWindow.location.reload();
-                                GetChiTietVB();
-                                notificationService.success("Đơn nghỉ phép/giải trình đã được hủy");
-                            },
-                            function errorCallback(response) {
-                            }
-                        );
-                    }, function () {
-                        blockUI.stop();
-                    });
+                    }).then(
+                        function successCallback() {
+                            let resp = ApiClient
+                                .postData("api/QLNghiPhep/GoDuyetVB", $.param({
+                                    valint1: idselect.IDVanBan,
+                                    valint2: 5,
+                                    valint3: idselect.Module,
+                                    valstring1: $ctrl.objVB.smartCAStringID,
+                                    valstring2: $ctrl.accessToken
+                                }))
+                                .then(
+                                    function successCallback(response) {
+                                        document.getElementById('childframe').contentWindow.location.reload();
+                                        GetChiTietVB();
+                                        notificationService.success("Đơn nghỉ phép/giải trình đã được hủy");
+                                    },
+                                    function errorCallback(response) {
+                                    }
+                                );
+                        },
+                        function errorCallback() {
+                            blockUI.stop();
+                        }
+                    );
                 }
             }
 
