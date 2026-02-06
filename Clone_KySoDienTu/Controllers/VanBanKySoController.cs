@@ -2,19 +2,19 @@
 
 namespace Clone_KySoDienTu.Controllers
 {
-    public class DonNghiPhepController : Controller
+    public class VanBanKySoController : Controller
     {
-        public ActionResult AddEditNghiPhep()
+        public ActionResult Index()
         {
             return View();
         }
        
-        public ActionResult DetailsNghiPhep()
+        public ActionResult AddEdit()
         {
             return View();
         }
     
-        public ActionResult IndexNghiPhep()
+        public ActionResult Details()
         {
             return View();
         }

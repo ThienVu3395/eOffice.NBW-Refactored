@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "IndexNghiPhep";
-    Layout = "~/Views/Shared/_Layout2022.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="content-header">
@@ -364,10 +364,6 @@
     @Html.Partial("~/Views/Modal/ModalThongKeBaoCaoNghiPhep.cshtml")
 </script>
 
-<script type="text/ng-template" id="modalThongKeGiaiTrinh.html">
-    @Html.Partial("~/Views/Modal/ModalThongKeBaoCaoGiaiTrinh.cshtml")
-</script>
-
 <script type="text/ng-template" id="viewPDFonline.html">
     @Html.Partial("~/Views/Viewfile/viewfilepdfonline.cshtml")
 </script>
@@ -381,7 +377,6 @@
 <script src="~/MyScript/features/donnghiphep/SoanLyDoHuyVBNghiPhepCtrl.js"></script>
 <script src="~/MyScript/features/donnghiphep/SoanYKienPhongBanNghiPhepCtrl.js"></script>
 
-<script src="~/MyScript/features/donnghiphep/XuatBaoCaoThongKeGiaiTrinhCtrl.js"></script>
 <script src="~/MyScript/features/donnghiphep/XuatBaoCaoThongKeNghiPhepCtrl.js"></script>
 
 <script src="~/MyScript/features/viewfile/viewFileCtrl.js"></script>

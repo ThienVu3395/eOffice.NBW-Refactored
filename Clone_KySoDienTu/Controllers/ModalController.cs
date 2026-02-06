@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace Clone_KySoDienTu.Controllers.Lichcoquan
+namespace Clone_KySoDienTu.Controllers
 {
     public class ModalController : Controller
     {
-        // GET: Lichcoquan
-
+        public ActionResult ModalChonFileCanCu()
+        {
+            return View();
+        }
         public ActionResult ModalChonNguoiKy()
+        {
+            return View();
+        }
+        public ActionResult ModalChonNguoiKyNghiPhep()
+        {
+            return View();
+        }
+        public ActionResult ModalDieuChinhVB()
         {
             return View();
         }
@@ -22,15 +28,7 @@ namespace Clone_KySoDienTu.Controllers.Lichcoquan
         {
             return View();
         }
-        public ActionResult ModalChonNguoiKyNghiPhep()
-        {
-            return View();
-        }
-        public ActionResult ModalLocPhieuDeNghiSuDungXe()
-        {
-            return View();
-        }
-        public ActionResult ModalLocLenhDieuXe()
+        public ActionResult ModalPhanPhatTree()
         {
             return View();
         }
@@ -38,23 +36,11 @@ namespace Clone_KySoDienTu.Controllers.Lichcoquan
         {
             return View();
         }
-        public ActionResult ModalThongKeBaoCaoGiaiTrinh()
-        {
-            return View();
-        }
         public ActionResult ModalYKienPhongBan()
         {
             return View();
         }
-        public ActionResult ModalChonFileCanCu()
-        {
-            return View();
-        }
-        public ActionResult CreateUpdateDynamicReport()
-        {
-            return View();
-        }
-        public ActionResult NgocTest()
+        public ActionResult ModalYKienXuLy()
         {
             return View();
         }

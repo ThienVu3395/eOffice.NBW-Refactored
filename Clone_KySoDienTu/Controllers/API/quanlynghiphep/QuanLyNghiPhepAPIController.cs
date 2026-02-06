@@ -27,8 +27,7 @@ using VnptHashSignatures.Common;
 using VnptHashSignatures.Interface;
 using VnptHashSignatures.Pdf;
 using CommonModel = VModel.WFModel.CommonModel;
-using Clone_KySoDienTu.Controllers.API.SmartCAFunction;
-using Clone_KySoDienTu.Controllers.API.SmartCAKyDonLuong;
+using Clone_KySoDienTu.VNPT.Services;
 
 namespace Clone_KySoDienTu.Controllers.API.QuanLyNghiPhep
 {
