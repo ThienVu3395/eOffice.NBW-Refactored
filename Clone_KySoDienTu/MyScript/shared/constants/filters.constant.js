@@ -34,5 +34,10 @@
             TRONG_PHONG: '10',
             HUY_KY: '11',
             GO_DUYET: '12'
-        }
+        },
+        VAN_BAN_KY_SO: {
+            TAT_CA: 0,
+            CHUA_XEM: 4,
+            CHO_DUYET: 8,
+        },
     });

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace Clone_KySoDienTu.Controllers.Viewfile
+namespace Clone_KySoDienTu.Controllers
 {
     public class ViewfileController : Controller
     {
-        //
-        // GET: /Viewfile/
         public ActionResult Index()
         {
             return View();

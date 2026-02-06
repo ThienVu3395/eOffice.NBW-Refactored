@@ -1,18 +1,18 @@
 ﻿angular
     .module("aims")
     .controller('phanPhatTreeCtrl', [
-        'thongbao',
         "$scope",
         'blockUI',
         "$uibModalInstance",
-        "loginservice",
+        "ApiClient",
+        "notificationService",
         "idselect",
         function (
-            thongbao,
             $scope,
             blockUI,
             $uibModalInstance,
-            loginservice,
+            ApiClient,
+            notificationService,
             idselect) {
             var $ctrl = this;
 
@@ -21,7 +21,7 @@
             //console.log($ctrl.VuLe);
 
             $scope.$on('closeModal', function (data, mess) {
-                thongbao.success(mess);
+                notificationService.success(mess);
                 $ctrl.cancel();
             });
 
@@ -80,19 +80,22 @@
 
             function loadUserTheoPhongBan() {
                 blockUI.start();
-                var resp = loginservice.postdata("api/getUser/getPhongBanUser", $.param({ valstring1: $ctrl.VuLe.listuser }));
-                resp.then(function (response) {
-                    $ctrl.phongban = response.data;
-                    //console.log($ctrl.phongban);
-                    $ctrl.phongban.forEach(function (value, key) {
-                        myStyles.addRule('tr[name="' + value.GroupId + '"]', '{display: none}');
-                        value.checked = false;
-                    });
-                    blockUI.stop();
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                var resp = ApiClient
+                    .postData("api/getUser/getPhongBanUser", $.param({ valstring1: $ctrl.VuLe.listuser }))
+                    .then(
+                        function successCallback(response) {
+                            $ctrl.phongban = response.data;
+                            //console.log($ctrl.phongban);
+                            $ctrl.phongban.forEach(function (value, key) {
+                                myStyles.addRule('tr[name="' + value.GroupId + '"]', '{display: none}');
+                                value.checked = false;
+                            });
+                            blockUI.stop();
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             var myStyles = (function () {

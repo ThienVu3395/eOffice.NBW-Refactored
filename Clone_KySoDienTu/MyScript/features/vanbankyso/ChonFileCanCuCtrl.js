@@ -3,14 +3,14 @@
     .controller('chonFileCanCuCtrl', [
         "$uibModalInstance",
         "blockUI",
-        "loginservice",
+        "ApiClient",
         "idselect",
         "ModalService",
         "appSettings",
         function (
             $uibModalInstance,
             blockUI,
-            loginservice,
+            ApiClient,
             idselect,
             ModalService,
             appSettings) {
@@ -53,26 +53,29 @@
             function GetFileCanCu() {
                 $ctrl.para.BeginDate = $ctrl.BeginDate == null ? null : $ctrl.BeginDate.toDateString();
                 $ctrl.para.EndDate = $ctrl.EndDate == null ? null : $ctrl.EndDate.toDateString();
-                var resp = loginservice.postdata("api/QLBaoCao/GetFilesCanCu", $.param($ctrl.para));
-                resp.then(function (response) {
-                    $ctrl.dsFileCanCu = response.data;
-                    if ($ctrl.dsFileCanCu.length == 0) {
-                        $ctrl.bigTotalItems = 0;
-                    }
-                    else {
-                        $ctrl.bigTotalItems = $ctrl.dsFileCanCu[0].Total;
-                    }
-                    if ($ctrl.dsFileDaChon.length > 0) {
-                        $ctrl.dsFileDaChon.forEach(function (item) {
-                            let index = $ctrl.dsFileCanCu.findIndex(x => x.TENFILE == item.TENFILE);
-                            if (index != -1) {
-                                $ctrl.dsFileCanCu.splice(index, 1);
+                var resp = ApiClient
+                    .postData("api/QLVBKySo/GetFilesCanCu", $.param($ctrl.para))
+                    .then(
+                        function successCallback(response) {
+                            $ctrl.dsFileCanCu = response.data;
+                            if ($ctrl.dsFileCanCu.length == 0) {
+                                $ctrl.bigTotalItems = 0;
                             }
-                        })
-                    }
-                },
-                    function errorCallback(response) {
-                    });
+                            else {
+                                $ctrl.bigTotalItems = $ctrl.dsFileCanCu[0].Total;
+                            }
+                            if ($ctrl.dsFileDaChon.length > 0) {
+                                $ctrl.dsFileDaChon.forEach(function (item) {
+                                    let index = $ctrl.dsFileCanCu.findIndex(x => x.TENFILE == item.TENFILE);
+                                    if (index != -1) {
+                                        $ctrl.dsFileCanCu.splice(index, 1);
+                                    }
+                                })
+                            }
+                        },
+                        function errorCallback(response) {
+                        }
+                    );
             }
 
             $ctrl.PhanTrang = function () {
@@ -120,10 +123,13 @@
                                 return xl;
                             }
                         }
-                    }).then(function () {
-                    }, function () {
-                        blockUI.stop();
-                    });
+                    }).then(
+                        function successCallback() {
+                        },
+                        function errorCallback() {
+                            blockUI.stop();
+                        }
+                    );
                 }
                 else {
                     let result = item.NGAYTAO.split("T")[0].split("-");
@@ -154,19 +160,22 @@
                 if (idselect.IdVB != null) {
                     blockUI.start();
                     item.VANBANID = idselect.IdVB;
-                    var resp = loginservice.postdata("api/QLBaoCao/UploadFileCanCu", $.param(item));
-                    resp.then(function (response) {
-                        blockUI.stop();
-                        let nht = new Date();
-                        item.ID = response.data.valint1;
-                        item.TENFILE = response.data.valstring1;
-                        item.NGAYTAO = nht.getFullYear() + "-" + ((nht.getMonth() + 1) >= 10 ? (nht.getMonth() + 1) : "0" + (nht.getMonth() + 1)) + "-" + nht.getDate() + "T00:00:00";
-                        $ctrl.dsFileCanCu.splice(idx, 1);
-                        $ctrl.dsFileDaChon.push(item);
-                    }
-                        , function errorCallback(response) {
-                            blockUI.stop();
-                        });
+                    var resp = ApiClient
+                        .postData("api/QLVBKySo/UploadFileCanCu", $.param(item))
+                        .then(
+                            function successCallback(response) {
+                                blockUI.stop();
+                                let nht = new Date();
+                                item.ID = response.data.valint1;
+                                item.TENFILE = response.data.valstring1;
+                                item.NGAYTAO = nht.getFullYear() + "-" + ((nht.getMonth() + 1) >= 10 ? (nht.getMonth() + 1) : "0" + (nht.getMonth() + 1)) + "-" + nht.getDate() + "T00:00:00";
+                                $ctrl.dsFileCanCu.splice(idx, 1);
+                                $ctrl.dsFileDaChon.push(item);
+                            },
+                            function errorCallback(response) {
+                                blockUI.stop();
+                            }
+                        );
                 }
                 else {
                     $ctrl.dsFileCanCu.splice(idx, 1);
@@ -176,15 +185,18 @@
 
             $ctrl.XoaFile = function (item, idx) {
                 if (idselect.IdVB != null) {
-                    var resp = loginservice.postdata("api/QLBaoCao/RemoveFileCanCu", $.param({ valint1: item.ID }));
-                    resp.then(function (response) {
-                        $ctrl.dsFileCanCu.push(item);
-                        $ctrl.dsFileDaChon.splice(idx, 1);
-                        blockUI.stop();
-                    }
-                        , function errorCallback(response) {
-                            blockUI.stop();
-                        });
+                    var resp = ApiClient
+                        .postData("api/QLVBKySo/RemoveFileCanCu", $.param({ valint1: item.ID }))
+                        .then(
+                            function successCallback(response) {
+                                $ctrl.dsFileCanCu.push(item);
+                                $ctrl.dsFileDaChon.splice(idx, 1);
+                                blockUI.stop();
+                            },
+                            function errorCallback(response) {
+                                blockUI.stop();
+                            }
+                        );
                 }
                 else {
                     $ctrl.dsFileCanCu.push(item);

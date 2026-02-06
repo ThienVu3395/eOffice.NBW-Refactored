@@ -46,5 +46,8 @@
                 MESSAGE: "Đơn giải trình mẫu 6 cần GĐ ký duyệt",
                 TYPE: 15
             }
-        }
+        },
+        VAN_BAN_KY_SO: {
+            ID: 2
+        },
     });

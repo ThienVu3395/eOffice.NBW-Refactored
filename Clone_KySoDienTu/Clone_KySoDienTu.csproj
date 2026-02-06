@@ -302,8 +302,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModalController.cs" />
     <Compile Include="Controllers\VanBanKySoController.cs" />
-    <Compile Include="Controllers\viewfile\ViewfileController.cs" />
-    <Compile Include="Controllers\viewfile\viewfileonlineController.cs" />
+    <Compile Include="Controllers\ViewfileController.cs" />
     <Compile Include="services\smartca\SmartCAService.cs" />
     <Compile Include="services\smartca\SmartCASignWorkFlowService.cs" />
     <Compile Include="Models\datalogin\AspNetRole.cs" />
@@ -1840,7 +1839,7 @@
     <Content Include="MyScript\features\phanphat\phanPhatGroupCtrl.js" />
     <Content Include="MyScript\features\vanbankyso\DetailCtrl.js" />
     <Content Include="MyScript\features\vanbankyso\DieuChinhSoVBKySoCtrl.js" />
-    <Content Include="MyScript\features\vanbankyso\PhatPhatVBKySoCtrl.js" />
+    <Content Include="MyScript\features\phanphat\phatPhatVBCtrl.js" />
     <Content Include="MyScript\features\vanbankyso\SoanYKienXuLyVBKySoCtrl.js" />
     <Content Include="MyScript\features\vanbankyso\ChonFileCanCuCtrl.js" />
     <Content Include="MyScript\features\vanbankyso\ChonNguoiKyVBKySoCtrl.js" />
@@ -1912,6 +1911,7 @@
     <Content Include="MyScript\shared\ui\notification.service.js" />
     <Content Include="MyScript\shared\ui\tinymce.config.js" />
     <Content Include="MyScript\shared\ui\ui.module.js" />
+    <Content Include="MyScript\shared\utils\file.util.js" />
     <Content Include="MyScript\shared\utils\date.util.js" />
     <Content Include="MyScript\shared\utils\string.util.js" />
     <Content Include="MyScript\shared\utils\url.util.js" />

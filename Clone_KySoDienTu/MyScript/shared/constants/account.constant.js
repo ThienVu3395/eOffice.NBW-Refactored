@@ -6,6 +6,13 @@
             'hoang.nm'
         ],
 
+        TAI_KHOAN_DONG_MOC: {
+            CONG_TY: "cnnb",
+            DANG_BO: "mocdang",
+            DOAN_THANH_NIEN: "mocdoan",
+            CONG_DOAN: "moccongdoan",
+        },
+
         BLOCKED_VPDT: [
             'dang.nv',
             'tochinh.vt',

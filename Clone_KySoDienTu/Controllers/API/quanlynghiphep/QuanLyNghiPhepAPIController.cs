@@ -29,7 +29,7 @@ using VnptHashSignatures.Pdf;
 using CommonModel = VModel.WFModel.CommonModel;
 using Clone_KySoDienTu.VNPT.Services;
 
-namespace Clone_KySoDienTu.Controllers.API.QuanLyNghiPhep
+namespace Clone_KySoDienTu.Controllers.API
 {
     [Authorize]
     [RoutePrefix("api/QLNghiPhep")]

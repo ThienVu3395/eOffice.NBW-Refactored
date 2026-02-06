@@ -16,7 +16,6 @@ using static VModel.LenhDieuXeModel;
 using System.Threading.Tasks;
 using Clone_KySoDienTu.Controllers.API;
 using Clone_KySoDienTu.MyHub;
-using Clone_KySoDienTu.Controllers.API.QuanLyNghiPhep;
 
 namespace OAMS.Controllers.API
 {

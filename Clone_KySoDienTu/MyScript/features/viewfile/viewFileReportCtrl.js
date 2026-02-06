@@ -1,27 +1,24 @@
 ﻿angular
     .module("aims")
     .controller('viewFileReportCtrl', [
-        'thongbao',
+        "notificationService",
         "$scope",
         "$uibModalInstance",
         "blockUI",
         "appSettings",
-        "loginservice",
+        "ApiClient",
         "idselect",
         function (
-            thongbao,
+            notificationService,
             $scope,
             $uibModalInstance,
             blockUI,
             appSettings,
-            loginservice,
+            ApiClient,
             idselect) {
             var $ctrl = this;
 
             $ctrl.Print = true;
-
-            $ctrl.sumitformedit = function () {
-            }
 
             $ctrl.ok = function () {
                 $ctrl.presult = "0";
@@ -44,41 +41,51 @@
 
             $ctrl.save = function () {
                 blockUI.start();
-                let url = "api/QLBaoCao/getviewpdfvb?id=" + idselect.id;
-                var resp = loginservice.getdatafile(url);
-                resp.then(function (response) {
-                    blockUI.stop();
-                    var headers = response.headers();
-                    var filename = headers['x-filename'];
-                    var contentType = headers['content-type'];
-                    var file = new Blob([response.data], { type: contentType });
-                    saveAs(file, filename);
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                        thongbao.errorcenter("Không tìm thấy file");
-                    });
+                let url = `api/QLBaoCao/getviewpdfvb?id=${idselect.id}`;
+                var resp = ApiClient
+                    .getdatafile(url)
+                    .then(
+                        function successCallback(response) {
+                            blockUI.stop();
+                            var headers = response.headers();
+                            var filename = headers['x-filename'];
+                            var contentType = headers['content-type'];
+                            var file = new Blob([response.data], { type: contentType });
+                            saveAs(file, filename);
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                            notificationService.error("Không tìm thấy file");
+                        }
+                    );
             }
 
             $ctrl.printfile = function () {
                 blockUI.start();
-                let url = "api/QLBaoCao/getviewpdfvb?id=" + idselect.id;
-                var resp = loginservice.getdatafile(url);
-                resp.then(function (response) {
-                    blockUI.stop();
-                    var headers = response.headers();
-                    var contentType = headers['content-type'];
-                    var file = new Blob([response.data], { type: contentType });
-                    var reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onloadend = function () {
-                        window.printJS({ printable: reader.result.split(',')[1], type: 'pdf', base64: true });
-                    }
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                        thongbao.errorcenter("Không tìm thấy file");
-                    });
+                let url = `api/QLBaoCao/getviewpdfvb?id=${idselect.id}`;
+                var resp = ApiClient
+                    .getdatafile(url)
+                    .then(
+                        function successCallback(response) {
+                            blockUI.stop();
+                            var headers = response.headers();
+                            var contentType = headers['content-type'];
+                            var file = new Blob([response.data], { type: contentType });
+                            var reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onloadend = function () {
+                                window.printJS({
+                                    printable: reader.result.split(',')[1],
+                                    type: 'pdf',
+                                    base64: true
+                                });
+                            }
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                            notificationService.error("Không tìm thấy file");
+                        }
+                    );
             }
 
             $ctrl.onPageLoad = function (page) {

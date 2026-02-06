@@ -105,7 +105,7 @@
                                                 data-card-widget=""
                                                 tooltip-placement="Top"
                                                 uib-tooltip="Cập Nhật"
-                                                ng-if="$ctrl.objVB.NguoiTao == $ctrl.Userdata.username && $ctrl.objVB.TrangThai == 2"
+                                                ng-if="$ctrl.coTheChinhSua()"
                                                 ng-click="$ctrl.MoFormThemSuaVB()">
                                             <i class="fas fa-pen-alt"></i>
                                         </button>
@@ -215,7 +215,6 @@
                                                                 <th class="text-left">Chức vụ</th>
                                                                 <th class="text-left">Trạng thái</th>
                                                                 <th class="text-left">Thời gian</th>
-                                                                @*<th class="text-left">Hiển thị</th>*@
                                                             </tr>
                                                         </thead>
 
@@ -232,12 +231,6 @@
                                                                     <span ng-if="item.NGUOITAO == 'Đã quá hạn'" class="pr-1 badge badge-pill badge-warning px-2" ng-bind="item.NGUOITAO"></span>
                                                                 </td>
                                                                 <td ng-bind="item.NGAYTAO | date:'dd/MM/yyyy HH:mm'" class="text-left"></td>
-                                                                @*<td ng-switch="item.LoaiKy" class="text-left">
-                                                                        <span ng-switch-when="0">Chỉ hình chữ ký</span>
-                                                                        <span ng-switch-when="1">Hình chữ ký và nội dung</span>
-                                                                        <span ng-switch-when="2">Chỉ nội dung</span>
-                                                                        <span ng-switch-when="3">Mộc công văn</span>
-                                                                    </td>*@
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -250,40 +243,35 @@
                                     <div class="post mb-2 p-0 pt-2"></div>
                                     <div class="pb-2 pt-1 text-center">
                                         <button type="button"
-                                                ng-if="$ctrl.objVB.NguoiTao == $ctrl.Userdata.username && $ctrl.objVB.KySoID == null && $ctrl.objVB.ThuTuKySo == 1 && $ctrl.objVB.TrangThai == 0"
+                                                ng-if="$ctrl.coTheThuHoi()"
                                                 ng-click="$ctrl.ThuHoiVB()"
                                                 class="btn btn-sm btn-primary">
                                             <i class="fas fa-undo"></i> Thu hồi
                                         </button>
 
                                         <button type="button"
-                                                ng-if="$ctrl.objVB.NguoiTao == $ctrl.Userdata.username && $ctrl.objVB.TrangThai == 2"
+                                                ng-if="$ctrl.coTheGuiDuyet()"
                                                 ng-click="$ctrl.GuiDuyetVB()"
                                                 class="btn btn-sm btn-primary">
                                             <i class="fas fa-reply"></i> Gửi duyệt
                                         </button>
 
                                         <button type="button"
-                                                ng-if="$ctrl.objVB.NguoiDuyet == $ctrl.Userdata.username && $ctrl.objVB.KySoID == null && !$ctrl.quyenuser.DongMocCongTy && !$ctrl.quyenuser.DongMocDangBo && !$ctrl.quyenuser.DongMocDoanTN && !$ctrl.quyenuser.DongMocCongDoan && $ctrl.objVB.TrangThai == 0"
-                                                ng-click="$ctrl.KyDuyetVB()"
+                                                ng-if="$ctrl.coTheKySo()"
+                                                ng-click="$ctrl.KySoVB()"
                                                 class="btn btn-sm btn-primary">
-                                            <i class="fas fa-check"></i> Tiến hành ký duyệt
+                                            <i class="fas fa-check"></i> Ký số
                                         </button>
 
                                         <button type="button"
-                                                ng-if="$ctrl.objVB.NguoiDuyet == $ctrl.Userdata.username && $ctrl.objVB.KySoID == null && $ctrl.quyenuser.ChinhSuaViTriChuKy && $ctrl.objVB.TrangThai == 0"
-                                                ng-click="$ctrl.ChinhSuaViTriChuKy()"
+                                                ng-if="$ctrl.coTheChinhSuaChuKy()"
+                                                ng-click="$ctrl.ChinhSuaChuKy()"
                                                 class="btn btn-sm btn-primary">
-                                            <i class="fas fa-edit"></i> Chỉnh sửa vị trí chữ ký
+                                            <i class="fas fa-edit"></i> Chỉnh sửa chữ ký
                                         </button>
 
                                         <button type="button"
-                                                ng-if="
-                                                (($ctrl.objVB.NguoiDuyet == $ctrl.TenMocCongTy && $ctrl.quyenuser.DongMocCongTy)||
-                                                ($ctrl.objVB.NguoiDuyet == $ctrl.TenMocDangBo && $ctrl.quyenuser.DongMocDangBo) ||
-                                                ($ctrl.objVB.NguoiDuyet == $ctrl.TenMocDoanTN && $ctrl.quyenuser.DongMocDoanTN) ||
-                                                ($ctrl.objVB.NguoiDuyet == $ctrl.TenMocCongDoan && $ctrl.quyenuser.DongMocCongDoan)) &&
-                                                $ctrl.objVB.TrangThai == 0"
+                                                ng-if="$ctrl.coTheDongMoc()"
                                                 ng-click="$ctrl.DongDauVB()"
                                                 class="btn btn-sm btn-primary">
                                             <i class="fas fa-sign"></i> Đóng mộc
@@ -291,48 +279,48 @@
 
                                         <button type="button"
                                                 class="btn btn-sm btn-primary"
-                                                ng-click="$ctrl.MoFormYKienXuLy('BUT_PHE')"
-                                                ng-if="($ctrl.objVB.NguoiDuyet == $ctrl.Userdata.username && $ctrl.quyenuser.ButPheVB && !$ctrl.quyenuser.MocVB) && $ctrl.objVB.TrangThai == 0">
-                                            <i class="fas fa-edit"></i> Cập nhật bút phê chỉ đạo
+                                                ng-if="$ctrl.coTheCapNhatButPhe()"
+                                                ng-click="$ctrl.MoFormYKienXuLy('BUT_PHE')">
+                                            <i class="fas fa-edit"></i> Cập nhật bút phê
                                         </button>
 
                                         <button type="button"
-                                                ng-if="$ctrl.objVB.NguoiDuyet == $ctrl.Userdata.username && $ctrl.objVB.KySoID == null && $ctrl.objVB.TrangThai == 0"
+                                                ng-if="$ctrl.coTheHuyKy()"
                                                 ng-click="$ctrl.HuyKyVB()"
                                                 class="btn btn-sm btn-danger">
                                             <i class="fas fa-times"></i> Hủy ký
                                         </button>
 
                                         <button type="button"
-                                                ng-if="$ctrl.objVB.NguoiTao == $ctrl.Userdata.username && $ctrl.objVB.TrangThai == 1"
+                                                ng-if="$ctrl.coTheGoDuyet()"
                                                 ng-click="$ctrl.GoDuyetVB()"
                                                 class="btn btn-sm btn-danger">
-                                            <i class="fas fa-times"></i> Hủy văn bản
+                                            <i class="fas fa-times"></i> Gỡ duyệt
                                         </button>
 
                                         <button type="button"
-                                                ng-if="($ctrl.objVB.NguoiDuyet == $ctrl.Userdata.username || $ctrl.objVB.NguoiTao == $ctrl.Userdata.username) && $ctrl.objVB.TrangThai == 0 && $ctrl.objVB.KySoID != null && $ctrl.tranStatus != 4000"
+                                                ng-if="$ctrl.coTheCapNhatTrangThaiKySo()"
                                                 ng-click="$ctrl.CapNhatTrangThaiKySo()"
                                                 class="btn btn-sm btn-primary">
                                             <i class="fas fa-check"></i> Cập nhật trạng thái ký số
                                         </button>
 
                                         <button type="button"
+                                                ng-if="$ctrl.coTheDieuChinh()"
                                                 ng-click="$ctrl.MoFormDieuChinhSoVB()"
-                                                ng-if="$ctrl.quyenuser.DieuChinhVB && $ctrl.objVB.TrangThai == 0"
                                                 class="btn btn-sm btn-primary">
                                             <i class="fas fa-user-edit"></i> Điều chỉnh VB
                                         </button>
 
                                         <button type="button"
-                                                ng-if="($ctrl.objVB.NguoiDuyet == $ctrl.Userdata.username || $ctrl.objVB.NguoiTao == $ctrl.Userdata.username || $ctrl.quyenuser.CT || $ctrl.quyenuser.TD) && ($ctrl.objVB.TrangThai == 0 || $ctrl.objVB.TrangThai == 1)"
+                                                ng-if="$ctrl.coTheChonNoiNhan()"
                                                 ng-click="$ctrl.PhanPhatNhom()"
                                                 class="btn btn-sm btn-primary">
                                             <i class="fas fa-user-plus"></i> Chọn nơi nhận
                                         </button>
 
                                         <button type="button"
-                                                ng-if="$ctrl.objVB.NguoiTao == $ctrl.Userdata.username && ($ctrl.objVB.TrangThai == -1 || $ctrl.objVB.TrangThai == 2)"
+                                                ng-if="$ctrl.coTheXoaVB()"
                                                 ng-click="$ctrl.XoaVanBan()"
                                                 class="btn btn-sm btn-danger">
                                             <i class="fas fa-trash"></i> Xóa văn bản
@@ -350,7 +338,7 @@
                                                 class="btn btn-outline-primary btn-sm"
                                                 tooltip-placement="Top"
                                                 uib-tooltip="Gửi ý kiến xử lý"
-                                                ng-if="$ctrl.quyenuser.CT && $ctrl.objVB.TrangThai != 2"
+                                                ng-if="$ctrl.coTheGuiYKienXuLy()"
                                                 ng-click="$ctrl.MoFormYKienXuLy('Y_KIEN')">
                                             <i class="fas fa-comment-dots"></i>
                                         </button>
@@ -365,11 +353,11 @@
                                             <span class="description" ng-bind="(item.NGAYXL | date:'HH:mm dd/MM/yyyy')"></span>
                                         </div>
                                         <p class="mb-0" ng-bind-html="item.YKIENXL | unsafe"></p>
-                                        <a class="btn btn-danger btn-sm" ng-if="item.CANBO == $ctrl.Userdata.username && $ctrl.objVB.TrangThai != 2" ng-click="$ctrl.XoaYKienXuLy(item.ID)">Xóa</a>
+                                        <a class="btn btn-danger btn-sm" ng-if="$ctrl.coTheXoaYKien(item.CANBO)" ng-click="$ctrl.XoaYKienXuLy(item.ID)">Xóa</a>
                                         <div class="post"></div>
                                     </div>
                                     <div class="post"></div>
-                                    <form class="form-horizontal" data-_pptype="search" autocomplete="on" name="formYKXL" ng-if="$ctrl.quyenuser.CT && $ctrl.objVB.TrangThai != 2" novalidate>
+                                    <form class="form-horizontal" data-_pptype="search" autocomplete="on" name="formYKXL" ng-if="$ctrl.coTheGuiYKienXuLy()" novalidate>
                                         <div class="input-group input-group-sm mb-0">
                                             <input ng-class="formYKXL.ykxl.$invalid ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'" ng-model="$ctrl.ykienxuly" placeholder="Nhập ý kiến xử lý tại đây..." name="ykxl" required>
                                             <div class="input-group-append">
@@ -389,7 +377,7 @@
                                                 class="btn btn-outline-primary btn-sm"
                                                 tooltip-placement="Top"
                                                 uib-tooltip="Gửi ý kiến"
-                                                ng-if="$ctrl.quyenuser.TD && !$ctrl.quyenuser.MocVB && $ctrl.objVB.TrangThai != 2"
+                                                ng-if="$ctrl.coTheGuiYKienTiepNhan()"
                                                 ng-click="$ctrl.MoFormYKienXuLy('Y_KIEN_TIEP_NHAN')">
                                             <i class="fas fa-comment-dots"></i>
                                         </button>
@@ -404,11 +392,11 @@
                                             <span class="description" ng-bind="(item.NGAYXL | date:'HH:mm dd/MM/yyyy')"></span>
                                         </div>
                                         <p class="mb-0" ng-bind-html="item.YKIENXL | unsafe"></p>
-                                        <a class="btn btn-danger btn-sm" ng-if="item.CANBO == $ctrl.Userdata.username && $ctrl.objVB.TrangThai != 2" ng-click="$ctrl.XoaYKienXuLy(item.ID)">Xóa</a>
+                                        <a class="btn btn-danger btn-sm" ng-if="$ctrl.coTheXoaYKien(item.CANBO)" ng-click="$ctrl.XoaYKienXuLy(item.ID)">Xóa</a>
                                         <div class="post"></div>
                                     </div>
                                     <div class="post"></div>
-                                    <form class="form-horizontal" data-_pptype="search" autocomplete="on" name="formYKXL" ng-if="$ctrl.quyenuser.TD && !$ctrl.quyenuser.MocVB && $ctrl.objVB.TrangThai != 2" novalidate>
+                                    <form class="form-horizontal" data-_pptype="search" autocomplete="on" name="formYKXL" ng-if="$ctrl.coTheGuiYKienTiepNhan()" novalidate>
                                         <div class="input-group input-group-sm mb-0">
                                             <input ng-class="formYKXL.ykxl.$invalid ? 'form-control form-control-sm is-invalid' : 'form-control form-control-sm'" ng-model="$ctrl.ykienxuly" placeholder="Nhập ý kiến tại đây..." name="ykxl" required>
                                             <div class="input-group-append">

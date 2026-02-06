@@ -3,12 +3,12 @@
     .controller('chonNguoiKyVBKySoCtrl', [
         "$uibModalInstance",
         "blockUI",
-        "loginservice",
+        "ApiClient",
         "idselect",
         function (
             $uibModalInstance,
             blockUI,
-            loginservice,
+            ApiClient,
             idselect) {
             var $ctrl = this;
 
@@ -40,30 +40,48 @@
             function Init() {
                 $ctrl.dsNguoiKy = [];
                 $ctrl.NguoiKy = {};
-                $ctrl.dsLoaiKy = [{ MaLoaiKy: 0, TenLoaiKy: "Chỉ hiển thị chữ ký", HienThi: true }, { MaLoaiKy: 1, TenLoaiKy: "Hiển thị nội dung và chữ ký", HienThi: true }, { MaLoaiKy: 2, TenLoaiKy: "Chỉ hiển thị nội dung", HienThi: true }];
+                $ctrl.dsLoaiKy = [
+                    {
+                        MaLoaiKy: 0,
+                        TenLoaiKy: "Chỉ hiển thị chữ ký",
+                        HienThi: true
+                    },
+                    {
+                        MaLoaiKy: 1,
+                        TenLoaiKy: "Hiển thị nội dung và chữ ký",
+                        HienThi: true
+                    },
+                    {
+                        MaLoaiKy: 2,
+                        TenLoaiKy: "Chỉ hiển thị nội dung",
+                        HienThi: true
+                    }];
                 $ctrl.LoaiKy = $ctrl.dsLoaiKy[0].MaLoaiKy;
                 GetNguoiKy();
             }
 
             function GetNguoiKy() {
                 blockUI.start();
-                var resp = loginservice.postdata("api/getUser/getDanhSachNhanVien", $.param({ valint1: 9 }));
-                resp.then(function (response) {
-                    blockUI.stop();
-                    $ctrl.dsNguoiKy = response.data;
-                    if (idselect.dsNguoiKy.length != 0) {
-                        idselect.dsNguoiKy.forEach(function (item) {
-                            let index = $ctrl.dsNguoiKy.findIndex(x => x.UserName == item.UserName);
-                            if (index != -1) {
-                                $ctrl.dsNguoiKy.splice(index, 1);
+                var resp = ApiClient
+                    .postData("api/getUser/getDanhSachNhanVien", $.param({ valint1: 9 }))
+                    .then(
+                        function successCallback(response) {
+                            blockUI.stop();
+                            $ctrl.dsNguoiKy = response.data;
+                            if (idselect.dsNguoiKy.length != 0) {
+                                idselect.dsNguoiKy.forEach(function (item) {
+                                    let index = $ctrl.dsNguoiKy.findIndex(x => x.UserName == item.UserName);
+                                    if (index != -1) {
+                                        $ctrl.dsNguoiKy.splice(index, 1);
+                                    }
+                                })
                             }
-                        })
-                    }
-                    $ctrl.NguoiKy = $ctrl.dsNguoiKy[0];
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                            $ctrl.NguoiKy = $ctrl.dsNguoiKy[0];
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
         }
     ]);                                                           

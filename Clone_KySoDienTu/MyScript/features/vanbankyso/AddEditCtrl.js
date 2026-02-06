@@ -5,23 +5,27 @@
         "$uibModalInstance",
         "blockUI",
         "appSettings",
-        "loginservice",
-        "userProfile",
+        "ApiClient",
+        "UserProfileService",
         "idselect",
-        "thongbao",
+        "notificationService",
         "ModalService",
         "FileUploader",
+        "COMMON",
+        'TINYMCE_CONFIG',
         function (
             $scope,
             $uibModalInstance,
             blockUI,
             appSettings,
-            loginservice,
-            userProfile,
+            ApiClient,
+            UserProfileService,
             idselect,
-            thongbao,
+            notificationService,
             ModalService,
-            FileUploader) {
+            FileUploader,
+            COMMON,
+            TINYMCE_CONFIG) {
             var $ctrl = this;
 
             var today = new Date();
@@ -38,7 +42,7 @@
                 $uibModalInstance.dismiss('cancel');
             };
 
-            $ctrl.Userdata = userProfile.getProfile();
+            $ctrl.Userdata = UserProfileService.getProfile();
 
             Init();
 
@@ -61,72 +65,17 @@
                 Loadtypefile();
                 GetBoPhanNhan();
                 if (idselect.IDVanBan == null) {
-                    $ctrl.TieuDeForm = 0;
+                    $ctrl.TieuDeForm = COMMON.FORM.THEM_MOI;
                     LoadLoaiVB();
                 }
                 else {
-                    $ctrl.TieuDeForm = 1;
+                    $ctrl.TieuDeForm = COMMON.FORM.CAP_NHAT;
                 }
-            }
-
-            function LoadLoaiVB() {
-                var resp = loginservice.getdata("api/getCore/getdanhmuchethong?loai=TypeRP_NP");
-                resp.then(function (response) {
-                    $ctrl.dsLoaiVBKhongMau = response.data;
-                    var resp = loginservice.getdata("api/getCore/getdanhmuchethong?loai=TypeRP");
-                    resp.then(function (response) {
-                        $ctrl.dsLoaiVBCoMau = response.data;
-                        $ctrl.dsLoaiVB = $ctrl.dsLoaiVBKhongMau.concat($ctrl.dsLoaiVBCoMau);
-                        $ctrl.loaiVB = $ctrl.dsLoaiVB[0];
-                        $ctrl.para.IsCRForm = 0;
-                        $ctrl.para.Loai = parseInt($ctrl.loaiVB.CODE);
-                        $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=12&id=" + $ctrl.loaiVB.CODE;
-                    }
-                        , function errorCallback(response) {
-                        });
-                }
-                    , function errorCallback(response) {
-                    });
-            }
-
-            function LoadLoaiVBUpdate(objVB) {
-                var resp = loginservice.getdata("api/getCore/getdanhmuchethong?loai=TypeRP_NP");
-                resp.then(function (response) {
-                    $ctrl.dsLoaiVBKhongMau = response.data;
-                    var resp = loginservice.getdata("api/getCore/getdanhmuchethong?loai=TypeRP");
-                    resp.then(function (response) {
-                        $ctrl.dsLoaiVBCoMau = response.data;
-                        $ctrl.dsLoaiVB = $ctrl.dsLoaiVBKhongMau.concat($ctrl.dsLoaiVBCoMau);
-                        let valuename = objVB.IsCRForm == 0 ? 'TypeRP' : 'TypeRP_NP';
-                        let index = $ctrl.dsLoaiVB.findIndex(x => x.VALUENAMECODE == valuename && parseInt(x.CODE) == objVB.Loai);
-                        if (index != -1) {
-                            $ctrl.loaiVB = $ctrl.dsLoaiVB[index];
-                        }
-                        else {
-                            $ctrl.loaiVB = $ctrl.dsLoaiVB[0];
-                        }
-                    }
-                        , function errorCallback(response) {
-                        });
-
-                }
-                    , function errorCallback(response) {
-                    });
             }
 
             function KhoiTaoSoanThaoTini() {
                 // Khai báo đối tượng dùng để soạn thảo văn bản
-                $scope.tinymceOptions = {
-                    onChange: function (e) {
-                        // put logic here for keypress and cut/paste changes
-                    },
-                    menubar: false,
-                    toolbar: 'undo redo | bold italic underline | forecolor bullist',
-                    plugins: 'textcolor advlist',
-                    skin: 'lightgray',
-                    theme: 'modern',
-                    content_css: "/Scripts/tinymce/tinyMod.css"
-                };
+                $scope.tinymceOptions = angular.copy(TINYMCE_CONFIG);
             }
 
             function KhoiTaoDatePicker() {
@@ -138,35 +87,82 @@
                 };
             }
 
+            function Loadtypefile() {
+                var resp = ApiClient
+                    .get("api/getCore/getdanhmuchethong?loai=TypeFile")
+                    .then(
+                        function successCallback(response) {
+                            $ctrl.TypeFile = response.data;
+                        },
+                        function errorCallback(response) {
+                        }
+                    );
+            }
+
             function GetBoPhanNhan() {
                 blockUI.start();
-                var resp = loginservice.postdata("api/QLVanBan/getUsersNhanVBTheoPhongBan", $.param({ valint1: -1 }));
-                resp.then(function (response) {
-                    blockUI.stop();
-                    response.data.forEach(function (value, key) {
-                        $ctrl.dsNhomPhongBan.push(value.group);
-                        value.listusers.forEach(function (val, idx) {
-                            $ctrl.dsUserPhongBan.push(val);
-                        });
-                    });
-                    if (idselect.IDVanBan != null) {
-                        GetChiTietVB();
-                    }
-                },
-                    function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                var resp = ApiClient
+                    .postData("api/QLVanBan/getUsersNhanVBTheoPhongBan", $.param({ valint1: -1 }))
+                    .then(
+                        function successCallback(response) {
+                            blockUI.stop();
+                            response.data.forEach(function (value, key) {
+                                $ctrl.dsNhomPhongBan.push(value.group);
+                                value.listusers.forEach(function (val, idx) {
+                                    $ctrl.dsUserPhongBan.push(val);
+                                });
+                            });
+                            if (idselect.IDVanBan != null) {
+                                GetChiTietVB();
+                            }
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
+            }
+
+            function LoadLoaiVB() {
+                var resp = ApiClient
+                    .get("api/getCore/getdanhmuchethong?loai=TypeRP_NP")
+                    .then(
+                        function successCallback(response) {
+                            $ctrl.dsLoaiVBKhongMau = response.data;
+                            var resp = ApiClient
+                                .get("api/getCore/getdanhmuchethong?loai=TypeRP")
+                                .then(
+                                    function successCallback(response) {
+                                        $ctrl.dsLoaiVBCoMau = response.data;
+                                        $ctrl.dsLoaiVB = $ctrl.dsLoaiVBKhongMau.concat($ctrl.dsLoaiVBCoMau);
+                                        $ctrl.loaiVB = $ctrl.dsLoaiVB[0];
+                                        $ctrl.para.IsCRForm = 0;
+                                        $ctrl.para.Loai = parseInt($ctrl.loaiVB.CODE);
+                                        $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=12&id=" + $ctrl.loaiVB.CODE;
+                                    },
+                                    function errorCallback(response) {
+                                    }
+                                );
+                        },
+                        function errorCallback(response) {
+                        }
+                    );
             }
 
             function GetChiTietVB() {
-                let resp = loginservice.postdata("api/QLBaoCao/GetVanBanChiTiet2", $.param({ valint1: idselect.IDVanBan, valint3: idselect.Module }));
-                resp.then(function (response) {
-                    $ctrl.para = response.data;
-                    LayThongTinVBCapNhat();
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                let resp = ApiClient
+                    .postData("api/QLVBKySo/GetVanBanChiTiet2", $.param({
+                        valint1: idselect.IDVanBan,
+                        valint3: idselect.Module
+                    }))
+                    .then(
+                        function successCallback(response) {
+                            $ctrl.para = response.data;
+                            LayThongTinVBCapNhat();
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             function LayThongTinVBCapNhat() {
@@ -212,13 +208,36 @@
                 LoadLoaiVBUpdate($ctrl.para);
             }
 
-            function Loadtypefile() {
-                var resp = loginservice.getdata("api/getCore/getdanhmuchethong?loai=TypeFile");
-                resp.then(function (response) {
-                    $ctrl.TypeFile = response.data;
-                }
-                    , function errorCallback(response) {
-                    });
+            function LoadLoaiVBUpdate(objVB) {
+                var resp = ApiClient
+                    .get("api/getCore/getdanhmuchethong?loai=TypeRP_NP")
+                    .then(
+                        function successCallback(response) {
+                            $ctrl.dsLoaiVBKhongMau = response.data;
+                            var resp = ApiClient
+                                .get("api/getCore/getdanhmuchethong?loai=TypeRP")
+                                .then(
+                                    function successCallback(response) {
+                                        $ctrl.dsLoaiVBCoMau = response.data;
+                                        $ctrl.dsLoaiVB = $ctrl.dsLoaiVBKhongMau.concat($ctrl.dsLoaiVBCoMau);
+                                        let valuename = objVB.IsCRForm == 0 ? 'TypeRP' : 'TypeRP_NP';
+                                        let index = $ctrl.dsLoaiVB
+                                            .findIndex(x => x.VALUENAMECODE == valuename && parseInt(x.CODE) == objVB.Loai);
+                                        if (index != -1) {
+                                            $ctrl.loaiVB = $ctrl.dsLoaiVB[index];
+                                        }
+                                        else {
+                                            $ctrl.loaiVB = $ctrl.dsLoaiVB[0];
+                                        }
+                                    },
+                                    function errorCallback(response) {
+                                    }
+                                );
+
+                        },
+                        function errorCallback(response) {
+                        }
+                    );
             }
 
             if ($ctrl.Userdata.access_token) {
@@ -359,23 +378,26 @@
             }
 
             function xoaFileUploadTemp(fileName, index) {
-                var resp = loginservice.postdata("api/fileUpload/removefiletemp", $.param({ valstring1: fileName }));
-                resp.then(function (response) {
-                    $ctrl.para.FileDinhKem.splice(index, 1);
-                    if ($ctrl.para.FileDinhKem.length == 0) {
-                        if ($ctrl.para.IsCRForm == 0) {
-                            $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=11&id=-1";
+                var resp = ApiClient
+                    .postData("api/fileUpload/removefiletemp", $.param({ valstring1: fileName }))
+                    .then(
+                        function successCallback(response) {
+                            $ctrl.para.FileDinhKem.splice(index, 1);
+                            if ($ctrl.para.FileDinhKem.length == 0) {
+                                if ($ctrl.para.IsCRForm == 0) {
+                                    $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=11&id=-1";
+                                }
+                            }
+                            else {
+                                if ($ctrl.para.IsCRForm == 0) {
+                                    xemFileUploadTemp($ctrl.para.FileDinhKem[0]);
+                                }
+                            }
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
                         }
-                    }
-                    else {
-                        if ($ctrl.para.IsCRForm == 0) {
-                            xemFileUploadTemp($ctrl.para.FileDinhKem[0]);
-                        }
-                    }
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                    );
             }
 
             function xemFile(id) {
@@ -385,112 +407,159 @@
 
             function xoaFile(id) {
                 blockUI.start();
-                var resp = loginservice.postdata("api/QLBaoCao/RemoveFile_Update", $.param({ valint1: id }));
-                resp.then(function (response) {
-                    //alert(response.data);
-                    blockUI.stop();
-                    let index = $ctrl.para.FileDinhKem.findIndex(x => x.ID == id);
-                    $ctrl.para.FileDinhKem.splice(index, 1);
-                    if ($ctrl.para.FileDinhKem.length == 0) {
-                        if ($ctrl.para.IsCRForm == 0) {
-                            $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=3&id=-1";
+                var resp = ApiClient
+                    .postData("api/QLVBKySo/RemoveFile_Update", $.param({ valint1: id }))
+                    .then(
+                        function successCallback(response) {
+                            //alert(response.data);
+                            blockUI.stop();
+                            let index = $ctrl.para.FileDinhKem.findIndex(x => x.ID == id);
+                            $ctrl.para.FileDinhKem.splice(index, 1);
+                            if ($ctrl.para.FileDinhKem.length == 0) {
+                                if ($ctrl.para.IsCRForm == 0) {
+                                    $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=3&id=-1";
+                                }
+                            }
+                            else {
+                                if ($ctrl.para.IsCRForm == 0) {
+                                    xemFile($ctrl.para.FileDinhKem[0].ID);
+                                }
+                            }
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
                         }
-                    }
-                    else {
-                        if ($ctrl.para.IsCRForm == 0) {
-                            xemFile($ctrl.para.FileDinhKem[0].ID);
-                        }
-                    }
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                    );
             }
 
             function xoaFileCanCu(id, idx) {
                 blockUI.start();
-                var resp = loginservice.postdata("api/QLBaoCao/RemoveFileCanCu", $.param({ valint1: id }));
-                resp.then(function (response) {
-                    blockUI.stop();
-                    $ctrl.para.FileCanCu.splice(idx, 1);
-                    if ($ctrl.para.FileCanCu.length == 0) {
-                        if ($ctrl.para.FileDinhKem.length > 0) {
-                            xemFile($ctrl.para.FileDinhKem[0].ID);
+                var resp = ApiClient
+                    .postData("api/QLVBKySo/RemoveFileCanCu", $.param({ valint1: id }))
+                    .then(
+                        function successCallback(response) {
+                            blockUI.stop();
+                            $ctrl.para.FileCanCu.splice(idx, 1);
+                            if ($ctrl.para.FileCanCu.length == 0) {
+                                if ($ctrl.para.FileDinhKem.length > 0) {
+                                    xemFile($ctrl.para.FileDinhKem[0].ID);
+                                }
+                                else {
+                                    $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=3&id=-1";
+                                }
+                            }
+                            else {
+                                $scope.fileid = item.IDFile;
+                                $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?id=" + $ctrl.para.FileCanCu[0].IDFile + "&type=" + $ctrl.para.FileCanCu[0].NhomId;
+                            }
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
                         }
-                        else {
-                            $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?type=3&id=-1";
-                        }
-                    }
-                    else {
-                        $scope.fileid = item.IDFile;
-                        $ctrl.urldoc = appSettings.serverPath + "Scripts/pdf.js-viewer2/web/viewer.html?id=" + $ctrl.para.FileCanCu[0].IDFile + "&type=" + $ctrl.para.FileCanCu[0].NhomId;
-                    }
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                    );
             }
 
             function addFile(item) {
                 blockUI.start();
-                var resp = loginservice.postdata("api/QLBaoCao/UploadFile_Update", $.param({ valstring1: item.MOTA, valstring2: item.LOAIFILE, valint1: $ctrl.para.ID, valint2: item.SIZEFILE }));
-                resp.then(function (response) {
-                    blockUI.stop();
-                    let nht = new Date();
-                    item.ID = response.data.valint1;
-                    item.IsCRFile = 0;
-                    item.TENFILE = response.data.valstring1;
-                    item.NGAYTAO = nht.getFullYear() + "-" + ((nht.getMonth() + 1) >= 10 ? (nht.getMonth() + 1) : "0" + (nht.getMonth() + 1)) + "-" + nht.getDate() + "T00:00:00";
-                    $ctrl.para.FileDinhKem.push(item);
-                    if ($ctrl.para.IsCRForm == 0) {
-                        xemFile(response.data.valint1);
-                    }
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                var resp = ApiClient
+                    .postData("api/QLVBKySo/UploadFile_Update", $.param({
+                        valstring1: item.MOTA,
+                        valstring2: item.LOAIFILE,
+                        valint1: $ctrl.para.ID,
+                        valint2: item.SIZEFILE
+                    }))
+                    .then(
+                        function successCallback(response) {
+                            blockUI.stop();
+                            let nht = new Date();
+                            item.ID = response.data.valint1;
+                            item.IsCRFile = 0;
+                            item.TENFILE = response.data.valstring1;
+                            item.NGAYTAO = nht.getFullYear() + "-" + ((nht.getMonth() + 1) >= 10 ? (nht.getMonth() + 1) : "0" + (nht.getMonth() + 1)) + "-" + nht.getDate() + "T00:00:00";
+                            $ctrl.para.FileDinhKem.push(item);
+                            if ($ctrl.para.IsCRForm == 0) {
+                                xemFile(response.data.valint1);
+                            }
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             function xoaNhomPhanCong(GroupId) {
-                let resp = loginservice.postdata("api/QLBaoCao/XoaNhomPhanCong", $.param({ valint1: idselect.IDVanBan, valint2: idselect.LoaiVB, valint3: GroupId }));
-                resp.then(function (response) {
-                    thongbao.success("Xóa thành công");
-                }
-                    , function errorCallback(response) {
+                let resp = ApiClient
+                    .postData("api/QLVBKySo/XoaNhomPhanCong", $.param({
+                        valint1: idselect.IDVanBan,
+                        valint2: idselect.LoaiVB,
+                        valint3: GroupId
+                    }));
+                resp.then(
+                    function successCallback(response) {
+                        notificationService.success("Xóa thành công");
+                    },
+                    function errorCallback(response) {
                         blockUI.stop();
-                    });
+                    }
+                );
             }
 
             function themNhomPhanCong(item) {
-                let resp = loginservice.postdata("api/QLBaoCao/ThemNhomPhanCong", $.param({ valint1: idselect.IDVanBan, valint2: idselect.LoaiVB, valint3: item.GroupId, valint4: item.LOAIXULY, valstring1: item.FullName }));
-                resp.then(function (response) {
-                    thongbao.success("Thêm thành công");
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                let resp = ApiClient
+                    .postData("api/QLVBKySo/ThemNhomPhanCong", $.param({
+                        valint1: idselect.IDVanBan,
+                        valint2: idselect.LoaiVB,
+                        valint3: item.GroupId,
+                        valint4: item.LOAIXULY,
+                        valstring1: item.FullName
+                    }))
+                    .then(
+                        function successCallback(response) {
+                            notificationService.success("Thêm thành công");
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             function xoaCaNhan(item) {
-                let resp = loginservice.postdata("api/QLBaoCao/XoaCaNhan", $.param({ valint1: idselect.IDVanBan, valint2: idselect.LoaiVB, valstring1: item.UserName }));
-                resp.then(function (response) {
-                    thongbao.success("Xóa thành công");
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                let resp = ApiClient
+                    .postData("api/QLVBKySo/XoaCaNhan", $.param({
+                        valint1: idselect.IDVanBan,
+                        valint2: idselect.LoaiVB,
+                        valstring1: item.UserName
+                    }))
+                    .then(
+                        function successCallback(response) {
+                            notificationService.success("Xóa thành công");
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             function themCaNhan(item) {
-                let resp = loginservice.postdata("api/QLBaoCao/ThemCaNhan", $.param({ valint1: idselect.IDVanBan, valint2: idselect.LoaiVB, valint3: item.GroupId, valint4: item.LOAIXULY, valint5: 0, valstring1: item.UserName }));
-                resp.then(function (response) {
-                    item.UserIDVB = response.data;
-                    item.NGUOITAO = $ctrl.Userdata.username;
-                    thongbao.success("Thêm thành công");
-                }
-                    , function errorCallback(response) {
-                        blockUI.stop();
-                    });
+                let resp = ApiClient
+                    .postData("api/QLVBKySo/ThemCaNhan", $.param({
+                        valint1: idselect.IDVanBan,
+                        valint2: idselect.LoaiVB,
+                        valint3: item.GroupId,
+                        valint4: item.LOAIXULY,
+                        valint5: 0,
+                        valstring1: item.UserName
+                    }))
+                    .then(
+                        function successCallback(response) {
+                            item.UserIDVB = response.data;
+                            item.NGUOITAO = $ctrl.Userdata.username;
+                            notificationService.success("Thêm thành công");
+                        },
+                        function errorCallback(response) {
+                            blockUI.stop();
+                        }
+                    );
             }
 
             $ctrl.DoiLoaiVB = function (item) {
@@ -534,7 +603,7 @@
             $ctrl.moFormChonNguoiKy = function () {
                 ModalService.open({
                     templateUrl: 'modalChonNguoiKy.html',
-                    controller: 'chonNguoiKyVBCtrl',
+                    controller: 'chonNguoiKyVBKySoCtrl',
                     size: 'md',
                     resolve: {
                         idselect: function () {
@@ -543,11 +612,14 @@
                             return obj;
                         }
                     }
-                }).then(function (c) {
-                    $ctrl.para.DanhSachNguoiKy.push(c);
-                }, function () {
-                    blockUI.stop();
-                });
+                }).then(
+                    function successCallback(c) {
+                        $ctrl.para.DanhSachNguoiKy.push(c);
+                    },
+                    function errorCallback() {
+                        blockUI.stop();
+                    }
+                );
             }
 
             $ctrl.moFormChonFileCanCu = function () {
@@ -563,9 +635,57 @@
                             return item;
                         }
                     }
-                }).then(function () {
-                }, function () {
-                });
+                }).then(
+                    function successCallback() {
+                    },
+                    function errorCallback() {
+                    }
+                );
+            }
+
+            $ctrl.openUserSelect = function (loaixl) {
+                ModalService.open({
+                    templateUrl: 'modalPhanPhatTree.html',
+                    controller: 'phanPhatTreeCtrl',
+                    size: 'lg50',
+                    resolve: {
+                        idselect: function () {
+                            let obj = {};
+                            obj.vaitro = loaixl;
+                            obj.typename = $ctrl.para.TypeName;
+                            obj.listuser = Array.prototype.map.call(dsnhanvientemp2, s => s.UserName).toString();
+                            obj.listtrangthai = [
+                                {
+                                    li: true,
+                                    div: true,
+                                    seeli: true,
+                                    Ten: "Nhóm Quản Lý",
+                                    IsView: 1
+                                },
+                                {
+                                    li: false,
+                                    div: false,
+                                    seeli: true,
+                                    Ten: "Nhóm Phòng Ban",
+                                    IsView: 0
+                                }];
+                            return obj;
+                        }
+                    }
+                }).then(
+                    function successCallback(c) {
+                        switch (loaixl) {
+                            case 2:
+                                angular.forEach(c, function (i) {
+                                    $ctrl.NguoiTheoDoi.push(i);
+                                    $ctrl.addUpdateUser(i, 1, loaixl);
+                                });
+                                break;
+                        }
+                    },
+                    function errorCallback() {
+                    }
+                );
             }
 
             $ctrl.addUpdateUser = function (item, loaixl, vaitro) {
@@ -605,49 +725,23 @@
                 }
             }
 
-            $ctrl.openUserSelect = function (loaixl) {
-                ModalService.open({
-                    templateUrl: 'modalPhanPhatTree.html',
-                    controller: 'phanphatTreeCtrl',
-                    size: 'lg50',
-                    resolve: {
-                        idselect: function () {
-                            let obj = {};
-                            obj.vaitro = loaixl;
-                            obj.typename = $ctrl.para.TypeName;
-                            obj.listuser = Array.prototype.map.call(dsnhanvientemp2, s => s.UserName).toString();
-                            obj.listtrangthai = [{ li: true, div: true, seeli: true, Ten: "Nhóm Quản Lý", IsView: 1 }, { li: false, div: false, seeli: true, Ten: "Nhóm Phòng Ban", IsView: 0 }];
-                            return obj;
-                        }
-                    }
-                }).then(function (c) {
-                    switch (loaixl) {
-                        case 2:
-                            angular.forEach(c, function (i) {
-                                $ctrl.NguoiTheoDoi.push(i);
-                                $ctrl.addUpdateUser(i, 1, loaixl);
-                            });
-                            break;
-                    }
-                }, function () {
-                });
-            }
-
-            $ctrl.SearchFileCanCu = function (searchText) { // kỹ thuật debounce , lưu lại để tham khảo, cốt lõi là tạo ra timeOutId r xóa rồi set,dùng cho delay 1 khoảng thời gian mới load
+            // kỹ thuật debounce , lưu lại để tham khảo, cốt lõi là tạo ra timeOutId r xóa rồi set, 
+            // dùng cho delay 1 khoảng thời gian mới load
+            $ctrl.SearchFileCanCu = function (searchText) {
                 $ctrl.rst = [];
                 if (timeoutId) {
                     clearTimeout(timeoutId);
                 }
                 timeoutId = setTimeout(async () => {
-                    console.log('set timeout');
-                    console.log(searchText);
+                    //console.log('set timeout');
+                    //console.log(searchText);
                     var accesstoken = userProfile.getProfile().access_token;
                     var authHeaders = {};
                     if (accesstoken) {
                         authHeaders.Authorization = 'Bearer ' + accesstoken;
                     }
                     const response = await fetch(
-                        appSettings.serverPath + `api/QLBaoCao/GetFilesCanCu?searchText=${searchText}`,
+                        appSettings.serverPath + `api/QLVBKySo/GetFilesCanCu?searchText=${searchText}`,
                         {
                             method: "GET",
                             headers:
@@ -657,7 +751,7 @@
                         }
                     );
                     $ctrl.dsFileCanCu = await response.json();
-                    console.log($ctrl.dsFileCanCu);
+                    //console.log($ctrl.dsFileCanCu);
                 }, 1000);
             }
 
@@ -675,32 +769,36 @@
                             return 'Đồng ý thêm văn bản ký số ?';
                         }
                     }
-                }).then(function () {
-                    blockUI.start();
-                    $ctrl.para.TrangThai = 2;
-                    $ctrl.para.XemThuTruocFile = 0;
-                    $ctrl.para.valdate1 = $ctrl.valdate1 == null ? today.toDateString() : $ctrl.valdate1.toDateString();
-                    $ctrl.para.valdate2 = $ctrl.valdate2 == null ? today.toDateString() : $ctrl.valdate2.toDateString();
-                    $ctrl.para.NhomPhanCong = dsnhanvientemp;
-                    $ctrl.para.UserPhanCong = dsnhanvientemp2;
-                    //console.log($ctrl.para);
-                    var resp = loginservice.postdata("api/QLBaoCao/ThemReport", $.param($ctrl.para));
-                    resp.then(
-                        function successCallback(response) {
-                            blockUI.stop();
-                            if ($ctrl.para.IsCRForm == 0) {
-                                thongbao.success("Tạo văn bản ký số thành công");
-                                $uibModalInstance.close(response.data);
-                            }
-                        },
-                        function errorCallback(response) {
-                            thongbao.error("Có lỗi khi tạo văn bản ký số, vui lòng thử lại sau");
-                            blockUI.stop();
-                        }
-                    );
-                }, function () {
-                    blockUI.stop();
-                });
+                }).then(
+                    function successCallback() {
+                        blockUI.start();
+                        $ctrl.para.TrangThai = 2;
+                        $ctrl.para.XemThuTruocFile = 0;
+                        $ctrl.para.valdate1 = $ctrl.valdate1 == null ? today.toDateString() : $ctrl.valdate1.toDateString();
+                        $ctrl.para.valdate2 = $ctrl.valdate2 == null ? today.toDateString() : $ctrl.valdate2.toDateString();
+                        $ctrl.para.NhomPhanCong = dsnhanvientemp;
+                        $ctrl.para.UserPhanCong = dsnhanvientemp2;
+                        //console.log($ctrl.para);
+                        var resp = ApiClient
+                            .postData("api/QLVBKySo/ThemReport", $.param($ctrl.para))
+                            .then(
+                                function successCallback(response) {
+                                    blockUI.stop();
+                                    if ($ctrl.para.IsCRForm == 0) {
+                                        notificationService.success("Tạo văn bản ký số thành công");
+                                        $uibModalInstance.close(response.data);
+                                    }
+                                },
+                                function errorCallback(response) {
+                                    notificationService.error("Có lỗi khi tạo văn bản ký số, vui lòng thử lại sau");
+                                    blockUI.stop();
+                                }
+                            );
+                    },
+                    function errorCallback() {
+                        blockUI.stop();
+                    }
+                );
             }
 
             $ctrl.CapNhatVanBan = function () {
@@ -717,25 +815,29 @@
                             return 'Đồng ý cập nhật thông tin văn bản ?';
                         }
                     }
-                }).then(function () {
-                    blockUI.start();
-                    $ctrl.para.valdate1 = $ctrl.valdate1 == null ? today.toDateString() : $ctrl.valdate1.toDateString();
-                    $ctrl.para.valdate2 = $ctrl.valdate2 == null ? today.toDateString() : $ctrl.valdate2.toDateString();
-                    var resp = loginservice.postdata("api/QLBaoCao/CapNhatThongTinVanBan2", $.param($ctrl.para));
-                    resp.then(
-                        function successCallback(response) {
-                            blockUI.stop();
-                            if ($ctrl.para.IsCRForm == 0) {
-                                thongbao.success("Cập nhật văn bản ký số thành công");
-                                $uibModalInstance.close(response.data);
-                            }
-                        },
-                        function errorCallback(response) {
-                            blockUI.stop();
-                        }
-                    );
-                }, function () {
-                });
+                }).then(
+                    function successCallback() {
+                        blockUI.start();
+                        $ctrl.para.valdate1 = $ctrl.valdate1 == null ? today.toDateString() : $ctrl.valdate1.toDateString();
+                        $ctrl.para.valdate2 = $ctrl.valdate2 == null ? today.toDateString() : $ctrl.valdate2.toDateString();
+                        var resp = ApiClient
+                            .postData("api/QLVBKySo/CapNhatThongTinVanBan", $.param($ctrl.para))
+                            .then(
+                                function successCallback(response) {
+                                    blockUI.stop();
+                                    if ($ctrl.para.IsCRForm == 0) {
+                                        notificationService.success("Cập nhật văn bản ký số thành công");
+                                        $uibModalInstance.close(response.data);
+                                    }
+                                },
+                                function errorCallback(response) {
+                                    blockUI.stop();
+                                }
+                            );
+                    },
+                    function errorCallback() {
+                    }
+                );
             }
         }
     ]);                                                        

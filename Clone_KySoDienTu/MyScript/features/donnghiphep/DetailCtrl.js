@@ -11,8 +11,10 @@
         "notificationService",
         "ModalService",
         "$window",
+        "FileUtil",
         "STATUS",
         "TINYMCE_CONFIG",
+        "PERMISSIONS",
         function (
             $scope,
             $uibModalInstance,
@@ -24,8 +26,10 @@
             notificationService,
             ModalService,
             $window,
+            FileUtil,
             STATUS,
-            TINYMCE_CONFIG) {
+            TINYMCE_CONFIG,
+            PERMISSIONS) {
             var $ctrl = this;
 
             $ctrl.NamHienTai = new Date().getFullYear();
@@ -136,13 +140,13 @@
                     .then(
                         function successCallback(response) {
                             $ctrl.quyenuser.CapNhatVB = response.data
-                                .findIndex(x => x.PermissionAction == 'URP_NP') > -1;
+                                .findIndex(x => x.PermissionAction == PERMISSIONS.DON_NGHI_PHEP.CAP_NHAT) > -1;
 
                             $ctrl.quyenuser.DuyetVB = response.data
-                                .findIndex(x => x.PermissionAction == 'ARP_NP') > -1;
+                                .findIndex(x => x.PermissionAction == PERMISSIONS.DON_NGHI_PHEP.DUYET) > -1;
 
                             $ctrl.quyenuser.XoaVB = response.data
-                                .findIndex(x => x.PermissionAction == 'DRP_NP') > -1;
+                                .findIndex(x => x.PermissionAction == PERMISSIONS.DON_NGHI_PHEP.XOA) > -1;
                         },
                         function errorCallback(err) {
                         }
@@ -227,17 +231,6 @@
                     );
             }
 
-            function DownloadBase64File(contentBase64, fileName) {
-                const linkSource = `data:application/pdf;base64,${contentBase64}`;
-                const downloadLink = document.createElement('a');
-                document.body.appendChild(downloadLink);
-
-                downloadLink.href = linkSource;
-                downloadLink.target = '_self';
-                downloadLink.download = fileName;
-                downloadLink.click();
-            }
-
             $ctrl.DownloadUnsignedFile = function () {
                 blockUI.start();
                 var resp = ApiClient
@@ -245,7 +238,7 @@
                     .then(
                         function successCallback(response) {
                             response.data.forEach(function (item) {
-                                DownloadBase64File(item.valstring2, item.valstring1);
+                                FileUtil.downloadBase64File(item.valstring2, item.valstring1);
                             });
                             blockUI.stop();
                         },
@@ -516,16 +509,12 @@
                     }
                 }).then(
                     function successCallback() {
-                        let apiCallback = appSettings.apiSmartCA.BASE_URL + appSettings.apiSmartCA.SAVE_FILE.DON_NGHI_PHEP;
-                        let apiCreateSign = appSettings.apiSmartCA.BASE_URL + appSettings.apiSmartCA.CREATE_SIGN;
-                        let dragAndDropSignUIUrl = appSettings.dragAndDropSignUIUrl;
-
                         $ctrl.signSmartCA = {};
                         $ctrl.Item = {};
                         $ctrl.Item.module = idselect.Module;
                         $ctrl.Item.status = 0;
                         $ctrl.Item.refId = idselect.IDVanBan;
-                        $ctrl.Item.linkAPICallback = apiCallback;
+                        $ctrl.Item.linkAPICallback = appSettings.apiSmartCA.BASE_URL + appSettings.apiSmartCA.SAVE_FILE.DON_NGHI_PHEP;
                         $ctrl.signSmartCA.Item = $ctrl.Item;
                         $ctrl.signSmartCA.ListSigner = [];
                         $ctrl.signSmartCA.ListFile = [];
@@ -549,10 +538,10 @@
                         });
 
                         var resp = ApiClient
-                            .postDataForSmartCA(apiCreateSign, $.param($ctrl.signSmartCA))
+                            .postDataForSmartCA(appSettings.apiSmartCA.BASE_URL + appSettings.apiSmartCA.CREATE_SIGN, $.param($ctrl.signSmartCA))
                             .then(
                                 function successCallback(response) {
-                                    window.open(dragAndDropSignUIUrl + response.data);
+                                    window.open(appSettings.dragAndDropSignUIUrl + response.data);
                                 },
                                 function errorCallback(response) {
                                     console.log(response.data);

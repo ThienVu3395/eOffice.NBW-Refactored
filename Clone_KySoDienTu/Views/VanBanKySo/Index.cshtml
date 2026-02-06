@@ -38,10 +38,10 @@
                                 </li>
                             </ul>
                             <div class="card-tools ml-auto">
-                                <button type="button" class="btn btn-primary btn-sm" ng-if="quyenuser.TaoVB" ng-click="MoFormThemSuaVB(null)"><i class="fas fa-plus"></i> Tạo mới</button>
+                                <button type="button" class="btn btn-primary btn-sm" ng-if="coTheTaoDon()" ng-click="MoFormThemSuaVB(null)"><i class="fas fa-plus"></i> Tạo mới</button>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-80">
-                                        <i class="fas fa-tools"></i>
+                                        <i class="fas fa-tools"></i> Lọc
                                     </button>
                                     <div class="dropdown-menu" role="menu">
                                         <a href="#" class="dropdown-item" ng-repeat="item in FilterTT" ng-click="LocTrangThai(item.CODE)">
@@ -125,7 +125,7 @@
                             boundary-links="true"
                             rotate="false"></ul>
                         <button ng-click="MoFormThemSuaVB(null)"
-                                ng-if="quyenuser.TaoVB"
+                                ng-if="coTheTaoDon()"
                                 role="button"
                                 class="btn btn-sm btn-primary float-right pr-2">
                             <i class="fas fa-plus"></i> Tạo mới
@@ -161,12 +161,6 @@
                                         </ui-select-choices>
                                     </ui-select>
                                 </div>
-                                @*<div class="form-group mb-2">
-                                        <label class="mb-1" for="exampleInputEmail1">Nơi ban hành</label>
-                                        <select class="custom-select rounded-0"
-                                                ng-model="OrganSendName"
-                                                ng-options="item as item.TENPHONG for item in DsPhongBan"></select>
-                                    </div>*@
                                 <div class="form-group">
                                     <label>Nhập từ khóa</label>
                                     <input type="text"
@@ -243,6 +237,7 @@
 <script type="text/ng-template" id="formThemSuaVB.html">
     @Html.Partial("~/Views/VanBanKySo/AddEdit.cshtml")
 </script>
+
 <script type="text/ng-template" id="formChiTietVB.html">
     @Html.Partial("~/Views/VanBanKySo/Details.cshtml")
 </script>
@@ -274,14 +269,23 @@
 <script type="text/ng-template" id="viewPDFonline.html">
     @Html.Partial("~/Views/Viewfile/viewfilepdfonline.cshtml")
 </script>
-<script src="~/MyScript/viewfile/viewfilepdfCtrl.js"></script>
-<script src="~/MyScript/baocao/IndexCtrl.js"></script>
-<script src="~/MyScript/baocao/ActionCtrl.js"></script>
-<script src="~/MyScript/vanban/phanphatVanbanCtrl.js"></script>
-@*@Html.IncludeVersionedJs("~/MyScript/viewfile/viewfilepdfCtrl.js")
 
-    @Html.IncludeVersionedJs("~/MyScript/baocao/IndexCtrl.js")
+<script src="~/MyScript/features/vanbankyso/IndexCtrl.js"></script>
 
-    @Html.IncludeVersionedJs("~/MyScript/baocao/ActionCtrl.js")
+<script src="~/MyScript/features/vanbankyso/AddEditCtrl.js"></script>
 
-    @Html.IncludeVersionedJs("~/MyScript/vanban/phanphatVanbanCtrl.js")*@
+<script src="~/MyScript/features/vanbankyso/DetailCtrl.js"></script>
+
+<script src="~/MyScript/features/vanbankyso/ChonFileCanCuCtrl.js"></script>
+
+<script src="~/MyScript/features/vanbankyso/ChonNguoiKyVBKySoCtrl.js"></script>
+
+<script src="~/MyScript/features/vanbankyso/DieuChinhSoVBKySoCtrl.js"></script>
+
+<script src="~/MyScript/features/vanbankyso/SoanYKienXuLyVBKySoCtrl.js"></script>
+
+<script src="~/MyScript/features/phanphat/phanPhatTreeCtrl.js"></script>
+
+<script src="~/MyScript/features/phanphat/phatPhatVBCtrl.js"></script>
+
+<script src="~/MyScript/features/viewfile/viewFileReportCtrl.js"></script>

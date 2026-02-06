@@ -20,10 +20,10 @@ using System.Text;
 using VCode;
 using OAMS;
 
-namespace Clone_KySoDienTu.Controllers.API.QuanLyVanBanKySo
+namespace Clone_KySoDienTu.Controllers.API
 {
     [Authorize]
-    [RoutePrefix("api/QLBaoCao")]
+    [RoutePrefix("api/QLVBKySo")]
     public class QuanLyBaoCaoAPIController : EntitySetControllerWithHub<EventHub>
     {
         private readonly string _cnn;
@@ -42,8 +42,7 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyVanBanKySo
             _smartCAKyDonLuong = new APIKyDonLuongController();
         }
 
-        #region files functions
-
+        #region Helpers
         public string moveFile(string TenFile, string LoaiFile)
         {
             try
@@ -252,7 +251,9 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyVanBanKySo
                 return null;
             }
         }
+        #endregion
 
+        #region Files functions
         [HttpPost]
         [Route("RemoveFile_Update")] //Xóa file trong thư mục CongVanFile khi file đó đã có trong csdl
         public string RemoveFile_Update(CommonModel model)
@@ -382,24 +383,6 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyVanBanKySo
                 return response;
             }
         }
-        #endregion
-
-        #region xử lý nghiệp vụ
-        [HttpPost]
-        [Route("GetListVB2")]
-        public IHttpActionResult GetDanhSachVB2(FilterModel2 model)
-        {
-            try
-            {
-                model.CANBO = User.Identity.Name;
-                var dsVB = vc.GetDanhSachVB2(model);
-                return Ok(dsVB);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
 
         [HttpPost]
         [Route("GetFiles")]
@@ -448,6 +431,24 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyVanBanKySo
                 return BadRequest();
             }
         }
+        #endregion
+
+        #region Xử lý nghiệp vụ
+        [HttpPost]
+        [Route("GetListVB")]
+        public IHttpActionResult GetDanhSachVB(FilterModel2 model)
+        {
+            try
+            {
+                model.CANBO = User.Identity.Name;
+                var dsVB = vc.GetDanhSachVB2(model);
+                return Ok(dsVB);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
 
         [HttpPost]
         [Route("GetNextCodeNumber")]
@@ -464,8 +465,8 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyVanBanKySo
         }
 
         [HttpPost]
-        [Route("GetVanBanChiTiet2")]
-        public IHttpActionResult GetChiTietVB2(CommonModel model)
+        [Route("GetVanBanChiTiet")]
+        public IHttpActionResult GetChiTietVB(CommonModel model)
         {
             try
             {
@@ -834,8 +835,8 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyVanBanKySo
         }
 
         [HttpPost]
-        [Route("CapNhatThongTinVanBan2")]
-        public IHttpActionResult CapNhatThongTinVanBan2(CommonModel_BaoCao para)
+        [Route("CapNhatThongTinVanBan")]
+        public IHttpActionResult CapNhatThongTinVanBan(CommonModel_BaoCao para)
         {
             try
             {
@@ -1178,106 +1179,6 @@ namespace Clone_KySoDienTu.Controllers.API.QuanLyVanBanKySo
                     {
                         Hub.Clients.Groups(userThongBao).countThongBaoReport(0);
                     }
-                    return Ok();
-                }
-                return BadRequest();
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-        #endregion
-
-        #region không sử dụng
-        [HttpPost]
-        [Route("GetListVB")]
-        public IHttpActionResult GetDanhSachVB(FilterModel2 model)
-        {
-            try
-            {
-                model.CANBO = User.Identity.Name;
-                var dsVB = vc.GetDanhSachVB(model);
-                return Ok(dsVB);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-        
-        [HttpPost]
-        [Route("GetVanBanChiTiet")]
-        public IHttpActionResult GetChiTietVB(CommonModel model)
-        {
-            try
-            {
-                WFModel.VanBanViewModel result = vc.GetChiTietVB(model.valint1, User.Identity.Name, model.valint3);
-                foreach (WFModel.FileDinhKemViewModel item in result.FileDinhKem)
-                {
-                    string sPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Report/ReportFile/");
-                    sPath = Path.Combine(sPath, item.NGAYTAO?.ToString("yyyy"));
-                    sPath = Path.Combine(sPath, item.NGAYTAO?.ToString("MM"));
-                    sPath = Path.Combine(sPath, item.TENFILE);
-                    if (File.Exists(sPath))
-                    {
-                        var imgBytes = File.ReadAllBytes(sPath);
-                        item.BASE64DATA = Convert.ToBase64String(imgBytes);
-                        item.VITRIFILE = item.TENFILE;
-                    }
-                    else
-                    {
-                        item.BASE64DATA = null;
-                        item.VITRIFILE = null;
-                    }
-                }
-                return Ok(result);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpPost]
-        [Route("ThemVanBan")]
-        public IHttpActionResult ThemVanBan(VanBanViewModel para)
-        {
-            try
-            {
-                para.NguoiTao = User.Identity.Name;
-                int CongVanID = vc.ThemVB(para);
-                if (CongVanID != 0)
-                {
-                    if (para.FileDinhKem != null)
-                    {
-                        foreach (var item in para.FileDinhKem)
-                        {
-                            string filename = moveFile(item.MOTA, item.LOAIFILE);
-                            vc.ThemFileDinhKem(CongVanID, filename, item.MOTA, item.LOAIFILE, item.SIZEFILE, 0);
-                        }
-                    }
-                    vc.ChangeSignerFlowVB(CongVanID, para.Query, 0, para.DanhSachNguoiKy, null, null, 0, 0,0);
-                    return Ok(CongVanID);
-                }
-                return BadRequest();
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpPost]
-        [Route("CapNhatThongTinVanBan")]
-        public IHttpActionResult CapNhatThongTin(VanBanViewModel model)
-        {
-            try
-            {
-                model.NguoiCapNhat = User.Identity.Name;
-                if (vc.CapNhatVB(model) > 0)
-                {
-                    vc.ChangeSignerFlowVB(model.ID, model.Query, 0, model.DanhSachNguoiKy, null, null, 0, 0,0);
                     return Ok();
                 }
                 return BadRequest();

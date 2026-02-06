@@ -35,7 +35,7 @@ var ENV_CONFIG = {
 
             SAVE_FILE: {
                 CONG_VAN: 'smartca/SaveFileSignCongVan',
-                BAO_CAO: 'smartca/SaveFileSignBaoCao',
+                VAN_BAN_KY_SO: 'smartca/SaveFileSignVanBanKySo',
                 PHIEU_XIN_XE: 'smartca/SaveFileSignPhieuDeNghiSuDungXe',
                 LENH_DIEU_XE: 'smartca/SaveFileSignLenhDieuXe',
                 QL_LENH_DIEU_XE: 'smartca/SaveFileSignQuanLyLenhDieuXe',
@@ -67,7 +67,7 @@ var ENV_CONFIG = {
 
             SAVE_FILE: {
                 CONG_VAN: 'smartca/SaveFileSignCongVan',
-                BAO_CAO: 'smartca/SaveFileSignBaoCao',
+                VAN_BAN_KY_SO: 'smartca/SaveFileSignVanBanKySo',
                 PHIEU_XIN_XE: 'smartca/SaveFileSignPhieuDeNghiSuDungXe',
                 LENH_DIEU_XE: 'smartca/SaveFileSignLenhDieuXe',
                 QL_LENH_DIEU_XE: 'smartca/SaveFileSignQuanLyLenhDieuXe',
@@ -99,7 +99,7 @@ var ENV_CONFIG = {
 
             SAVE_FILE: {
                 CONG_VAN: 'smartca/SaveFileSignCongVan',
-                BAO_CAO: 'smartca/SaveFileSignBaoCao',
+                VAN_BAN_KY_SO: 'smartca/SaveFileSignVanBanKySo',
                 PHIEU_XIN_XE: 'smartca/SaveFileSignPhieuDeNghiSuDungXe',
                 LENH_DIEU_XE: 'smartca/SaveFileSignLenhDieuXe',
                 QL_LENH_DIEU_XE: 'smartca/SaveFileSignQuanLyLenhDieuXe',

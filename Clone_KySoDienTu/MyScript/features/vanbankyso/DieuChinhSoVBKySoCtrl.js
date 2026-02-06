@@ -4,22 +4,22 @@
         "$scope",
         "$uibModalInstance",
         "blockUI",
-        "loginservice",
+        "ApiClient",
         "idselect",
-        "thongbao",
+        "notificationService",
         "ModalService",
         function (
             $scope,
             $uibModalInstance,
             blockUI,
-            loginservice,
+            ApiClient,
             idselect,
-            thongbao,
+            notificationService,
             ModalService) {
             var $ctrl = this;
 
             $scope.$on('closeModal', function (data, mess) {
-                thongbao.success(mess);
+                notificationService.success(mess);
                 $ctrl.cancel();
             });
 
@@ -66,21 +66,25 @@
                             return 'Đồng ý điều chỉnh ?';
                         }
                     }
-                }).then(function () {
-                    blockUI.start();
-                    let resp = loginservice.postdata("api/QLBaoCao/CapNhatDieuChinh", $.param($ctrl.para));
-                    resp.then(
-                        function successCallback(response) {
-                            blockUI.stop();
-                            thongbao.success("Điều chỉnh VB thành công");
-                            $uibModalInstance.close('close');
-                        },
-                        function errorCallback(response) {
-                            blockUI.stop();
-                        }
-                    );
-                }, function () {
-                });
+                }).then(
+                    function successCallback() {
+                        blockUI.start();
+                        let resp = ApiClient
+                            .postData("api/QLVBKySo/CapNhatDieuChinh", $.param($ctrl.para))
+                            .then(
+                                function successCallback(response) {
+                                    blockUI.stop();
+                                    notificationService.success("Điều chỉnh VB thành công");
+                                    $uibModalInstance.close('close');
+                                },
+                                function errorCallback(response) {
+                                    blockUI.stop();
+                                }
+                            );
+                    },
+                    function errorCallback() {
+                    }
+                );
             }
         }
     ]);                                                     

@@ -19,5 +19,9 @@
             CHO_HUY: 'bangch',
             HUY_KY: 'banghk',
             GO_DUYET: 'banggd'
-        }
+        },
+        VAN_BAN_KY_SO: {
+            CHUA_XEM: 'doncx',
+            CHO_DUYET: 'doncd'
+        },
     });
